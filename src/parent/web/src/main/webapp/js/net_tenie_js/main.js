@@ -199,7 +199,7 @@ net_tenie.paging=function(lm,previous,next){
 		$.extend(option,opt) 
 		if(option.setCount.tf){ 
 			page.count=option.setCount.count 
-			if(page.count==lm){
+			if(page.count <= lm){
 				 net_tenie.addDisabled(next) ; 	
 			}
 			$.extend(net_tenie.pageInfo,page)  //全局变量缓存
