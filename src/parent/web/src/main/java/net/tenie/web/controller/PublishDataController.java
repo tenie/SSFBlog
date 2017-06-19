@@ -26,13 +26,38 @@ public class PublishDataController {
       System.out.println("PublishDataController.savePublishData");
       String title = queryParam.get("title");
       String tag = queryParam.get("tag");
+      String tagVAL = "";
+      if(tag!=null && "".equals(tag)){
+    	  String arrTag[] = tag.split("&&&");
+        
+          for(int i =0 ; i<arrTag.length;i++){ 
+        	  tagVAL+=arrTag[i].substring(0, arrTag[i].length()-1);
+          } 
+      }
+     
+    
+      
       System.out.println("title="+title);
       System.out.println("tag="+tag);
       String data = queryParam.get("data");
       System.out.println("data="+data);
       
-     jdbc.update("insert into  blog  ( `post_title`, `post_subtitle`, `post_content`,`time`) values (?, ?, ?, ?)",title,tag,data,new Date());
+     jdbc.update("insert into  blog  ( `post_title`, `post_subtitle`, `post_content`,`time`) values (?, ?, ?, ?)",title,tagVAL,data,new Date());
       
       return "ok";
+	}
+	
+	
+	public static void main(String[] args) {
+		String tag = "#sadx&&&#ssdsdsadx&&&";
+		 
+	      String arrTag[] = tag.split("&&&");
+	     
+	      String tagVAL = "";
+	      for(int i =0 ; i<arrTag.length;i++){
+	    	  
+	    	  tagVAL+=arrTag[i].substring(0, arrTag[i].length()-1);
+	      }
+	      System.out.println(tagVAL);
 	}
 }

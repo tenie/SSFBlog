@@ -29,14 +29,119 @@
 	
 	<!--   图片轮播的css-->
 	 <link href="css/style.css" rel="stylesheet">
-	 
+	  <link href="css/ssfblog_css/main.css" rel="stylesheet">
+	<!--  
 	 <style type="text/css">
 	  
 	 .cursor_not_allowed{
 	 		cursor: not-allowed;
 			color: #ccc; 
 	 }
+	 
+	 .closes {
+  float: none;
+  font-size: 21px;
+  font-weight: bold;
+  line-height: 1;
+  color: #000;
+  text-shadow: 0 1px 0 #fff;
+  filter: alpha(opacity=20);
+  opacity: .2;
+}
+.closes:hover,
+.closes:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+  filter: alpha(opacity=50);
+  opacity: .5;
+}
+button.closes {
+  -webkit-appearance: none;
+  padding: 0;
+  cursor: pointer;
+  background: transparent;
+  border: 0;
+}
 	 </style>
+	 <style type="text/css">  
+		.loading{  
+		    width:160px;  
+		    height:56px;  
+		    position: absolute;  
+		    top:50%;  
+		    left:50%;  
+		    line-height:56px;  
+		    color:#fff;  
+		    padding-left:60px;  
+		    font-size:15px;  
+		    background: #000 url(img/loading.gif) no-repeat 10px 50%;  
+		    opacity: 0.7;  
+		    z-index:9999;  
+		    -moz-border-radius:20px;  
+		    -webkit-border-radius:20px;  
+		    border-radius:20px;  
+		    filter:progid:DXImageTransform.Microsoft.Alpha(opacity=70);  
+		}  
+</style> 
+
+
+<style>
+#loading{
+	background-color: #bd4932;
+	height: 100%;
+	width: 100%;
+	position: fixed;
+	z-index: 1;
+	margin-top: 0px;
+	top: 0px;
+}
+#loading-center{
+	width: 100%;
+	height: 100%;
+	position: relative;
+}
+#loading-center-absolute {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	height: 200px;
+	width: 200px;
+	margin-top: -100px;
+	margin-left: -100px;
+}
+#object{
+	width: 80px;
+	height: 80px;
+	background-color: #FFF;
+	-webkit-animation: animate 1s infinite ease-in-out;
+	animation: animate 1s infinite ease-in-out;
+	margin-right: auto;
+	margin-left: auto;
+	margin-top: 60px;
+}
+@-webkit-keyframes animate {
+  0% { -webkit-transform: perspective(160px); }
+  50% { -webkit-transform: perspective(160px) rotateY(-180deg); }
+  100% { -webkit-transform: perspective(160px) rotateY(-180deg) rotateX(-180deg); }
+}
+
+@keyframes animate {
+  0% { 
+    transform: perspective(160px) rotateX(0deg) rotateY(0deg);
+    -webkit-transform: perspective(160px) rotateX(0deg) rotateY(0deg); 
+  } 50% { 
+    transform: perspective(160px) rotateX(-180deg) rotateY(0deg);
+    -webkit-transform: perspective(160px) rotateX(-180deg) rotateY(0deg) ;
+  } 100% { 
+    transform: perspective(160px) rotateX(-180deg) rotateY(-180deg);
+    -webkit-transform: perspective(160px) rotateX(-180deg) rotateY(-180deg);
+  }
+}
+
+
+
+</style> -->
 </head>
 
 <body>
@@ -75,10 +180,20 @@
 	
     <!-- Main Content -->
     <div class="container"> 
+    
         <div class="row">
+        
+      <!--   <div id="loading">
+			<div id="loading-center">
+				<div id="loading-center-absolute">
+					<div id="object"></div>
+				</div>
+			</div> 
+		</div> -->
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1" > 
-                <div id="pageTitleContainer"> 
-                </div>
+                  <div id="pageTitleContainer"> 
+                  </div>  
+               <!--  <div id="loading" class="loading">Loading pages...</div>   -->
                 <!-- Pager -->
                 <ul class="pager">
                 	 <li class="previous ">
@@ -101,7 +216,7 @@
 <script src="vendor/jquery/jquery.min.js"></script>   
 <script src="js/jquery.cookie.js" type="text/javascript"></script> 
 <!--  my js-->
-<script src="js/net_tenie_js/main.js"></script>
+<script src="js/ssfblog_js/main.js"></script>
 
 <!--  <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>-->
 <!-- Bootstrap Core JavaScript https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css-->
@@ -125,28 +240,29 @@
 
 <script type="text/javascript"> 
 //分页初始化; 设置每页显示的行数, 上一页和下一页的按钮
-var pageing = net_tenie.paging(5,"#previous","#next");  
+var pageing = ssfblog.paging(5,"#previous","#next");  
 
 $(function(){ 
-	net_tenie.initPage()   
+	ssfblog.initPage()   
 	//获取第一页
 	obj = pageing() 
 	//页面内容初始化
    $.get("/pageTitle/1/"+obj.limit+"/"+obj.offset,function(data){  
-	   net_tenie.initpage(data.mapRs.dataList)
+	   ssfblog.initpage(data.mapRs.dataList)
 	   pageing({setCount:{tf:true,count:data.mapRs.Count}}) //把后端获取的总行数,赋值给分页对象的总行数
 	   
 	})
 	//下一页
  $("#next").click(function(){ 
 	 //到了最后一页,直接返回(点击无效)
-	 if((net_tenie.pageInfo.offset+net_tenie.pageInfo.limit) >=net_tenie.pageInfo.count){ 
+	 if((ssfblog.pageInfo.offset+ssfblog.pageInfo.limit) >=ssfblog.pageInfo.count){ 
 			 return
 		 }  
 	 var p =  pageing();    
-	 $("#pageTitleContainer").html("");	
+	 
 	  $.get("/pageTitle/0/"+p.limit+"/"+p.offset,function(data){    
-		   net_tenie.initpage(data.mapRs.dataList) 
+		  $("#pageTitleContainer").html("");	
+		   ssfblog.initpage(data.mapRs.dataList) 
 		})  
 	 
 	 
@@ -154,13 +270,14 @@ $(function(){
  //上一页
  $("#previous").click(function(){ 
 	 //到了第一页,直接返回(点击无效)
-	 if(net_tenie.pageInfo.index <=0){ 
+	 if(ssfblog.pageInfo.index <=0){ 
 		 return
 	 }   
 	  var p =  pageing({previous:true}); 
-	 $("#pageTitleContainer").html("");
+	
 	  $.get("/pageTitle/0/"+p.limit+"/"+p.offset,function(data){ 
-		   net_tenie.initpage(data.mapRs.dataList) 
+		  $("#pageTitleContainer").html("");
+		   ssfblog.initpage(data.mapRs.dataList) 
 		})   
  })
  
