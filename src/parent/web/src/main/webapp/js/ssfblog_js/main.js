@@ -1,7 +1,7 @@
-var net_tenie  = new Object()
+var ssfblog  = new Object()
 
 
-net_tenie.pageInfo={
+ssfblog.pageInfo={
 	limit:0,
 	offset:0,
 	index:0,
@@ -10,48 +10,48 @@ net_tenie.pageInfo={
 	previous:"",
 	next:""
 }
-net_tenie.paging2=function(up){
+ssfblog.paging2=function(up){
 	
 	//如果是首页第一加载不走这里, 也就是不做翻页操作
-	 if(! net_tenie.pageInfo.first){
+	 if(! ssfblog.pageInfo.first){
 		 if(up){ 
-			 net_tenie.pageInfo.offset = net_tenie.pageInfo.offset - net_tenie.pageInfo.limit
-			 net_tenie.pageInfo.index = --net_tenie.pageInfo.index
-			 net_tenie.pageInfo.end=false;
+			 ssfblog.pageInfo.offset = ssfblog.pageInfo.offset - ssfblog.pageInfo.limit
+			 ssfblog.pageInfo.index = --ssfblog.pageInfo.index
+			 ssfblog.pageInfo.end=false;
 		 }else{ 
-			 net_tenie.pageInfo.offset = net_tenie.pageInfo.offset + net_tenie.pageInfo.limit
-			 net_tenie.pageInfo.index = ++net_tenie.pageInfo.index
+			 ssfblog.pageInfo.offset = ssfblog.pageInfo.offset + ssfblog.pageInfo.limit
+			 ssfblog.pageInfo.index = ++ssfblog.pageInfo.index
 		 } 
 	 }else{
-		 net_tenie.pageInfo.first = false;  
+		 ssfblog.pageInfo.first = false;  
 	 }
 	 
 	//给下一页加样式   
-	 if((net_tenie.pageInfo.offset + net_tenie.pageInfo.lm) >= net_tenie.pageInfo.count){  //偏移量加limit 大于总行数的话, 给下一页添加禁用样式 
-		 net_tenie.addDisabled(net_tenie.pageInfo.next) ; 
+	 if((ssfblog.pageInfo.offset + ssfblog.pageInfo.lm) >= ssfblog.pageInfo.count){  //偏移量加limit 大于总行数的话, 给下一页添加禁用样式 
+		 ssfblog.addDisabled(ssfblog.pageInfo.next) ; 
 		 alert(1)
 		 return
 	}else{ 
-		 net_tenie.rmDisabled(net_tenie.pageInfo.next)
+		 ssfblog.rmDisabled(ssfblog.pageInfo.next)
 	}
 	 
 	 //给上一页加样式 
-	 if(net_tenie.pageInfo.offset<=0){ //如果offset<=0 添加禁用样式 
-		 net_tenie.addDisabled(net_tenie.pageInfo.previous)
+	 if(ssfblog.pageInfo.offset<=0){ //如果offset<=0 添加禁用样式 
+		 ssfblog.addDisabled(ssfblog.pageInfo.previous)
 	}else{ 
-		 net_tenie.rmDisabled(net_tenie.pageInfo.previous)
+		 ssfblog.rmDisabled(ssfblog.pageInfo.previous)
 	} 
 	
 }
 
 //sessionStroage
-net_tenie.isSignIn=function(){
+ssfblog.isSignIn=function(){
 	
 	return false;
 }
 
 //获取sessionStroage没有返回cookie对象
-//net_tenie.getStroage=function(){
+//ssfblog.getStroage=function(){
 //	if(window.localStorage){
 //		return window.localStorage
 //	}else{
@@ -61,7 +61,7 @@ net_tenie.isSignIn=function(){
 
 //浏览器存储
 //增
-net_tenie.stroageAdd=function(key,val){
+ssfblog.stroageAdd=function(key,val){
 	if(window.sessionStorage){
 		window.sessionStorage.setItem(key,val)
 	}else{
@@ -69,7 +69,7 @@ net_tenie.stroageAdd=function(key,val){
 	}
 }
 //查
-net_tenie.stroageGet=function(key){
+ssfblog.stroageGet=function(key){
 	if(window.sessionStorage){
 		return window.sessionStorage.getItem(key)
 	}else{
@@ -77,9 +77,9 @@ net_tenie.stroageGet=function(key){
 	}
 }
 //改
-net_tenie.stroageUpdate=net_tenie.stroageAdd;
+ssfblog.stroageUpdate=ssfblog.stroageAdd;
 //删
-net_tenie.stroageDelete=function(key){
+ssfblog.stroageDelete=function(key){
 	if(window.sessionStorage){
 		return window.sessionStorage.removeItem(key)
 	}else{
@@ -94,38 +94,38 @@ net_tenie.stroageDelete=function(key){
 
 
 //加载导航
-net_tenie.navPage=function(){ 
+ssfblog.navPage=function(){ 
 	$.get("/nav.html",function(htmldata){  //获取展示的html样式 
 		$("nav").append(htmldata)
-		net_tenie.sigIn()
-		net_tenie.publishPage()
+		ssfblog.sigIn()
+		ssfblog.publishPage()
 	})
 }
 
 //加载footer
-net_tenie.footerPage=function(){
+ssfblog.footerPage=function(){
 	$.get("/footer.html",function(htmldata){  //获取展示的html样式 
 		$("footer").append(htmldata) 
 	})
 }
 //加载导航,和脚
-net_tenie.initPage=function(){
+ssfblog.initPage=function(){
 	
-	net_tenie.navPage()
-	net_tenie.footerPage()
+	ssfblog.navPage()
+	ssfblog.footerPage()
 	 
 }
 //加载首页标题
 
 
 //联系页面 ,原有页面有这个功能
-//net_tenie.contactPagePost=function(){
+//ssfblog.contactPagePost=function(){
 //	//var data = $("form").serialize()
 //	$.post("/pageTitle/postContactData",$("form").serialize(),function(data){
 //		if(data.error !="error "){ 
-//			net_tenie.toastr("success",data.msg)
+//			ssfblog.toastr("success",data.msg)
 //		}else{
-//			net_tenie.toastr("warning",data.msg)
+//			ssfblog.toastr("warning",data.msg)
 //		}
 //	})
 //}
@@ -137,7 +137,7 @@ function cl(thiz){
 }
 
 //bolg内容加载
-net_tenie.initPost=function(){
+ssfblog.initPost=function(){
 	 
 	var postContent = $.cookie("postContent")
 	$.removeCookie("postContent");
@@ -152,7 +152,7 @@ net_tenie.initPost=function(){
 
 //首页
 //标题信息渲染到页面上
-net_tenie.initpage=function(data){ //date是查询到的博客标题信息集
+ssfblog.initpage=function(data){ //date是查询到的博客标题信息集
 
 	var datalen = $(data).length
 	$.get("/index_contentTitle.html",function(htmldata){  //获取展示的html样式
@@ -180,7 +180,7 @@ net_tenie.initpage=function(data){ //date是查询到的博客标题信息集
 }
 //首页
 //分页记录, 参数:limit, offset, 上一页下一页按钮, 总行数(总行数在初始化的时候不设置, 但获取到总行数后,再设置,这样下一页才会知道到哪一页停止)
-net_tenie.paging=function(lm,previous,next){
+ssfblog.paging=function(lm,previous,next){
 	var page = {
 			limit:lm,
 			offset:0,
@@ -188,7 +188,7 @@ net_tenie.paging=function(lm,previous,next){
 			count:(lm*2),
 			end:false 
 	}
-	$.extend(net_tenie.pageInfo,page)
+	$.extend(ssfblog.pageInfo,page)
 	var first = true;
 	return function(opt){  
 		var option ={
@@ -200,9 +200,9 @@ net_tenie.paging=function(lm,previous,next){
 		if(option.setCount.tf){ 
 			page.count=option.setCount.count 
 			if(page.count <= lm){
-				 net_tenie.addDisabled(next) ; 	
+				 ssfblog.addDisabled(next) ; 	
 			}
-			$.extend(net_tenie.pageInfo,page)  //全局变量缓存
+			$.extend(ssfblog.pageInfo,page)  //全局变量缓存
 			return page
 		}
 		  
@@ -223,29 +223,29 @@ net_tenie.paging=function(lm,previous,next){
 		//给下一页加样式   
 		 if((page.offset+lm) >= page.count){  //偏移量加limit 大于总行数的话, 给下一页添加禁用样式
 			 if(next&& !option.previous){
-				 net_tenie.addDisabled(next) ; 
+				 ssfblog.addDisabled(next) ; 
 			 } 
 		}else{
 			 if(next)
-			 net_tenie.rmDisabled(next)
+			 ssfblog.rmDisabled(next)
 		}
 		 
 		 //给上一页加样式 
 		 if(page.offset<=0){ //如果offset<=0 添加禁用样式
 			 if(previous)
-			 net_tenie.addDisabled(previous)
+			 ssfblog.addDisabled(previous)
 		}else{
 			 if(previous)
-			 net_tenie.rmDisabled(previous)
+			 ssfblog.rmDisabled(previous)
 		} 
-		$.extend(net_tenie.pageInfo,page)  //全局变量缓存
+		$.extend(ssfblog.pageInfo,page)  //全局变量缓存
 		return page;
 	}
 }
 //分页初始化
 
 //禁用样式<添加style属性值的方式>
-net_tenie.addDisabled2=function(obj){
+ssfblog.addDisabled2=function(obj){
 	var theObj = $(obj)
 	theObj.attr("disabled","Disabled");
 	var style = theObj.attr("style");
@@ -258,7 +258,7 @@ net_tenie.addDisabled2=function(obj){
 	} 
 }
 //添加禁用(测试通过)
-net_tenie.addDisabled=function(obj){
+ssfblog.addDisabled=function(obj){
 	var theObj = $(obj)
 	theObj.attr("disabled","Disabled");
 	var styleObj = $("style");
@@ -282,7 +282,7 @@ net_tenie.addDisabled=function(obj){
 
 
 //移除禁用样式
-net_tenie.rmDisabled=function(obj){
+ssfblog.rmDisabled=function(obj){
 	var theObj = $(obj)
 	theObj.removeAttr("disabled");
 	if(theObj.hasClass("cursor_not_allowed")){
@@ -294,7 +294,7 @@ net_tenie.rmDisabled=function(obj){
 
 
 //登入按钮事件
-net_tenie.sigIn=function(){
+ssfblog.sigIn=function(){
 	$("#signInBtn").click(function(){
 		 if($("#exampleModal").length>0){
 			 $("#exampleModal").modal('show')
@@ -302,7 +302,7 @@ net_tenie.sigIn=function(){
 			 $.get("/signInPage.html",function(htmldata){  
 					$("body").append(htmldata); 
 					$("#exampleModal").modal('show');
-					 net_tenie.key13("#submitSignIndata");
+					 ssfblog.key13("#submitSignIndata");
 					$("#submitSignIndata").click(function(){
 						 var tf = $("#signInForm").valid()
 						 if(!tf)return
@@ -310,12 +310,12 @@ net_tenie.sigIn=function(){
 							console.log(data)
 							if(data.error == "no"){ 
 								$("#siginPageClose").click()
-								net_tenie.stroageAdd("signIn","success");
-								net_tenie.toastr("success",data.msg)
+								ssfblog.stroageAdd("signIn","success");
+								ssfblog.toastr("success",data.msg)
 							}else{
-								alert("fail")
-								net_tenie.toastr("warning",'帐号或密码错误!')
-								net_tenie.stroageAdd("signIn","fail");
+								//alert("fail")
+								ssfblog.toastr("warning",'帐号或密码错误!')
+								ssfblog.stroageAdd("signIn","fail");
 								
 							}
 						})
@@ -328,7 +328,7 @@ net_tenie.sigIn=function(){
 
 
 //发布博文
-net_tenie.publishPage=function(){
+ssfblog.publishPage=function(){
 	$("#publishBtn").click(function(){
 		//获取页面
 		$.get("/publishPage.html",function(htmldata){  
@@ -345,7 +345,7 @@ net_tenie.publishPage=function(){
 				});
 			$("#submitPublishdata").click(function(){
 				var val = publishPageEditor.getValue(); 
-				net_tenie.saveBlogData(val)
+				ssfblog.saveBlogData(val)
 			})
 		}) 
 	})	
@@ -353,17 +353,35 @@ net_tenie.publishPage=function(){
 
 
 //提交博文保存
-net_tenie.saveBlogData=function(data){
+ssfblog.saveBlogData=function(data){
+	var tagVal=""
+	var tag = $("#tag > span")
+	$.each( tag, function(i, n){
+		tagVal+= $(n).text()+"&&&"
+	});
+	
 	$.post("/submitPublishdata",{title:$("#publishTitle").val(),
-								 tag:$("#tag").text(),
-								 data:data  },function(data){ 
-								
-		if(data=="ok"){
+//								 tag:$("#tag").text(),
+								 tag:tagVal,
+								 data:data  },function(returndata){ 
+						
+		if(returndata=="ok"){
 		$("#publishdataPageClose").click()
-		}else{
-		alert("fail")	
+		}else if(returndata=='nologin') {
+			ssfblog.toastr("warning",'未登入不可发布!,请先登入~')	
+		 	ssfblog.openSignInWindow("#publishdataPageClose","#signInBtn");	
+		 	
 		}
 	})
+}
+//关闭弹出框,打开登入框
+ssfblog.openSignInWindow=function(close,open){
+	if(close){
+		$(close).click();
+	}
+	if(open){
+		$(open).click()
+	}
 }
 
 
@@ -373,7 +391,7 @@ net_tenie.saveBlogData=function(data){
  * 公共方法
 */
 //提示组件配置; 
-net_tenie.toastr=function(method,msg){
+ssfblog.toastr=function(method,msg){
 	if(typeof(toastr) != 'undefined'){
 		toastr.options = {
 				  "closeButton": true,
@@ -395,7 +413,7 @@ net_tenie.toastr=function(method,msg){
 }
 
 //回车触发点击事件
-net_tenie.key13=function(target){ 
+ssfblog.key13=function(target){ 
 	$(document).keyup(function(e){   
 		if(e.keyCode == 13){ 
 			$(target).click()
@@ -405,6 +423,15 @@ net_tenie.key13=function(target){
 } 
 
 
+
+//ajax 调用的时候添加loading 效果
+ssfblog.ajax=function(method,url, data,successfunc){
+	if(method == "post"){
+		$.post(url,data,function(data){
+			successfunc(data)
+		})
+	}
+}
 
 
 

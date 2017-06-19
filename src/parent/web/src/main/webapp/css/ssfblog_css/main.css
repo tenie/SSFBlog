@@ -1,0 +1,33 @@
+@CHARSET "UTF-8";
+
+ 
+.cursor_not_allowed{
+		cursor: not-allowed;
+	color: #ccc; 
+}
+
+.ssfbdel {
+  float: none;
+  font-size: 21px;
+  font-weight: bold;
+  line-height: 1;
+  color: #000;
+  text-shadow: 0 1px 0 #fff;
+  filter: alpha(opacity=20);
+  opacity: .2;
+}
+.ssfbdel:hover,
+.ssfbdel:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+  filter: alpha(opacity=50);
+  opacity: .5;
+}
+button.ssfbdel {
+  -webkit-appearance: none;
+  padding: 0;
+  cursor: pointer;
+  background: transparent;
+  border: 0;
+}

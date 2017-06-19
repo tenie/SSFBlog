@@ -1,4 +1,6 @@
-<div class="modal fade in bs-example-modal-lg" id="publishModal" tabindex="-1" role="dialog" aria-labelledby="publishModalLabel" style="display: block;">
+
+
+<div  class="modal fade in bs-example-modal-lg" id="publishModal" tabindex="-1" role="dialog" aria-labelledby="publishModalLabel" style="display: block;">
       <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
           <div class="modal-header">
@@ -19,7 +21,8 @@
             <form id="PublishdataForm"> 
 			   <input id="publishTitle" type="text" style=" border: 0px;width: 100%;"  placeholder="标题: " aria-describedby="sizing-addon1"> 
                <textarea id="editorPublish" placeholder="Balabala" autofocus></textarea>
-               <span id="tag"></span> <input id="tagInput" type="text" style=" border: 0px;width: 100%;"  placeholder="添加相关标签，用逗号或回车分隔 " aria-describedby="sizing-addon1">  
+                <span id="tag"></span>
+                <input id="tagInput" type="text" style=" border: 0px;width: 100%;"  placeholder="添加相关标签，用逗号或回车分隔 " aria-describedby="sizing-addon1">  
             </form>
           </div>
           <div class="modal-footer">
@@ -30,11 +33,16 @@
         </div>
       </div>
     </div>
-    <script>
+<script>
+//@ sourceURL=jsname.js
+ 
+ /**
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    */
     	$(function(){
     		var tagIn = function(){
     			if($("#tagInput").val()){
-    				$("#tag").append( " #"+$("#tagInput").val()+" ")
+    				$("#tag").append( "<span>"+" #"+$("#tagInput").val()+" <button type='button' class='ssfbdel' onclick='rmtag(this)'><span aria-hidden='true' style=' float: none;'>×</span></button></span>")
         			$("#tagInput").val("")
     			} 
     		}
@@ -52,5 +60,24 @@
     	    	}  
     			
     		})
+    		
+    		
+    		//发布快捷键
+	    	$("#publishModal").on("keyup",function(e){  
+	    		if(e.keyCode==13 ){
+	    			if (event.ctrlKey==1){
+	    				alert(1)
+	    				$("#submitPublishdata").click()
+	    		
+	    			}
+	    		}
+	    	})
+    		
     	})
+    	
+    	
+    	
+    	function rmtag(the){  
+    		$(the).parent().remove();
+    	}
     </script>
