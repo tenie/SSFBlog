@@ -22,25 +22,17 @@ public class PublishDataController {
 	private JdbcTemplate jdbc;
 	@RequestMapping(value="/submitPublishdata",method = RequestMethod.POST)
 	@ResponseBody
-	public String savePublishData(HttpServletRequest request, HttpServletResponse response,@RequestParam Map<String, String> queryParam) throws ServletException, IOException{
+	public String savePublishData(HttpServletRequest request, HttpServletResponse response,@RequestParam Map<String, Object> queryParam) throws ServletException, IOException{
       System.out.println("PublishDataController.savePublishData");
-      String title = queryParam.get("title");
-      String tag = queryParam.get("tag");
+      String title = (String) queryParam.get("title"); 
+      String tags[] = request.getParameterValues("tag");
       String tagVAL = "";
-      if(tag!=null && "".equals(tag)){
-    	  String arrTag[] = tag.split("&&&");
-        
-          for(int i =0 ; i<arrTag.length;i++){ 
-        	  tagVAL+=arrTag[i].substring(0, arrTag[i].length()-1);
-          } 
-      }
+      for(String str : tags){
+    	  tagVAL+=str+",";
+      } 
      
-    
-      
-      System.out.println("title="+title);
-      System.out.println("tag="+tag);
-      String data = queryParam.get("data");
-      System.out.println("data="+data);
+      tagVAL=tagVAL.substring(0, tagVAL.length()-1);  
+      String data = (String) queryParam.get("data"); 
       
      jdbc.update("insert into  blog  ( `post_title`, `post_subtitle`, `post_content`,`time`) values (?, ?, ?, ?)",title,tagVAL,data,new Date());
       

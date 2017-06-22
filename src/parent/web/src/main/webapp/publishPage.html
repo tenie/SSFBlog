@@ -1,15 +1,15 @@
 
 
-<div  class="modal fade in bs-example-modal-lg" id="publishModal" tabindex="-1" role="dialog" aria-labelledby="publishModalLabel" style="display: block;">
+<div  class="modal fade in bs-example-modal-lg" id="publishModal" tabindex="-1" role="dialog" aria-labelledby="publishModalLabel" style="display: block;    font-size: 14px;">
       <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
-          <div class="modal-header">
+          <div class="modal-header title">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
             <h4 class="modal-title" id="publishModalLabel">
             	<div class="container">
 		            <div class="row">
 		                <div class=" col-md-6"> 
-							<!--   <span    >标题</span> -->
+							   <span    >编辑</span>  
 							
 		                </div>
 		            </div>
@@ -19,37 +19,47 @@
           </div>
           <div class="modal-body">
             <form id="PublishdataForm"> 
-			   <input id="publishTitle" type="text" style=" border: 0px;width: 100%;"  placeholder="标题: " aria-describedby="sizing-addon1"> 
+			   <input id="publishTitle" name="title" type="text" style=" border: 0px;width: 100%;"  placeholder="标题: " aria-describedby="sizing-addon1"> 
                <textarea id="editorPublish" placeholder="Balabala" autofocus></textarea>
-                <span id="tag"></span>
+               <div  id="tag">
+               标签: 
+               </div>
+                
                 <input id="tagInput" type="text" style=" border: 0px;width: 100%;"  placeholder="添加相关标签，用逗号或回车分隔 " aria-describedby="sizing-addon1">  
             </form>
           </div>
           <div class="modal-footer">
           	 
             <button type="button" class="btn btn-default" data-dismiss="modal" id="publishdataPageClose">Close</button>
-            <button type="button" class="btn btn-primary" id="submitPublishdata">Publish</button>
+            <button type="button" class="btn btn-primary" id="submitPublishdata">Publish</button> 
           </div>
         </div>
       </div>
-    </div>
+    </div> 
+    <script type="text/javascript" src="js/Tdrag-master/JavaScript/Tdrag.js"></script>
 <script>
 //@ sourceURL=jsname.js
  
- /**
-    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-    */
+  $("#publishModal").Tdrag({
+    	 handle:".title"
+    });
     	$(function(){
+    		//把输入框中的标签放入标签栏,并情况输入框
     		var tagIn = function(){
     			if($("#tagInput").val()){
-    				$("#tag").append( "<span>"+" #"+$("#tagInput").val()+" <button type='button' class='ssfbdel' onclick='rmtag(this)'><span aria-hidden='true' style=' float: none;'>×</span></button></span>")
+    				var val = $("#tagInput").val()
+    				$("#tag").append( "<span class='foo'>"+" #"+val+" <button type='button' class='ssfbdel' onclick='rmtag(this)'><span aria-hidden='true' style=' float: none;'>×</span></button></span>"
+    								  +"<input type='hidden' name='tag' value='#"+val+"' >"
+    									)
         			$("#tagInput").val("")
+        			
     			} 
     		}
-    		
+    		//输入框change事件
     		$("#tagInput").on("change",function(e){
     			tagIn() 
     		})
+    		//输入框中捕获回车,逗号,分号按键, 就将输入框中的值放入标签栏中
     		$("#tagInput").on("keyup",function(e){  
     			if(e.keyCode==13 || e.keyCode==186 || e.keyCode==188){ 
     				var str = $("#tagInput").val() 
@@ -73,10 +83,9 @@
 	    		}
 	    	})
     		
-    	})
+    	}) 
     	
-    	
-    	
+    	//删除标签
     	function rmtag(the){  
     		$(the).parent().remove();
     	}
