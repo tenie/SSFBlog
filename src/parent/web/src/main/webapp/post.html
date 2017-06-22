@@ -33,18 +33,21 @@
 	body{
 	    font-size: 14px;
 	}
+	
+
 </style>
 </head>
 
 <body>
 
     <!-- Navigation -->
-    <nav class="navbar navbar-default navbar-custom navbar-fixed-top"> 
+    <nav class="navbar navbar-default navbar-custom navbar-fixed-top" > 
     </nav>
 
     <!-- Page Header -->
     <!-- Set your background image for this header on the line below. -->
-    <header class="intro-header" style="background-image: url('img/post-bg.jpg')">
+  <!--   <header class="intro-header" style="background-image: url('img/post-bg.jpg')"> -->
+    <header  >
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
@@ -61,6 +64,11 @@
     <!-- Post Content -->
     <article>
         <div class="container">
+       		<div class="row">
+       		 	<div id="postTitle"class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                   
+				</div>
+       		</div>
             <div class="row">
                 <div id="postContent"class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                    
@@ -72,8 +80,11 @@
     <hr>
 
     <!-- Footer -->
-    <footer> 
+    <footer id="footer"> 
     </footer>
+    
+    
+    
 
     <!-- jQuery -->
 <script src="vendor/jquery/jquery.min.js"></script> 
@@ -95,13 +106,25 @@
 <script type="text/javascript" src="simditor/scripts/module.js"></script>
 <script type="text/javascript" src="simditor/scripts/hotkeys.js"></script> 
 <script type="text/javascript" src="simditor/scripts/simditor.js"></script>
+
+
+
 </body>
 <script type="text/javascript">
 
+ 
 	$(function(){ 
+	 
+	 
 		ssfblog.initPage() 
 		ssfblog.initPost()
+		 
+		ssfblog.backToTop()
+		
+		
 	})
+	
+	 
 	 
 </script>
 

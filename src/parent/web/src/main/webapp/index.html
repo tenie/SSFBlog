@@ -209,7 +209,7 @@ button.closes {
 
     <hr> 
     <!-- Footer -->
-    <footer> 
+    <footer id="footer"> 
     </footer>
 
 <!-- jQuery -->
@@ -243,6 +243,7 @@ button.closes {
 var pageing = ssfblog.paging(5,"#previous","#next");  
 
 $(function(){ 
+	ssfblog.backToTop()
 	ssfblog.initPage()   
 	//获取第一页
 	obj = pageing() 

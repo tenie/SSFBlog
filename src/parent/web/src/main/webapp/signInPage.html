@@ -20,13 +20,12 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal" id="siginPageClose">Close</button>
-            <button type="button" class="btn btn-primary" id="submitSignIndata">Sign In</button>
-          <!--   <button type="button" class="btn btn-primary" id="xx" onclick="foo()">Sixxxxn</button> -->
+            <button type="button" class="btn btn-primary" id="submitSignIndata">Sign In</button> 
           </div>
         </div>
       </div>
     </div>
-    <style> .error{color:red;}</style>
+     
 <link rel="stylesheet" type="text/css" href="js/bootstrap-toastr/toastr.min.css" />
 <script src="js/bootstrap-toastr/toastr.min.js"></script>     
 <script src="/js/jquery-validation/js/jquery.validate.min.js"></script>  
@@ -40,19 +39,15 @@ $.validator.setDefaults({
 });
 
 //页面载入添加样式
-$().ready(function() { 
- 	 $("head").append(""+
- 			'<!--  提示alert样式 -->  ') //添加错误信息的样式
- 	  
- 		 
+$().ready(function() {  
  	//定义在焦点失去的时候触发的函数;还有
     $("#signInForm").validate({
         onfocusout: function(element) { $(element).valid(); }
     });
 });
 //测试, 可以使用valid()来触发表单上的校验
-function foo(){ 
+/* function foo(){ 
     var tf = $("#signInForm").valid()
     console.log(tf)
-}
+} */
 </script>

@@ -30,17 +30,11 @@ public class SignInController {
 	@RequestMapping(value="/sigIn",method = RequestMethod.POST)
 	@ResponseBody
 	public Result signIn(HttpServletRequest request, HttpServletResponse response,@RequestParam Map<String, String> queryParam) throws ServletException, IOException{
-      System.out.println("ＧetCleanBlogPageController.htmlView");
+     
       String name = queryParam.get("name");
       String password = queryParam.get("password");
       System.out.println("name="+name);
-      System.out.println("password="+password);
-//       List<Map<String, Object>> list=jdbc.queryForList("select * from user where name=? and password=?",name,password);
-//      if(list!=null && list.size()>0){
-//    	  return "ok";
-//      }else{
-//    	  return "fail";
-//      }
+      System.out.println("password="+password); 
       //为空返回失败
       if(name ==null &&   "".equals(name)){
     	  return new Result("error","登入失败");
@@ -52,10 +46,14 @@ public class SignInController {
  		 return new Result("登入成功");
       }else{
     	 return new Result("error","登入失败");
-      }
-      
-      
-      
-      
+      }  
+    }
+	
+	@RequestMapping(value="/sigOut",method = RequestMethod.POST)
+	@ResponseBody
+	public Result signOut(HttpServletRequest request, HttpServletResponse response,@RequestParam Map<String, String> queryParam) throws ServletException, IOException{
+		 LoginSession loginInfo = ApplicationContextHelper.getBeanByType(LoginSession.class);  
+ 		 loginInfo.setIsLog(false);
+		return new Result("退出成功!");  
     }
 }

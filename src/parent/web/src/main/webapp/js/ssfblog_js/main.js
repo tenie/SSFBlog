@@ -10,8 +10,7 @@ ssfblog.pageInfo={
 	previous:"",
 	next:""
 }
-ssfblog.paging2=function(up){
-	
+ssfblog.paging2=function(up){  
 	//如果是首页第一加载不走这里, 也就是不做翻页操作
 	 if(! ssfblog.pageInfo.first){
 		 if(up){ 
@@ -99,7 +98,28 @@ ssfblog.navPage=function(){
 		$("nav").append(htmldata)
 		ssfblog.sigIn()
 		ssfblog.publishPage()
+		//如果登入过就隐藏登入按钮
+		if(window.sessionStorage){ 
+			 var si = window.sessionStorage.getItem("signIn") 
+			 if("success" == si){
+				 ssfblog.navSignChange() 
+			 }
+		}
 	})
+}
+
+//登入按钮隐藏,登出按钮现实
+ssfblog.navSignChange=function(){
+	var sin  = $("#signInBtn")
+	var sout = $("#signOutBtn")
+	if(sin.hasClass("hidden")){
+		sin.removeClass("hidden")
+		sout.addClass("hidden")
+	}else{
+		sout.removeClass("hidden")
+		sin.addClass("hidden")
+	}
+	 
 }
 
 //加载footer
@@ -137,10 +157,9 @@ function cl(thiz){
 }
 
 //bolg内容加载
-ssfblog.initPost=function(){
-	 
+ssfblog.initPost=function(){ 
 	var postContent = $.cookie("postContent")
-	$.removeCookie("postContent");
+	//$.removeCookie("postContent");
 	if(!postContent){return}
 	$.get("/pageTitle/postContent/"+postContent,function(data){ 
 		$(".post-heading").append('<span class="meta" id="time">Posted by <a href="#">Tenie Bolg</a> on '+$(data)[0].time+' </span>')
@@ -151,7 +170,7 @@ ssfblog.initPost=function(){
 }
 
 //首页
-//标题信息渲染到页面上
+//主页标题信息渲染
 ssfblog.initpage=function(data){ //date是查询到的博客标题信息集
 
 	var datalen = $(data).length
@@ -279,8 +298,7 @@ ssfblog.addDisabled=function(obj){
 			theObj.addClass("cursor_not_allowed");  
 	} 
 }
-
-
+ 
 //移除禁用样式
 ssfblog.rmDisabled=function(obj){
 	var theObj = $(obj)
@@ -293,8 +311,24 @@ ssfblog.rmDisabled=function(obj){
 
 
 
-//登入按钮事件
+//登入登出按钮事件
 ssfblog.sigIn=function(){
+	//登出按钮事件
+	$("#signOutBtn").click(function(){
+		ssfblog.navSignChange() 
+		//后台删除session,前端也要删除sessionStorage
+		$.post("/sigOut",function(data){
+			if(data.msg){
+				ssfblog.toastr("info",data.msg)
+				if(window.sessionStorage){
+					window.sessionStorage.setItem("signIn","out");
+				}
+			}
+			
+		})
+	})
+	
+	//登入按钮事件
 	$("#signInBtn").click(function(){
 		 if($("#exampleModal").length>0){
 			 $("#exampleModal").modal('show')
@@ -308,10 +342,14 @@ ssfblog.sigIn=function(){
 						 if(!tf)return
 						$.post("/sigIn",$("#signInForm").serialize(),function(data){  
 							console.log(data)
-							if(data.error == "no"){ 
+							if(data.error == "no"){ //登入成功 : 关闭界面, 提示成功,在浏览器session中保存登入过, 隐藏登入按钮,现实登出按钮
 								$("#siginPageClose").click()
-								ssfblog.stroageAdd("signIn","success");
+								//ssfblog.stroageAdd("signIn","success");
+								if(window.sessionStorage){
+									window.sessionStorage.setItem("signIn","success");
+								}
 								ssfblog.toastr("success",data.msg)
+								ssfblog.navSignChange() 
 							}else{
 								//alert("fail")
 								ssfblog.toastr("warning",'帐号或密码错误!')
@@ -333,12 +371,15 @@ ssfblog.publishPage=function(){
 		//获取页面
 		$.get("/publishPage.html",function(htmldata){  
 			
+			//如果页面已经加载模态框就直接现实
 			if($("#publishModal").length>0){
 				 $("#publishModal").modal('show')
 				 return
 			}
+			//else
 			$("body").append(htmldata); 
-			$("#publishModal").modal({backdrop:false,keyboard:false,show:true});
+			//模态框配置
+			$("#publishModal").modal({backdrop:false,keyboard:false,show:true}); 
 			var publishPageEditor = new Simditor({
 				  textarea: $('#editorPublish')
 				  //optional options
@@ -360,10 +401,16 @@ ssfblog.saveBlogData=function(data){
 		tagVal+= $(n).text()+"&&&"
 	});
 	
-	$.post("/submitPublishdata",{title:$("#publishTitle").val(),
+	//console.log($("#PublishdataForm").serialize());
+	var formval  = $("#PublishdataForm").serialize()
+	formval=formval+"&data="+data
+	console.log(formval);
+	$.post("/submitPublishdata",formval
+//								{title:$("#publishTitle").val(),
 //								 tag:$("#tag").text(),
-								 tag:tagVal,
-								 data:data  },function(returndata){ 
+//								 tag:tagVal,
+//								 data:data  }
+							,function(returndata){ 
 						
 		if(returndata=="ok"){
 		$("#publishdataPageClose").click()
@@ -434,6 +481,35 @@ ssfblog.ajax=function(method,url, data,successfunc){
 }
 
 
-
+//回到顶部按钮
+ssfblog.backToTop = function() {
+	if ($("#footer").length > 0) {
+		$("body").append('<div id="backtotop" class="showme"><div class="bttbg"></div></div>');
+		a()
+		}
+	function a() {
+		var b = jQuery("#footer").position().top - jQuery(window).height() - 200;
+		jQuery(function() {
+			jQuery(window).scroll(function() {
+				if (jQuery(this).scrollTop() > 100) {
+					jQuery("#backtotop").addClass("showme")
+				} else {
+					jQuery("#backtotop").removeClass("showme")
+				}
+			});
+			jQuery("#backtotop").click(function() {
+				jQuery("body,html").animate({
+					scrollTop: 0
+				}, 400);
+				return false
+			})
+		});
+		if (jQuery(window).scrollTop() == 0) {
+			jQuery("#backtotop").removeClass("showme")
+		} else {
+			jQuery("#backtotop").addClass("showme")
+		}
+	}
+}
 
 

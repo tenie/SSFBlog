@@ -1,6 +1,7 @@
 @CHARSET "UTF-8";
+/*错误信息样式,校验组件用*/
+.error{color:red;}
 
- 
 .cursor_not_allowed{
 		cursor: not-allowed;
 	color: #ccc; 
@@ -18,7 +19,7 @@
 }
 .ssfbdel:hover,
 .ssfbdel:focus {
-  color: #000;
+  color: red;
   text-decoration: none;
   cursor: pointer;
   filter: alpha(opacity=50);
@@ -30,4 +31,110 @@ button.ssfbdel {
   cursor: pointer;
   background: transparent;
   border: 0;
+}
+
+.side-tool{
+	position:fixed;
+	bottom:40px;
+	right:40px;
+	z-index:9}
+.side-tool>ul{
+	list-style:none
+	}
+.side-tool>ul>li{
+	border:1px solid #dcdcdc;
+	border-bottom:none;
+	background-color:#fff;
+	transition:.1s ease-in;
+	-webkit-transition:.1s ease-in;
+	-moz-transition:.1s ease-in;
+	-o-transition:.1s ease-in;
+	-ms-transition:.1s ease-in
+}
+.side-tool>ul>li:last-child{
+	border-bottom:1px solid #dcdcdc
+}
+.side-tool>ul>li:hover{
+	background-color:hsla(0,0%,71%,.1);
+	transition:.1s ease-in;
+	-webkit-transition:.1s ease-in;
+	-moz-transition:.1s ease-in;
+	-o-transition:.1s ease-in;
+	-ms-transition:.1s ease-in
+}
+.side-tool>ul .modal-wrap{
+	position:relative
+}
+.side-tool>ul .function-button,.side-tool>ul .js-submit-button{
+	width:50px;
+	height:50px;
+	text-align:center;
+	display:block
+}
+.side-tool>ul .function-button i,.side-tool>ul .js-submit-button i{
+	padding-top:16px;
+	font-size:20px;
+	display:block
+}
+.side-tool>ul .function-button .ic-mark-active,.side-tool>ul .js-submit-button .ic-mark-active{
+	color:#ea6f5a
+}
+.side-tool .popover-content{
+	padding:0
+}
+.side-tool .popover-content ul{
+	width:160px;list-style:none
+}
+.side-tool .popover-content li{
+	line-height:20px
+}
+.side-tool .popover-content li:hover{
+	background-color:hsla(0,0%,71%,.1)
+}
+.side-tool .popover-content a{
+	padding:5px 0;
+	margin-left:15px;
+	width:100%;
+	height:auto;
+	display:block;
+	line-height:20px;
+	text-align:left!important
+}
+.side-tool .popover-content i{
+	margin-right:10px
+}
+.side-tool .popover-content span{
+vertical-align:middle
+}
+
+/*会到页面顶部*/ 
+#backtotop {
+	height: 50px;
+	position: fixed;
+	bottom: 55px;
+	right: -60px;
+	z-index: 9999;
+	-moz-transition: all 1s ease;
+	-webkit-transition: all 1s ease;
+	-o-transition: all 1s ease;
+	transition: all 1s ease;
+}
+
+#backtotop.showme {
+	right: 12px;
+	-moz-transform: scale(1) rotate(-360deg) translate(0px);
+	-webkit-transform: scale(1) rotate(-360deg) translate(0px);
+	-o-transform: scale(1) rotate(-360deg) translate(0px);
+	transform: scale(1) rotate(-360deg) translate(0px);
+}
+
+#backtotop .bttbg {
+	width: 50px;
+	height: 50px;
+	background: url(/img/top_button.png) no-repeat 0 0;
+ 
+}
+
+#backtotop .bttbg:hover {
+	background-position: left bottom;
 }
