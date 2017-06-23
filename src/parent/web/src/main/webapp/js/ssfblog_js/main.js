@@ -10,38 +10,7 @@ ssfblog.pageInfo={
 	previous:"",
 	next:""
 }
-ssfblog.paging2=function(up){  
-	//如果是首页第一加载不走这里, 也就是不做翻页操作
-	 if(! ssfblog.pageInfo.first){
-		 if(up){ 
-			 ssfblog.pageInfo.offset = ssfblog.pageInfo.offset - ssfblog.pageInfo.limit
-			 ssfblog.pageInfo.index = --ssfblog.pageInfo.index
-			 ssfblog.pageInfo.end=false;
-		 }else{ 
-			 ssfblog.pageInfo.offset = ssfblog.pageInfo.offset + ssfblog.pageInfo.limit
-			 ssfblog.pageInfo.index = ++ssfblog.pageInfo.index
-		 } 
-	 }else{
-		 ssfblog.pageInfo.first = false;  
-	 }
-	 
-	//给下一页加样式   
-	 if((ssfblog.pageInfo.offset + ssfblog.pageInfo.lm) >= ssfblog.pageInfo.count){  //偏移量加limit 大于总行数的话, 给下一页添加禁用样式 
-		 ssfblog.addDisabled(ssfblog.pageInfo.next) ; 
-		 alert(1)
-		 return
-	}else{ 
-		 ssfblog.rmDisabled(ssfblog.pageInfo.next)
-	}
-	 
-	 //给上一页加样式 
-	 if(ssfblog.pageInfo.offset<=0){ //如果offset<=0 添加禁用样式 
-		 ssfblog.addDisabled(ssfblog.pageInfo.previous)
-	}else{ 
-		 ssfblog.rmDisabled(ssfblog.pageInfo.previous)
-	} 
-	
-}
+ 
 
 //sessionStroage
 ssfblog.isSignIn=function(){
@@ -107,6 +76,12 @@ ssfblog.navPage=function(){
 		}
 	})
 }
+//加载footer
+ssfblog.footerPage=function(){
+	$.get("/footer.html",function(htmldata){  //获取展示的html样式 
+		$("footer").append(htmldata) 
+	})
+}
 
 //登入按钮隐藏,登出按钮现实
 ssfblog.navSignChange=function(){
@@ -122,33 +97,13 @@ ssfblog.navSignChange=function(){
 	 
 }
 
-//加载footer
-ssfblog.footerPage=function(){
-	$.get("/footer.html",function(htmldata){  //获取展示的html样式 
-		$("footer").append(htmldata) 
-	})
-}
+
 //加载导航,和脚
-ssfblog.initPage=function(){
-	
+ssfblog.initPage=function(){ 
 	ssfblog.navPage()
-	ssfblog.footerPage()
-	 
+	ssfblog.footerPage() 
 }
-//加载首页标题
-
-
-//联系页面 ,原有页面有这个功能
-//ssfblog.contactPagePost=function(){
-//	//var data = $("form").serialize()
-//	$.post("/pageTitle/postContactData",$("form").serialize(),function(data){
-//		if(data.error !="error "){ 
-//			ssfblog.toastr("success",data.msg)
-//		}else{
-//			ssfblog.toastr("warning",data.msg)
-//		}
-//	})
-//}
+ 
 
 //给对应位置的链接赋值id,存储在cookie
 function cl(thiz){
@@ -159,6 +114,7 @@ function cl(thiz){
 //bolg内容加载
 ssfblog.initPost=function(){ 
 	var postContent = $.cookie("postContent")
+	
 	//$.removeCookie("postContent");
 	if(!postContent){return}
 	$.get("/pageTitle/postContent/"+postContent,function(data){ 
@@ -171,8 +127,7 @@ ssfblog.initPost=function(){
 
 //首页
 //主页标题信息渲染
-ssfblog.initpage=function(data){ //date是查询到的博客标题信息集
-
+ssfblog.initpage=function(data){ //date是查询到的博客标题信息集 
 	var datalen = $(data).length
 	$.get("/index_contentTitle.html",function(htmldata){  //获取展示的html样式
 		//console.log(date)  
@@ -187,17 +142,20 @@ ssfblog.initpage=function(data){ //date是查询到的博客标题信息集
 		var post_subtitle = pageTitleContainer.find(".post-subtitle")
 		var time = pageTitleContainer.find(".time")
 		var src_page = pageTitleContainer.find(".src_page")
+		var a =pageTitleContainer.find("a[class='src_page']")
+		 
 		//解析数据,给页面赋值
-		for(i=0;i<datalen;i++){ 
+		for(i=0;i<datalen;i++){  
+			a.eq(i).attr("href","article/"+$(data)[i].id)
 			post_title.eq(i).text($(data)[i].post_title)
 			post_subtitle.eq(i).text($(data)[i].post_subtitle)
 			time.eq(i).text($(data)[i].time)
-		 	src_page.eq(i).attr("rel",$(data)[i].id)
+//		 	src_page.eq(i).attr("rel",$(data)[i].id)  //使用url来获取文章了, 不需要这个了
 		}
 		
 	})
 }
-//首页
+//begin 分页组件 
 //分页记录, 参数:limit, offset, 上一页下一页按钮, 总行数(总行数在初始化的时候不设置, 但获取到总行数后,再设置,这样下一页才会知道到哪一页停止)
 ssfblog.paging=function(lm,previous,next){
 	var page = {
@@ -223,8 +181,7 @@ ssfblog.paging=function(lm,previous,next){
 			}
 			$.extend(ssfblog.pageInfo,page)  //全局变量缓存
 			return page
-		}
-		  
+		} 
 		//如果是首页第一加载不走这里, 也就是不做翻页操作
 		 if(! first){
 			 if(option.previous){ 
@@ -237,8 +194,7 @@ ssfblog.paging=function(lm,previous,next){
 			 } 
 		 }else{
 			 first = false;	 
-		 }
-		 
+		 } 
 		//给下一页加样式   
 		 if((page.offset+lm) >= page.count){  //偏移量加limit 大于总行数的话, 给下一页添加禁用样式
 			 if(next&& !option.previous){
@@ -247,8 +203,7 @@ ssfblog.paging=function(lm,previous,next){
 		}else{
 			 if(next)
 			 ssfblog.rmDisabled(next)
-		}
-		 
+		} 
 		 //给上一页加样式 
 		 if(page.offset<=0){ //如果offset<=0 添加禁用样式
 			 if(previous)
@@ -261,22 +216,8 @@ ssfblog.paging=function(lm,previous,next){
 		return page;
 	}
 }
-//分页初始化
-
-//禁用样式<添加style属性值的方式>
-ssfblog.addDisabled2=function(obj){
-	var theObj = $(obj)
-	theObj.attr("disabled","Disabled");
-	var style = theObj.attr("style");
-	if(style){ 
-		if(! style.indexOf("not-allowed")>=0){
-			theObj.attr("style",style+";cursor: not-allowed;")
-		}  
-	}else{
-		theObj.attr("style","cursor: not-allowed;")
-	} 
-}
-//添加禁用(测试通过)
+  
+//添加禁用 
 ssfblog.addDisabled=function(obj){
 	var theObj = $(obj)
 	theObj.attr("disabled","Disabled");
@@ -307,7 +248,7 @@ ssfblog.rmDisabled=function(obj){
 		theObj.removeClass("cursor_not_allowed")
 	}
 }
- 
+//end 分页组件
 
 
 
@@ -328,8 +269,8 @@ ssfblog.sigIn=function(){
 		})
 	})
 	
-	//登入按钮事件
-	$("#signInBtn").click(function(){
+//登入按钮事件
+$("#signInBtn").click(function(){
 		 if($("#exampleModal").length>0){
 			 $("#exampleModal").modal('show')
 		 }else{
@@ -364,8 +305,8 @@ ssfblog.sigIn=function(){
 	})
 } 
 
-
-//发布博文
+//begin 博文发布
+//发布博文页面
 ssfblog.publishPage=function(){
 	$("#publishBtn").click(function(){
 		//获取页面
@@ -390,9 +331,7 @@ ssfblog.publishPage=function(){
 			})
 		}) 
 	})	
-}
-
-
+}  
 //提交博文保存
 ssfblog.saveBlogData=function(data){
 	var tagVal=""
@@ -405,23 +344,18 @@ ssfblog.saveBlogData=function(data){
 	var formval  = $("#PublishdataForm").serialize()
 	formval=formval+"&data="+data
 	console.log(formval);
-	$.post("/submitPublishdata",formval
-//								{title:$("#publishTitle").val(),
-//								 tag:$("#tag").text(),
-//								 tag:tagVal,
-//								 data:data  }
-							,function(returndata){ 
+	$.post("/submitPublishdata",formval ,function(returndata){ 
 						
 		if(returndata=="ok"){
-		$("#publishdataPageClose").click()
+		//$("#publishdataPageClose").click()
+		ssfblog.openSignInWindow("#publishdataPageClose",null)
 		}else if(returndata=='nologin') {
 			ssfblog.toastr("warning",'未登入不可发布!,请先登入~')	
-		 	ssfblog.openSignInWindow("#publishdataPageClose","#signInBtn");	
-		 	
+		 	ssfblog.openSignInWindow("#publishdataPageClose","#signInBtn");	 
 		}
 	})
 }
-//关闭弹出框,打开登入框
+//关闭弹出框,打开登入框(参数为jquery能选择到的对象, 不想做操作传入字符串"null")
 ssfblog.openSignInWindow=function(close,open){
 	if(close){
 		$(close).click();
