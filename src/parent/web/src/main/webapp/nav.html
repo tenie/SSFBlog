@@ -5,23 +5,23 @@
             <span class="sr-only">Toggle navigation</span>
             Menu <i class="fa fa-bars"></i>
         </button>
-        <a class="navbar-brand" href="index.html" id="logo">Tenie Blog</a>
+        <a class="navbar-brand" href="/index.html" id="logo">Tenie Blog</a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav navbar-right">
             <li>
-                <a   href="index.html">Home</a>
+                <a   href="/index.html">Home</a>
             </li>
             <li>
-                <a href="about.html">About</a>
+                <a href="/about.html">About</a>
             </li>
             <li>
-                <a href="resumepage.html">Resume</a>
+                <a href="/resumepage.html">Resume</a>
             </li>
             <li>
-                <a href="contact.html">Contact</a>
+                <a href="/contact.html">Contact</a>
             </li>
             <li>
                 <!-- <a href="#" id="signInBtn">Sign in</a> -->
@@ -50,12 +50,20 @@
 			$("#logo").text("")
 		}
 		
-		if(href == "/post.html" ){
+		/* if(href == "/post.html" ){
+			$("#bs-example-navbar-collapse-1>ul>li> a").attr("style","color: #969696")
+			$("#a_dropdown").attr("style","color: black")
+			$("#logo").attr("style","color: #969696")
+			$("header").attr("style","margin-top: 60px");
+			$("nav").append('<hr style="    margin-top: 0px;    margin-bottom: 0px;">')
+		} */
+		if($("body").hasClass("postpage")){
 			$("#bs-example-navbar-collapse-1>ul>li> a").attr("style","color: #969696")
 			$("#a_dropdown").attr("style","color: black")
 			$("#logo").attr("style","color: #969696")
 			$("header").attr("style","margin-top: 60px");
 			$("nav").append('<hr style="    margin-top: 0px;    margin-bottom: 0px;">')
 		}
+		
 	})
 </script>

@@ -50,8 +50,7 @@ public class CleanBlogPageController {
 	@ResponseBody
 	public Result htmlView(@PathVariable(value="limit") Integer limit ,@PathVariable(value="offset") Integer offset ,
 											@PathVariable(value="getCount") String getCount  ) throws ServletException{
-      System.out.println("ＧetCleanBlogPageController.htmlView");
-     
+      
       List<Map<String, Object>> countList =new ArrayList();
       List<Map<String, Object>> list=jdbc.queryForList("select * from blog limit ? offset ?",limit,offset);
      //获取总行数,对分页最后页做判断时需要
@@ -77,13 +76,11 @@ public class CleanBlogPageController {
 	@RequestMapping(value="/postContent/{id}",method = RequestMethod.GET)
 	@ResponseBody
 	public Map<String,Object> htmlContent(HttpServletRequest request, HttpServletResponse response,@PathVariable("id") String id) throws ServletException, IOException{
-      System.out.println("ＧetCleanBlogPageController.htmlContent");
-      
-       List<Map<String, Object>> list=jdbc.queryForList("select * from blog where id=? ",id); 
-      
-       return list.get(0);
+        List<Map<String, Object>> list=jdbc.queryForList("select * from blog where id=? ",id); 
+        return list.get(0);
     }
 	
+	 
 	
 
 }
