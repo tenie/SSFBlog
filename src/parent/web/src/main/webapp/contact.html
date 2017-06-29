@@ -24,7 +24,7 @@
     <link href="css/font.css" rel="stylesheet" type="text/css">
    
 	<link rel="stylesheet" type="text/css" href="simditor/styles/simditor.css" /> 
-
+	<link rel="stylesheet" type="text/css" href="/lib/noty-master/lib/noty.css" /> 
     
 	  <link href="css/ssfblog_css/main.css" rel="stylesheet">
 
@@ -48,7 +48,7 @@
                     <div class="page-heading">
                         <h1>联系我</h1>
                         <hr class="small">
-                        <span class="subheading">有问题? 我可能会给您答复</span>
+                        <span class="subheading">有什么问题? 联系我, 会给您答复(可能)~</span>
                        <!--     <span class="subheading">Have questions? I have answers (maybe).</span> -->
                     </div>
                 </div>
@@ -60,9 +60,10 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                <p>如果您想联系我, 填写下面信息,提交就可以, 您提交的信息会发送到我的邮箱<a href="mailto:tenie@tenie.net">
-							<font><font>tenie@tenie.net</font></font>
-						</a></p>
+                <p>如果您想联系我 ?</p>
+                <p>填写下面信息, 提交后您的信息将发送到我的邮箱: 
+                <a href="mailto:tenie@tenie.net"  > <font><font>tenie@tenie.net</font></font></a>
+				</p>
                 <!-- Contact Form - Enter your email address on line 19 of the mail/contact_me.php file to make this form work. -->
                 <!-- WARNING: Some web hosts do not allow emails to be sent through forms to common mail hosts like Gmail or Yahoo. It's recommended that you use a private domain email address! -->
                 <!-- NOTE: To use the contact form, your site must be on a live web host with PHP! The form will not work locally! -->
@@ -136,11 +137,109 @@
 <script type="text/javascript" src="simditor/scripts/hotkeys.js"></script> 
 <script type="text/javascript" src="simditor/scripts/simditor.js"></script>
 
+<script type="text/javascript" src="/lib/noty-master/lib/noty.js"></script>
+<script type="text/javascript" src="/lib/noty-master/lib/mo.min.js"></script>
+
 </body>
 
 
 
-<script>
+<script>/* 
+setTimeout(function () {
+    new Noty({
+      text: '<div class="text-center">Wubba, lubba, dub, dub! <strong>v3.1.0-beta pre-released!</strong></div>',
+      type: 'information',
+      theme: 'mint',
+      layout: 'topRight',
+      timeout: 1000,
+      animation: {
+        open: mojsShow,
+        close: mojsClose
+      }
+    }).show()
+  }, 100)
+  
+  
+  
+  
+  var mojsShow = function (promise) {
+    var n = this
+    var Timeline = new mojs.Timeline()
+    var body = new mojs.Html({
+      el: n.barDom,
+      x: {500: 0, delay: 0, duration: 500, easing: 'elastic.out'},
+      isForce3d: true,
+      onComplete: function () {
+        promise(function (resolve) {
+          resolve()
+        })
+      }
+    })
+
+    var parent = new mojs.Shape({
+      parent: n.barDom,
+      width: 200,
+      height: n.barDom.getBoundingClientRect().height,
+      radius: 0,
+      x: {[150]: -150},
+      duration: 1.2 * 500,
+      isShowStart: true
+    })
+
+    n.barDom.style['overflow'] = 'visible'
+    parent.el.style['overflow'] = 'hidden'
+
+    var burst = new mojs.Burst({
+      parent: parent.el,
+      count: 10,
+      top: n.barDom.getBoundingClientRect().height + 75,
+      degree: 90,
+      radius: 75,
+      angle: {[-90]: 40},
+      children: {
+        fill: '#EBD761',
+        delay: 'stagger(500, -50)',
+        radius: 'rand(8, 25)',
+        direction: -1,
+        isSwirl: true
+      }
+    })
+
+    const fadeBurst = new mojs.Burst({
+      parent: parent.el,
+      count: 2,
+      degree: 0,
+      angle: 75,
+      radius: {0: 100},
+      top: '90%',
+      children: {
+        fill: '#EBD761',
+        pathScale: [.65, 1],
+        radius: 'rand(12, 15)',
+        direction: [-1, 1],
+        delay: .8 * 500,
+        isSwirl: true
+      }
+    })
+
+    Timeline.add(body, burst, fadeBurst, parent)
+    Timeline.play()
+  }
+  
+var mojsClose = function (promise) {
+    var n = this
+    new mojs.Html({
+      el: n.barDom,
+      x: {0: 500, delay: 10, duration: 500, easing: 'cubic.out'},
+      isForce3d: true,
+      onComplete: function () {
+        promise(function (resolve) {
+          resolve()
+        })
+      }
+    }).play()
+  } */
+  
 	$(function(){
 		ssfblog.initPage() 
 		/* $("#submitBTN").click(function(){  //使用页面自带提交

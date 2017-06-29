@@ -1,0 +1,93 @@
+<div  class="modal fade in bs-example-modal-lg" id="editpublishModal" tabindex="-1" role="dialog" aria-labelledby="editpublishModalLabel" style="display: block;    font-size: 14px;">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header title">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+            <h4 class="modal-title" id="editpublishModalLabel">
+            	<div class="container">
+		            <div class="row">
+		                <div class=" col-md-6"> 
+							   <span >编辑</span>  
+							
+		                </div>
+		            </div>
+		        </div>
+            	
+            </h4>
+          </div>
+          <div class="modal-body">
+            <form id="editPublishdataForm"> 
+               <input type="hidden" id="edittextLength" name="textLength">
+                <input type="hidden" id="editcontent" name="content">
+			   <input id="editpublishTitle" name="title" type="text" style=" border: 0px;width: 100%;"  placeholder="标题: " aria-describedby="sizing-addon1"> 
+               <textarea id="editorPublishText" placeholder="Balabala" autofocus></textarea>
+               <div  id="edittag">
+               标签: 
+               </div>
+                
+                <input id="edittagInput" type="text" style=" border: 0px;width: 100%;"  placeholder="添加相关标签，用逗号或回车分隔 " aria-describedby="sizing-addon1">  
+            </form>
+          </div>
+          <div class="modal-footer">
+          	 
+            <button type="button" class="btn btn-default" data-dismiss="modal" id="publishdataPageCloseBtn">Close</button>
+            <button type="button" class="btn btn-primary" id="submitPublishdataBtn">Publish</button> 
+            
+          </div>
+        </div>
+      </div>
+    </div> 
+    <script type="text/javascript" src="/js/Tdrag-master/JavaScript/Tdrag.js"></script>
+<script>
+ 	 
+ //元素拖动组件
+/*   $("#editpublishModal").Tdrag({
+    	 handle:".title"
+    }); */
+ 
+    	$(function(){
+    		//把输入框中的标签放入标签栏,并情况输入框
+    		var tagIn = function(){
+    			if($("#edittagInput").val()){
+    				var val = $("#edittagInput").val()
+    				$("#edittag").append( "<span class='foo'>"+" #"+val+" <button type='button' class='ssfbdel' onclick='ssfblog.rmtag(this)'><span aria-hidden='true' style=' float: none;'>×</span></button></span>"
+    								  +"<input type='hidden' name='tag' value='#"+val+"' >"
+    									)
+        			$("#edittagInput").val("")
+        			
+    			} 
+    		}
+    		//输入框change事件
+    		$("#edittagInput").on("change",function(e){
+    			tagIn() 
+    		})
+    		//输入框中捕获回车,逗号,分号按键, 就将输入框中的值放入标签栏中
+    		$("#edittagInput").on("keyup",function(e){  
+    			if(e.keyCode==13 || e.keyCode==186 || e.keyCode==188){ 
+    				var str = $("#edittagInput").val() 
+    				str = str.substring(0,str.length-1)
+    				  $("#edittagInput").val(str)
+    				tagIn() 
+    			   
+    	    	}  
+    			
+    		})
+    		
+    		
+    		//发布快捷键
+	    	$("#editpublishModal").on("keyup",function(e){  
+	    		if(e.keyCode==13 ){
+	    			if (event.ctrlKey==1){
+	    			 
+	    				$("#submitPublishdataBtn").click()
+	    		
+	    			}
+	    		}
+	    	})
+    		
+	     
+	    	
+    	}) 
+    	
+    	
+    </script>

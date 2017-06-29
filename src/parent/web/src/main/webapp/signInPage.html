@@ -9,11 +9,11 @@
             <form id="signInForm">
               <div class="form-group">
                 <label for="recipient-name" class="control-label">Username or email address:</label>
-                <input type="text" class="form-control required" id="recipient-name" name="name" minlength="5"  maxlength="60">
+                <input type="text" class="form-control required" id="recipient-name" name="name" minlength="5"  maxlength="40">
               </div>
               <div class="form-group">
                 <label for="message-text" class="control-label">Password:</label>
-                <input type="password" class="form-control" id="message-text" name="password">
+                <input type="password" class="form-control required" id="message-text" name="password" minlength="5"  maxlength="30">
                 
               </div>
             </form>
@@ -26,8 +26,8 @@
       </div>
     </div>
      
-<link rel="stylesheet" type="text/css" href="js/bootstrap-toastr/toastr.min.css" />
-<script src="js/bootstrap-toastr/toastr.min.js"></script>     
+<link rel="stylesheet" type="text/css" href="/js/bootstrap-toastr/toastr.min.css" />
+<script src="/js/bootstrap-toastr/toastr.min.js"></script>     
 <script src="/js/jquery-validation/js/jquery.validate.min.js"></script>  
 <script src="/js/jquery-validation/js/additional-methods.js"></script>  
 
@@ -40,7 +40,7 @@ $.validator.setDefaults({
 
 //页面载入添加样式
 $().ready(function() {  
- 	//定义在焦点失去的时候触发的函数;还有
+ 	//定义在焦点失去的时候触发的函数;
     $("#signInForm").validate({
         onfocusout: function(element) { $(element).valid(); }
     });

@@ -45,11 +45,11 @@
 
 <script>
 	$(function(){ 
+		// 不同页面, 对导航栏做不同效果定制
 		var href = location.pathname
 		if(href == "/index.html" || href== "/"){
 			$("#logo").text("")
-		}
-		
+		} 
 		/* if(href == "/post.html" ){
 			$("#bs-example-navbar-collapse-1>ul>li> a").attr("style","color: #969696")
 			$("#a_dropdown").attr("style","color: black")
@@ -64,6 +64,18 @@
 			$("header").attr("style","margin-top: 60px");
 			$("nav").append('<hr style="    margin-top: 0px;    margin-bottom: 0px;">')
 		}
+		
+		//附加菜单使用鼠标悬浮出发
+		$("#a_dropdown").hover(
+		function(){
+			$(this).click()
+		},
+		function(){
+			 
+			
+		})
+		
+		
 		
 	})
 </script>

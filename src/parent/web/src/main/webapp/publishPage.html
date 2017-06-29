@@ -9,7 +9,7 @@
             	<div class="container">
 		            <div class="row">
 		                <div class=" col-md-6"> 
-							   <span    >编辑</span>  
+							   <span >编辑</span>  
 							
 		                </div>
 		            </div>
@@ -19,8 +19,11 @@
           </div>
           <div class="modal-body">
             <form id="PublishdataForm"> 
-			   <input id="publishTitle" name="title" type="text" style=" border: 0px;width: 100%;"  placeholder="标题: " aria-describedby="sizing-addon1"> 
-               <textarea id="editorPublish" placeholder="Balabala" autofocus></textarea>
+               <input type="hidden" id="textLength" name="textLength">
+                <input type="hidden" id="content" name="content">
+                
+			   <input id="publishTitle"  autofocus name="title" type="text" style=" border: 0px;width: 100%;"  placeholder="标题:" required data-validation-required-message="必填"  aria-describedby="sizing-addon1"> 
+               <textarea id="editorPublish" placeholder="Balabala" ></textarea>
                <div  id="tag">
                标签: 
                </div>
@@ -32,17 +35,26 @@
           	 
             <button type="button" class="btn btn-default" data-dismiss="modal" id="publishdataPageClose">Close</button>
             <button type="button" class="btn btn-primary" id="submitPublishdata">Publish</button> 
+            <button onclick="foo()">btn</button>
           </div>
         </div>
       </div>
     </div> 
-    <script type="text/javascript" src="js/Tdrag-master/JavaScript/Tdrag.js"></script>
+    <script type="text/javascript" src="/js/Tdrag-master/JavaScript/Tdrag.js"></script>
+    
+<script src="/js/jquery-validation/js/jquery.validate.min.js"></script>  
+<script src="/js/jquery-validation/js/additional-methods.js"></script>  
 <script>
-//@ sourceURL=jsname.js
+ 	function foo(){
+ 		$("#publishTitle").valid();
+ 	}
  
-  $("#publishModal").Tdrag({
+/*  //拖动元素框
+	$("#publishModal").Tdrag({
     	 handle:".title"
     });
+
+*/
     	$(function(){
     		//把输入框中的标签放入标签栏,并情况输入框
     		var tagIn = function(){
@@ -78,10 +90,17 @@
 	    			if (event.ctrlKey==1){
 	    			 
 	    				$("#submitPublishdata").click()
-	    		
+	    				
 	    			}
 	    		}
 	    	})
+	    	
+	    	
+	    	//校验
+    	setTimeout(function(){
+    		
+    		
+    	},200)
     		
     	}) 
     	
@@ -89,4 +108,11 @@
     	function rmtag(the){  
     		$(the).parent().remove();
     	}
+    	
+$().ready(function() {  
+ 	//定义在焦点失去的时候触发的函数;
+   /*  $("#PublishdataForm").validate({
+      //  onfocusout: function(element) { $(element).valid(); }
+    }); */
+});
     </script>

@@ -1,4 +1,70 @@
 @CHARSET "UTF-8";
+ .noty_theme__metroui.noty_bar {
+  margin: 4px 0;
+  overflow: hidden;
+  position: relative;
+  box-shadow: rgba(0, 0, 0, 0.29804) 0 0 5px 0; }
+  .noty_theme__metroui.noty_bar .noty_progressbar {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 3px;
+    width: 100%;
+    background-color: #000;
+    opacity: 0.2;
+    filter: alpha(opacity=20); }
+  .noty_theme__metroui.noty_bar .noty_body {
+    padding: 1.25em;
+    font-size: 14px; }
+  .noty_theme__metroui.noty_bar .noty_buttons {
+    padding: 0 10px .5em 10px; }
+
+.noty_theme__metroui.noty_type__alert,
+.noty_theme__metroui.noty_type__notification {
+  background-color: #fff;
+  color: #1d1d1d; }
+
+.noty_theme__metroui.noty_type__warning {
+  background-color: #FA6800;
+  color: #fff; }
+
+.noty_theme__metroui.noty_type__error {
+  background-color: #CE352C;
+  color: #FFF; }
+
+.noty_theme__metroui.noty_type__info,
+.noty_theme__metroui.noty_type__information {
+  background-color: #1BA1E2;
+  color: #FFF; }
+
+.noty_theme__metroui.noty_type__success {
+  background-color: #60A917;
+  color: #fff; }
+
+/*# sourceMappingURL=noty.css.map */
+ 
+
+
+/*noty,js 提示框css拓展 ; 使用上面的theme了*/
+/* .noty_theme__mint.noty_bar {
+	top:40px;
+	height:50px;
+  margin: 4px 0;
+  overflow: hidden;
+  border-radius: 2px;
+  position: relative; }
+  .noty_theme__mint.noty_bar .noty_body {
+    padding: 10px;
+    font-size: 14px; }
+  .noty_theme__mint.noty_bar .noty_buttons {
+    padding: 10px; } */
+
+
+a{
+	text-decoration: none !important;
+}
+
+
 /*错误信息样式,校验组件用*/
 .error{color:red;}
 
@@ -138,3 +204,103 @@ vertical-align:middle
 #backtotop .bttbg:hover {
 	background-position: left bottom;
 }
+
+
+/*loading 组件*/
+
+#loading{
+	background-color: #fff;
+	height: 130px;
+	margin-bottom: 400px;
+/* 	width:  130px; */
+	margin-left: auto;
+    margin-right: auto;
+	z-index: 1;
+	margin-top: 0px;
+	top: 200px;
+}
+#loading-center{
+	width: 100%;
+	height: 100%;
+	position: relative;
+	}
+#loading-center-absolute {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	height: 200px;
+	width: 200px;
+	margin-top: -100px;
+	margin-left: -100px;
+	-ms-transform: rotate(-135deg); 
+   	-webkit-transform: rotate(-135deg); 
+    transform: rotate(-135deg);
+
+}
+.object{
+
+	-moz-border-radius: 50% 50% 50% 50%;
+	-webkit-border-radius: 50% 50% 50% 50%;
+	border-radius: 50% 50% 50% 50%;
+	position: absolute;
+	border-top: 5px solid #4B4643;
+	border-bottom: 5px solid transparent;
+	border-left:  5px solid #4B4643;
+	border-right: 5px solid transparent;
+	
+	-webkit-animation: animate 2s infinite;
+	animation: animate 2s infinite;	
+
+	} 
+
+#object_one{
+	left: 75px;
+	top: 75px;
+	width: 50px;
+	height: 50px;
+	}
+							
+#object_two{
+	left: 65px;
+	top: 65px;
+	width: 70px;
+	height: 70px;
+	-webkit-animation-delay: 0.2s;
+    animation-delay: 0.2s;
+	}
+		
+#object_three{
+	left: 55px;
+	top: 55px;
+	width: 90px;
+	height: 90px;
+	-webkit-animation-delay: 0.4s;
+    animation-delay: 0.4s;
+	}
+#object_four{
+	left: 45px;
+	top: 45px;
+	width: 110px;
+	height: 110px;
+	-webkit-animation-delay: 0.6s;
+    animation-delay: 0.6s; 
+	}	
+
+@-webkit-keyframes animate { 
+	50% { 
+		-ms-transform: rotate(360deg) scale(0.8); 
+	   	-webkit-transform: rotate(360deg) scale(0.8); 
+	    transform: rotate(360deg) scale(0.8); 
+	  } 
+}
+
+@keyframes animate { 
+	50% {
+	
+		-ms-transform: rotate(360deg) scale(0.8); 
+	   	-webkit-transform: rotate(360deg) scale(0.8); 
+	    transform: rotate(360deg) scale(0.8); 
+	  }	 
+}
+
+/*end;  loading 组件*/

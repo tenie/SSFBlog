@@ -25,6 +25,7 @@ public class PublishDataController {
 	public String savePublishData(HttpServletRequest request, HttpServletResponse response,@RequestParam Map<String, Object> queryParam) throws ServletException, IOException{
       System.out.println("PublishDataController.savePublishData");
       String title = (String) queryParam.get("title"); 
+      Integer textLength =Integer.valueOf( (String) queryParam.get("textLength")); 
       String tags[] = request.getParameterValues("tag");
       String tagVAL = "";
       for(String str : tags){
@@ -32,24 +33,13 @@ public class PublishDataController {
       } 
      
       tagVAL=tagVAL.substring(0, tagVAL.length()-1);  
-      String data = (String) queryParam.get("data"); 
+      String data = (String) queryParam.get("content"); 
       
-     jdbc.update("insert into  blog  ( `post_title`, `post_subtitle`, `post_content`,`time`) values (?, ?, ?, ?)",title,tagVAL,data,new Date());
+      
+     jdbc.update("insert into  blog  ( `post_title`, `post_subtitle`, `post_content`,`time`,text_length) values (?, ?, ?, ?,?)",title,tagVAL,data,new Date(),textLength);
       
       return "ok";
 	}
 	
-	
-	public static void main(String[] args) {
-		String tag = "#sadx&&&#ssdsdsadx&&&";
-		 
-	      String arrTag[] = tag.split("&&&");
-	     
-	      String tagVAL = "";
-	      for(int i =0 ; i<arrTag.length;i++){
-	    	  
-	    	  tagVAL+=arrTag[i].substring(0, arrTag[i].length()-1);
-	      }
-	      System.out.println(tagVAL);
-	}
+	 
 }
