@@ -6,6 +6,7 @@
   <packaging>pom</packaging>
  <modules>
  	 <module>tools</module>   
+ 	 <module>pojo</module>   
 	 <module>web</module>   
 	</modules>
 	
@@ -70,12 +71,7 @@
 				<groupId>com.squareup.okhttp3</groupId>
 				<artifactId>okhttp</artifactId>
 				<version>${okHttp.version}</version>
-			</dependency>
-		<!--  <dependency> 
-	        <groupId>org.javalite</groupId>
-	        <artifactId>activejdbc</artifactId>
-	        <version>1.4.12</version> 
-      </dependency> -->
+		</dependency> 
         <dependency>
 		    <groupId>org.springframework</groupId>
 		    <artifactId>spring-context-support</artifactId>
@@ -396,16 +392,17 @@
         <version>1.4</version>
     </dependency>
     
+    <dependency>
+	    <groupId>org.javalite</groupId>
+	    <artifactId>activejdbc</artifactId>
+	    <version>1.4.13</version>
+	</dependency>
+	 
+	
       
 	</dependencies>
 	
-	<repositories>
-        <repository>
-            <id>aliyun maven</id>
-            <name>aliyun maven</name>
-            <url>http://maven.aliyun.com/nexus/content/groups/public</url>
-        </repository>
-    </repositories>
+	
 	<build> 
 		<!-- <testResources>
 				<testResource>
@@ -478,7 +475,7 @@
 					</configuration>
 				</plugin>  
 				
-            <!--  <plugin>
+           <!--  <plugin>
                 <groupId>org.javalite</groupId>
                 <artifactId>activejdbc-instrumentation</artifactId>
                 <version>1.4.13</version>
@@ -490,8 +487,89 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin> -->
+            </plugin>   -->
+            
+            <plugin>
+          <groupId>org.javalite</groupId>
+          <artifactId>activejdbc-instrumentation</artifactId>
+          <version>1.4.13</version>
+          <executions>
+            <execution>
+              <phase>process-classes</phase>
+              <goals>
+                <goal>instrument</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+         <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+        <plugin>
+            <groupId>org.eclipse.m2e</groupId>
+            <artifactId>lifecycle-mapping</artifactId>
+            <version>1.0.0</version>
+            <configuration>
+                <lifecycleMappingMetadata>
+                    <pluginExecutions>
+                        <pluginExecution>
+                            <pluginExecutionFilter>
+                                <groupId>org.javalite</groupId>
+                                <artifactId>
+                                    activejdbc-instrumentation
+                                </artifactId>
+                                <versionRange>
+                                    [1.4.13,)
+                                </versionRange>
+                                <goals>
+                                    <goal>instrument</goal>
+                                </goals>
+                            </pluginExecutionFilter>
+                            <action>
+                                <ignore></ignore>
+                            </action>
+                        </pluginExecution>
+                    </pluginExecutions>
+                </lifecycleMappingMetadata>
+            </configuration>
+        </plugin>
+            
             
 	    </plugins>  
 	</build>  
+	
+ <!--依赖仓库设置  -->
+	<repositories>
+        <repository>
+            <id>aliyun maven</id>
+            <name>aliyun maven</name>
+            <url>http://maven.aliyun.com/nexus/content/groups/public</url>
+        </repository>
+        
+        <!--  ActiveJDBC 依赖仓库-->
+        <repository>
+	        <id>javalite-snapshots</id>
+	        <name>JavaLite Snapshots</name>
+	        <url>http://repo.javalite.io/</url>
+	        <releases>
+	            <enabled>false</enabled>
+	        </releases>
+	        <snapshots>
+	            <enabled>true</enabled>
+	        </snapshots>
+	    </repository>
+    </repositories>
+    <!--  插件仓库-->
+<pluginRepositories>
+    <pluginRepository>
+        <id>javalite-plugin-snapshots</id>
+        <name>JavaLite Plugin Snapshots</name>
+        <url>http://repo.javalite.io/</url>
+        <releases>
+            <enabled>false</enabled>
+        </releases>
+        <snapshots>
+            <enabled>true</enabled>
+        </snapshots>
+    </pluginRepository>
+</pluginRepositories>
+	
 </project>

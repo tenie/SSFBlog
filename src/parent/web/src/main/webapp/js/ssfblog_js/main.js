@@ -127,9 +127,10 @@ ssfblog.initPost=function(){
 
 //首页
 //主页标题信息渲染
-ssfblog.initpage=function(data){ //date是查询到的博客标题信息集 
+ssfblog.initIndex=function(data){ //date是查询到的博客标题信息集 
 	var datalen = $(data).length
 	$.get("/index_contentTitle.html",function(htmldata){  //获取展示的html样式
+		$("#pageTitleContainer").hide("slow");
 		//console.log(date)  
 		var f = ""
 		var pageTitleContainer = $("#pageTitleContainer")
@@ -143,6 +144,8 @@ ssfblog.initpage=function(data){ //date是查询到的博客标题信息集
 		var time = pageTitleContainer.find(".time")
 		var src_page = pageTitleContainer.find(".src_page")
 		var a =pageTitleContainer.find("a[class='src_page']")
+		var delBtn = pageTitleContainer.find("a[class='deletebtn']")
+		 
 		 
 		//解析数据,给页面赋值
 		for(i=0;i<datalen;i++){  
@@ -151,10 +154,58 @@ ssfblog.initpage=function(data){ //date是查询到的博客标题信息集
 			post_subtitle.eq(i).text($(data)[i].post_subtitle)
 			time.eq(i).text($(data)[i].time)
 //		 	src_page.eq(i).attr("rel",$(data)[i].id)  //使用url来获取文章了, 不需要这个了
+			delBtn.eq(i).attr("rel",$(data)[i].id)
 		}
+		setTimeout(function(){
+			$("#loading").hide("slow");
+			$("#pageTitleContainer").show("slow");
+		},500) 
+		//编辑按钮事件
+		$(".editbtn").click(function(){ 
+			
+			var rel =$(this).parent().siblings().find(".deletebtn").attr("rel")
+			 
+			ssfblog.editPage(rel)
+		})
+//		//删除按钮事件
+		$(".deletebtn").click(function(){
+			var id =$(this).attr("rel")
+			ssfblog.deleteBlog(id)
+		})
 		
 	})
 }
+//删除博文
+ssfblog.deleteBlog=function(id){
+	 
+		var n = new Noty({
+			  text: '确定删除?',
+			  theme:'metroui',
+			  type:"warning",
+			  buttons: [
+			    Noty.button('YES', 'btn btn-success', function () {
+			    	$.post("/article/delete/"+id,function(data){
+			    		if('no'==data.error){
+			    			ssfblog.alert("info","删除成功")
+			    			setTimeout(function(){location.href="/"},1000)
+				    		
+			    		}else{
+			    			ssfblog.alert("error","没有权限")
+				    		 
+			    		}
+			    		
+			    	})
+			    	 n.close();
+			    }), 
+			    Noty.button('NO', 'btn btn-error', function () { 
+			        n.close();
+			    })
+			  ]
+			}).show(); 
+	
+	
+}
+
 //begin 分页组件 
 //分页记录, 参数:limit, offset, 上一页下一页按钮, 总行数(总行数在初始化的时候不设置, 但获取到总行数后,再设置,这样下一页才会知道到哪一页停止)
 ssfblog.paging=function(lm,previous,next){
@@ -306,55 +357,163 @@ $("#signInBtn").click(function(){
 } 
 
 //begin 博文发布
-//发布博文页面
+//发布博文页面   
 ssfblog.publishPage=function(){
+	var publishPageEditor;
+	var val;
 	$("#publishBtn").click(function(){
-		//获取页面
-		$.get("/publishPage.html",function(htmldata){  
-			
-			//如果页面已经加载模态框就直接现实
-			if($("#publishModal").length>0){
-				 $("#publishModal").modal('show')
-				 return
-			}
-			//else
-			$("body").append(htmldata); 
-			//模态框配置
-			$("#publishModal").modal({backdrop:false,keyboard:false,show:true}); 
-			var publishPageEditor = new Simditor({
+		//如果页面已经加载模态框就直接现实
+		if($("#publishModal").length>0){
+			 $("#publishModal").modal('show') 
+			val = publishPageEditor.getValue(); 
+			 publishPageEditor = new Simditor({
 				  textarea: $('#editorPublish')
 				  //optional options
 				});
-			$("#submitPublishdata").click(function(){
-				var val = publishPageEditor.getValue(); 
-				ssfblog.saveBlogData(val)
-			})
-		}) 
+		 
+			setTimeout(function(){
+				 $("#PublishdataForm div[class='simditor-placeholder']").empty()
+				 $("#PublishdataForm div[class='simditor-body']").empty().append(val) 
+			},100)
+			
+			  
+		}else{
+			//获取页面
+			$.get("/publishPage.html",function(htmldata){  
+				//else
+				$("body").append(htmldata); 
+				//模态框配置
+				$("#publishModal").modal({backdrop:false,keyboard:false,show:true}); 
+				publishPageEditor = new Simditor({
+					  textarea: $('#editorPublish')
+					  //optional options
+					});
+				//保存按钮设置
+				$("#submitPublishdata").click(function(){
+					val = publishPageEditor.getValue();  
+						ssfblog.saveBlogData(val) 
+				}) 
+			}) 
+			
+		}
+
 	})	
 }  
-//提交博文保存
-ssfblog.saveBlogData=function(data){
-	var tagVal=""
-	var tag = $("#tag > span")
-	$.each( tag, function(i, n){
-		tagVal+= $(n).text()+"&&&"
-	});
-	
-	//console.log($("#PublishdataForm").serialize());
-	var formval  = $("#PublishdataForm").serialize()
-	formval=formval+"&data="+data
-	console.log(formval);
-	$.post("/submitPublishdata",formval ,function(returndata){ 
-						
+//编辑博客页面
+ssfblog.editPage=function(id){ 
+	var publishPageEditor ;
+	//如果页面已经加载模态框就直接显示
+	if($("#editpublishModal").length>0){
+		$("#editpublishModal").modal('show')
+		  publishPageEditor = new Simditor({
+			  textarea: $('#editorPublishText')
+			  //optional options
+			}); 
+	}else{
+		//获取页面
+		$.get("/editPage.html",function(htmldata){ 
+				 
+				$("body").append(htmldata);  
+				//模态框配置
+				 $("#editpublishModal").modal({backdrop:false,keyboard:false,show:true}); 
+				 publishPageEditor = new Simditor({
+					  textarea: $('#editorPublishText')
+					  //optional options
+					});
+				//保存按钮设置
+				$("#submitPublishdataBtn").click(function(){
+					var val = publishPageEditor.getValue();  
+						ssfblog.updateBlogData(val,$("#editpublishModal")) 
+				}) 
+		})
+	}
+		
+			 setTimeout(function(){
+				 //页面赋值
+					$.get("/article/get/"+id,function(data){   
+						 
+						$("#editPublishdataForm div[class='simditor-placeholder']").empty()
+							 $("#editPublishdataForm div[class='simditor-body']").empty().append(data.mapRs.post_content)  
+							$('#editpublishTitle').val(data.mapRs.post_title)
+						//	$('#edittag')
+						 
+					});  
+			 },100)
+			
+	 
+}  
+ 
+//更新博文
+ssfblog.updateBlogData=function(data,$modal){ 
+	 
+	//获取字符数
+	var text = $modal.find(".simditor-body").text();
+		text=text.replace(/\s/gi,""); // "\s" :匹配空白符
+		textLength = text.length
+		console.log(textLength)
+	$modal.find("#textLength").val(textLength)
+    $modal.find("#content").val(data)  
+	var formval  = $modal.find("#editPublishdataForm").serialize()
+  
+	$.post("/updatePublishdata",formval ,function(returndata){  
 		if(returndata=="ok"){
 		//$("#publishdataPageClose").click()
-		ssfblog.openSignInWindow("#publishdataPageClose",null)
+		var	closeBtn =  $modal.find("#publishdataPageClose");
+		ssfblog.openSignInWindow(closeBtn,null)//关闭窗口,
+		}else if(returndata=='nologin') {
+			ssfblog.toastr("warning",'未登入不可发布!,请先登入~')	
+		 	ssfblog.openSignInWindow(closeBtn,"#signInBtn");	 
+		}
+	})
+}
+
+//提交博文保存
+ssfblog.saveBlogData=function(data){
+	 
+ 
+	
+	//获取字符数
+	var text = $(".simditor-body").text();
+		text=text.replace(/\s/gi,""); // "\s" :匹配空白符
+		textLength = text.length
+
+	$("#textLength").val(textLength)
+    $("#content").val(data)  
+	var formval  = $("#PublishdataForm").serialize()
+	alert(textLength)
+	//校验
+	if(!$("#publishTitle").valid() || textLength<1){
+		if(textLength<1){
+			ssfblog.alert("error","内容不能为空")
+		}
+		return
+	}
+	
+	$.post("/submitPublishdata",formval ,function(returndata){  
+		if(returndata=="ok"){
+		//$("#publishdataPageClose").click()
+			ssfblog.alert("success","发布成功~");
+		ssfblog.openSignInWindow("#publishdataPageClose",null)//关闭窗口
+		
+		//在首页发布博文,就刷新页面
+		setTimeout(function(){
+			var href = location.pathname
+			if(href == "/index.html" || href== "/"){
+				location.href="/"
+			}  
+		},2000)
+			
 		}else if(returndata=='nologin') {
 			ssfblog.toastr("warning",'未登入不可发布!,请先登入~')	
 		 	ssfblog.openSignInWindow("#publishdataPageClose","#signInBtn");	 
 		}
 	})
 }
+//删除标签
+ssfblog.rmtag=function(the){  
+	$(the).parent().remove();
+}
+
 //关闭弹出框,打开登入框(参数为jquery能选择到的对象, 不想做操作传入字符串"null")
 ssfblog.openSignInWindow=function(close,open){
 	if(close){
@@ -372,8 +531,55 @@ ssfblog.openSignInWindow=function(close,open){
  * 公共方法
 */
 //提示组件配置; 
+ssfblog.alert=function(method,msg){
+	ssfblog.toastr(method,msg)
+}
 ssfblog.toastr=function(method,msg){
-	if(typeof(toastr) != 'undefined'){
+	 new Noty({
+	      text: msg,
+	      type:method  ,
+	      theme: 'metroui',
+	      layout: 'topRight',
+	      timeout: 2000,
+	      animation: {
+	        open: mojsShow,
+	        close: mojsClose
+	      }
+	    }).show()
+	
+//	new Noty({
+//		  type: method,
+//		  layout: 'topRight',
+//		  theme: 'metroui',
+//		  text: msg,
+//		  timeout: 1000,
+//		  progressBar: true,
+//		  closeWith: ['click', 'button'],
+//		  animation: {
+////		    open: 'noty_effects_open',
+////		    close: 'noty_effects_close'
+//			  open: mojsShow,
+//		      close: mojsClose
+//		  },
+//		  id: false,
+//		  force: false,
+//		  killer: false,
+//		  queue: 'global',
+//		  container: false,
+//		  buttons: [],
+//		  sounds: {
+//		    sources: [],
+//		    volume: 1,
+//		    conditions: []
+//		  },
+//		  titleCount: {
+//		    conditions: []
+//		  },
+//		  modal: false
+//		}).show()
+	
+/*之前用的, 没有动画效果
+  if(typeof(toastr) != 'undefined'){
 		toastr.options = {
 				  "closeButton": true,
 				  "debug": false,
@@ -390,6 +596,9 @@ ssfblog.toastr=function(method,msg){
 		};
 		toastr[method](msg) //使用[]传字符串的方式来调用方法
 	} 
+   
+   */	
+	
 	
 }
 
@@ -446,4 +655,85 @@ ssfblog.backToTop = function() {
 	}
 }
 
+
+
+//提示组件的动画效果
+
+var mojsShow = function (promise) {
+  var n = this
+  var Timeline = new mojs.Timeline()
+  var body = new mojs.Html({
+    el: n.barDom,
+    x: {500: 0, delay: 0, duration: 500, easing: 'elastic.out'},
+    isForce3d: true,
+    onComplete: function () {
+      promise(function (resolve) {
+        resolve()
+      })
+    }
+  })
+
+  var parent = new mojs.Shape({
+    parent: n.barDom,
+    width: 200,
+    height: n.barDom.getBoundingClientRect().height,
+    radius: 0,
+    x: {[150]: -150},
+    duration: 1.2 * 500,
+    isShowStart: true
+  })
+
+  n.barDom.style['overflow'] = 'visible'
+  parent.el.style['overflow'] = 'hidden'
+
+  var burst = new mojs.Burst({
+    parent: parent.el,
+    count: 10,
+    top: n.barDom.getBoundingClientRect().height + 75,
+    degree: 90,
+    radius: 75,
+    angle: {[-90]: 40},
+    children: {
+      fill: '#EBD761',
+      delay: 'stagger(500, -50)',
+      radius: 'rand(8, 25)',
+      direction: -1,
+      isSwirl: true
+    }
+  })
+
+  const fadeBurst = new mojs.Burst({
+    parent: parent.el,
+    count: 2,
+    degree: 0,
+    angle: 75,
+    radius: {0: 100},
+    top: '90%',
+    children: {
+      fill: '#EBD761',
+      pathScale: [.65, 1],
+      radius: 'rand(12, 15)',
+      direction: [-1, 1],
+      delay: .8 * 500,
+      isSwirl: true
+    }
+  })
+
+  Timeline.add(body, burst, fadeBurst, parent)
+  Timeline.play()
+}
+
+var mojsClose = function (promise) {
+  var n = this
+  new mojs.Html({
+    el: n.barDom,
+    x: {0: 500, delay: 10, duration: 500, easing: 'cubic.out'},
+    isForce3d: true,
+    onComplete: function () {
+      promise(function (resolve) {
+        resolve()
+      })
+    }
+  }).play()
+}
 

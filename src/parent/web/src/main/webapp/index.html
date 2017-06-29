@@ -12,8 +12,11 @@
     <title>Tenie Blog</title>
    	<!--  小图标 -->
 	<link rel="shortcut icon" href="assets/img/codeMonkey.ico">
+	
     <!-- Bootstrap Core CSS -->
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    
+	 <link href="css/ssfblog_css/main.css" rel="stylesheet">
     <!-- Theme CSS -->
     <link href="css/clean-blog.min.css" rel="stylesheet">
 
@@ -27,10 +30,101 @@
 	
 	<link rel="stylesheet" type="text/css" href="js/jQuery-FlexSlider/flexslider.css" />  
 	
-	<!--   图片轮播的css-->
-	 <link href="css/style.css" rel="stylesheet">
-	  <link href="css/ssfblog_css/main.css" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="/lib/noty-master/lib/noty.css" />  
+<!-- 	<link rel="stylesheet" type="text/css" href="/lib/noty-master/demo/animate.css" />   -->
+	
+	   <!--  <link rel="stylesheet" href="https://code.cdn.mozilla.net/fonts/fira.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.25.2/codemirror.min.css">
+        <link rel="stylesheet" href="  http://ned.im/noty/vendor/google-code-prettify/prettify.css">
+       
+     <link rel="stylesheet" href="  http://ned.im/noty/vendor/minibed/minibed.css">
+       <link rel="stylesheet" href="  http://ned.im/noty/fonts/stylesheet.css">
+      
+        <link rel="stylesheet" href=" http://ned.im/noty/vendor/animate.css">
+         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.25.2/codemirror.min.css"> -->
+        
+    
+    
+<!-- 	<link rel="stylesheet" type="text/css" href="/lib/mojs-master/css/main.css" />   -->
 	 
+	<!--   图片轮播的css-->
+	 <!-- <link href="css/style.css" rel="stylesheet"> -->
+	 
+<style>
+
+
+
+
+
+
+
+.wrapper-inner-tab-backgrounds-first{
+	float: left;	
+	width: 33.33%;
+	background-color: #feb41d;
+}
+.button19 {
+	color: rgba(255,255,255,1);
+	-webkit-transition: all 0.3s;
+	-moz-transition: all 0.3s;
+	-o-transition: all 0.3s;
+	transition: all 0.3s;
+	position: relative;
+	border: 1px solid rgba(255,255,255,0.5);
+	overflow: hidden;
+}
+.button19 a{
+	color: rgba(51,51,51,1);
+	text-decoration: none;
+	display: block;
+}
+.button19::before{
+	content: '';
+	position: absolute; 
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+    z-index: 1;
+	background-color: rgba(255,255,255,0.25);
+	-webkit-transition: all 0.3s;
+	-moz-transition: all 0.3s;
+	-o-transition: all 0.3s;
+	transition: all 0.3s;
+	-webkit-transform: translate(13%,190%) rotate(-30deg);
+	transform: translate(13%,190%) rotate(-30deg);
+	-webkit-transition-timing-function: cubic-bezier(0.75, 0, 0.125, 1);
+	transition-timing-function: cubic-bezier(0.75, 0, 0.125, 1);
+}
+.button19::after{
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+    z-index: 1;
+	background-color: rgba(255,255,255,0.25);
+	-webkit-transition: all 0.3s;
+	-moz-transition: all 0.3s;
+	-o-transition: all 0.3s;
+	transition: all 0.3s;
+	-webkit-transform: translate(-13%,-190%) rotate(-30deg);
+	transform: translate(-13%,-190%) rotate(-30deg);
+	-webkit-transition-timing-function: cubic-bezier(0.75, 0, 0.125, 1);
+	transition-timing-function: cubic-bezier(0.75, 0, 0.125, 1);
+}
+.button19::before{
+	-webkit-transition-delay: 0.2s; /* Safari */
+    transition-delay: 0.2s;
+}
+.button19:hover::before, .button19:hover::after{
+	-webkit-transform: translate(0,0);
+	transform: translate(0,0);	
+}
+
+
+</style>
 </head>
 
 <body>
@@ -69,7 +163,7 @@
 	
     <!-- Main Content -->
     <div class="container"> 
-    
+    		
         <div class="row">
         
       <!--   <div id="loading">
@@ -80,7 +174,18 @@
 			</div> 
 		</div> -->
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1" > 
-                  <div id="pageTitleContainer"> 
+            	 <div id="loading" >
+						<div id="loading-center">
+							<div id="loading-center-absolute">
+								<div class="object" id="object_four"></div>
+								<div class="object" id="object_three"></div>
+								<div class="object" id="object_two"></div>
+								<div class="object" id="object_one"></div> 
+							</div>
+						</div> 
+					</div>
+                  <div id="pageTitleContainer"  >
+              		
                   </div>  
                <!--  <div id="loading" class="loading">Loading pages...</div>   -->
                 <!-- Pager -->
@@ -90,6 +195,16 @@
                     </li>
                     <li class="next">
                         <a href="javascript:" id="next">Next  &rarr;</a>
+                        
+                        
+        
+<div class="wrapper-inner-tab-backgrounds">
+	<div class="wrapper-inner-tab-backgrounds-first">
+		<div class="sim-button button19" data-text="Login">
+			<span>Login</span>
+		</div>
+	</div> 
+</div>
                     </li>
                 </ul>
             </div>
@@ -125,6 +240,16 @@
 <script type="text/javascript" src="simditor/scripts/simditor.js"></script>
  
 <script type="text/javascript" src="/js/jQuery-FlexSlider/jquery.flexslider-min.js"></script>
+<script type="text/javascript" src="/lib/noty-master/lib/noty.js"></script>
+
+<script type="text/javascript" src="/lib/noty-master/lib/mo.min.js"></script>
+<!-- 
+<script type="text/javascript" src="/lib/mojs-master/build/mo.min.js"></script>
+
+<script type="text/javascript" src="http://cdn.jsdelivr.net/velocity/1.5/velocity.min.js"></script>
+
+<script type="text/javascript" src="http://ned.im/noty/vendor/minibed/minibed.js"></script> -->
+
 </body>
 
 <script type="text/javascript"> 
@@ -132,13 +257,14 @@
 var pageing = ssfblog.paging(10,"#previous","#next");  
 
 $(function(){ 
+ 
 	ssfblog.backToTop()
 	ssfblog.initPage()   
 	//获取第一页
 	obj = pageing() 
 	//页面内容初始化
    $.get("/pageTitle/1/"+obj.limit+"/"+obj.offset,function(data){  
-	   ssfblog.initpage(data.mapRs.dataList)
+	   ssfblog.initIndex(data.mapRs.dataList)
 	   pageing({setCount:{tf:true,count:data.mapRs.Count}}) //把后端获取的总行数,赋值给分页对象的总行数
 	   
 	})
@@ -152,7 +278,7 @@ $(function(){
 	 
 	  $.get("/pageTitle/0/"+p.limit+"/"+p.offset,function(data){    
 		  $("#pageTitleContainer").html("");	
-		   ssfblog.initpage(data.mapRs.dataList) 
+		   ssfblog.initIndex(data.mapRs.dataList) 
 		})  
 	 
 	 
@@ -167,7 +293,7 @@ $(function(){
 	
 	  $.get("/pageTitle/0/"+p.limit+"/"+p.offset,function(data){ 
 		  $("#pageTitleContainer").html("");
-		   ssfblog.initpage(data.mapRs.dataList) 
+		   ssfblog.initIndex(data.mapRs.dataList) 
 		})   
  })
  
@@ -180,9 +306,29 @@ $(function(){
 	        controlNav: false, //remove the default control-nav
 	        slideshowSpeed: 6000
 	    });   */
+	 
+	    
+	   
 	
 }) 
-
+var types = ['alert', 'warning', 'success', 'information', 'error']
+ function del(thiz){
+	var n = new Noty({
+		  text: '确定删除?',
+		  type:"warning",
+		  buttons: [
+		    Noty.button('YES', 'btn btn-success', function () {
+		    	//删除按钮事件 
+					var id =thiz.attr("rel")
+					ssfblog.deleteBlog(id) 
+		    }), 
+		    Noty.button('NO', 'btn btn-error', function () { 
+		        n.close();
+		    })
+		  ]
+		}).show();
+}
+  
 </script>
  
 </html>

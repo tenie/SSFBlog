@@ -9,12 +9,26 @@
   <artifactId>web</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>war</packaging>
-  
-  
-  <dependencies>
-  	 
-  </dependencies>
+   
+   
   <build>
   	<finalName>ROOT</finalName>
+  	<plugins>
+			<plugin>
+				<groupId>org.javalite</groupId>
+				<artifactId>activejdbc-instrumentation</artifactId>
+			</plugin>
+			<plugin>
+				 <groupId>org.eclipse.m2e</groupId>
+	          	 <artifactId>lifecycle-mapping</artifactId>
+           </plugin>
+		</plugins>
   </build>
+  <dependencies>
+  	<dependency>
+  		<groupId>net.tenie</groupId>
+  		<artifactId>pojo</artifactId>
+  		 <version>0.0.1-SNAPSHOT</version>
+  	</dependency>
+  </dependencies>
 </project>

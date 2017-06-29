@@ -5,6 +5,7 @@ import java.util.Map;
 
 public class Result {
 	private String error ="no";
+	private String success = "success";
 	private String msg;
 	private List<Map<String,Object>> data;
 	private Map<String,Object> mapRs;
@@ -26,6 +27,12 @@ public class Result {
 	
 	
 	
+	public String getSuccess() {
+		return success;
+	}
+	public void setSuccess(String success) {
+		this.success = success;
+	}
 	public Map<String, Object> getMapRs() {
 		return mapRs;
 	}
