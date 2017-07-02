@@ -1,17 +1,6 @@
 var ssfblog  = new Object()
 
 
-ssfblog.pageInfo={
-	limit:0,
-	offset:0,
-	index:0,
-	count:0,
-	first:true,
-	previous:"",
-	next:""
-}
- 
-
 //sessionStroage
 ssfblog.isSignIn=function(){
 	
@@ -26,62 +15,7 @@ ssfblog.isSignIn=function(){
 //		return 
 //	}
 //}
-
-//浏览器存储
-//增
-ssfblog.stroageAdd=function(key,val){
-	if(window.sessionStorage){
-		window.sessionStorage.setItem(key,val)
-	}else{
-		$.cookie(key, val, { expires: 1 }); 
-	}
-}
-//查
-ssfblog.stroageGet=function(key){
-	if(window.sessionStorage){
-		return window.sessionStorage.getItem(key)
-	}else{
-		return $.cookie(key); 
-	}
-}
-//改
-ssfblog.stroageUpdate=ssfblog.stroageAdd;
-//删
-ssfblog.stroageDelete=function(key){
-	if(window.sessionStorage){
-		return window.sessionStorage.removeItem(key)
-	}else{
-		return $.removeCookie(key); 
-	}
-}
-
-
-
-
-
-
-
-//加载导航
-ssfblog.navPage=function(){ 
-	$.get("/nav.html",function(htmldata){  //获取展示的html样式 
-		$("nav").append(htmldata)
-		ssfblog.sigIn()
-		ssfblog.publishPage()
-		//如果登入过就隐藏登入按钮
-		if(window.sessionStorage){ 
-			 var si = window.sessionStorage.getItem("signIn") 
-			 if("success" == si){
-				 ssfblog.navSignChange() 
-			 }
-		}
-	})
-}
-//加载footer
-ssfblog.footerPage=function(){
-	$.get("/footer.html",function(htmldata){  //获取展示的html样式 
-		$("footer").append(htmldata) 
-	})
-}
+  
 
 //登入按钮隐藏,登出按钮现实
 ssfblog.navSignChange=function(){
@@ -111,25 +45,15 @@ function cl(thiz){
 	$.cookie('postContent', rel, { expires: 1 }); 
 }
 
-//bolg内容加载
-ssfblog.initPost=function(){ 
-	var postContent = $.cookie("postContent")
-	
-	//$.removeCookie("postContent");
-	if(!postContent){return}
-	$.get("/pageTitle/postContent/"+postContent,function(data){ 
-		$(".post-heading").append('<span class="meta" id="time">Posted by <a href="#">Tenie Bolg</a> on '+$(data)[0].time+' </span>')
-		$("#post-title").text($(data)[0].post_title)
-		$("#post-subtitle").text($(data)[0].post_subtitle)
-		$("#postContent").html($(data)[0].post_content)
-	}) 
-}
 
 //首页
 //主页标题信息渲染
-ssfblog.initIndex=function(data){ //date是查询到的博客标题信息集 
+ssfblog.initIndex=function(datas){ //date是查询到的博客标题信息集 
+	console.log(datas)
+	var data =  datas.mapRs.dataList
+	var signIn = datas.mapRs.signIn
 	var datalen = $(data).length
-	$.get("/index_contentTitle.html",function(htmldata){  //获取展示的html样式
+	$.get("/index_contentTitle.html",function(htmldata){  //获取展示的html样式 
 		$("#pageTitleContainer").hide("slow");
 		//console.log(date)  
 		var f = ""
@@ -139,13 +63,16 @@ ssfblog.initIndex=function(data){ //date是查询到的博客标题信息集
 		}
 		//console.log(f)
 		pageTitleContainer.append(f) 
-		var post_title = pageTitleContainer.find(".post-title")
-		var post_subtitle = pageTitleContainer.find(".post-subtitle")
-		var time = pageTitleContainer.find(".time")
-		var src_page = pageTitleContainer.find(".src_page")
-		var a =pageTitleContainer.find("a[class='src_page']")
-		var delBtn = pageTitleContainer.find("a[class='deletebtn']")
-		 
+		var post_title = pageTitleContainer.find(".post-title")	//主题
+		var badge = pageTitleContainer.find("span[class*=badge]")	//徽章 
+		var post_subtitle = pageTitleContainer.find(".post-subtitle") //标签
+		var time = pageTitleContainer.find(".time")					//时间
+		//var src_page = pageTitleContainer.find(".src_page")			//文章链接<a>	
+		var a =pageTitleContainer.find("a[class='src_page']")		 //文章链接<a>	
+		var delBtn = pageTitleContainer.find("a[class='deletebtn']") //删除按钮
+		
+		
+		
 		 
 		//解析数据,给页面赋值
 		for(i=0;i<datalen;i++){  
@@ -155,151 +82,99 @@ ssfblog.initIndex=function(data){ //date是查询到的博客标题信息集
 			time.eq(i).text($(data)[i].time)
 //		 	src_page.eq(i).attr("rel",$(data)[i].id)  //使用url来获取文章了, 不需要这个了
 			delBtn.eq(i).attr("rel",$(data)[i].id)
+			
+			if($(data)[i].show_content == 0){  //显示徽章
+				badge.eq(i).removeClass("hidden") 
+			}
+			//登入状态下,把公布,私有按钮点亮
 		}
+		//loading动画操作
 		setTimeout(function(){
 			$("#loading").hide("slow");
 			$("#pageTitleContainer").show("slow");
 		},500) 
 		//编辑按钮事件
-		$(".editbtn").click(function(){ 
+		$(".editbtn").click(function(){  
+			var id =$(this).parent().siblings().find(".deletebtn").attr("rel") 
+			ssfblog.editPage(id)
+		})
+		
+		//登入状态下才可以删除....操作
+		if(signIn){
+			var hiddenbtn =	$(".hiddenbtn");
+			var deletebtn =	$(".deletebtn");
+			var publicbtn = $(".publicbtn");
+			//隐藏按钮事件(设为私有)
+			hiddenbtn.click(function(){  
+				var id =$(this).parent().siblings().find(".deletebtn").attr("rel") 
+				ssfblog.hiddenBlog(id)
+			})
+//			//删除按钮事件
+			deletebtn.click(function(){
+				var id =$(this).attr("rel")
+				ssfblog.deleteBlog(id)
+			})
 			
-			var rel =$(this).parent().siblings().find(".deletebtn").attr("rel")
-			 
-			ssfblog.editPage(rel)
-		})
-//		//删除按钮事件
-		$(".deletebtn").click(function(){
-			var id =$(this).attr("rel")
-			ssfblog.deleteBlog(id)
-		})
+			//public文章按钮事件
+			publicbtn.click(function(){
+				var id =$(this).parent().siblings().find(".deletebtn").attr("rel") 
+				ssfblog.publicBlog(id)
+			})
+			//移除禁用样式 
+			hiddenbtn.parent().removeClass("disabled") 
+			deletebtn.parent().removeClass("disabled")
+			publicbtn.parent().removeClass("disabled")
+			
+		}
+	
 		
 	})
 }
-//删除博文
-ssfblog.deleteBlog=function(id){
-	 
-		var n = new Noty({
-			  text: '确定删除?',
-			  theme:'metroui',
-			  type:"warning",
-			  buttons: [
-			    Noty.button('YES', 'btn btn-success', function () {
-			    	$.post("/article/delete/"+id,function(data){
-			    		if('no'==data.error){
-			    			ssfblog.alert("info","删除成功")
-			    			setTimeout(function(){location.href="/"},1000)
-				    		
-			    		}else{
-			    			ssfblog.alert("error","没有权限")
-				    		 
-			    		}
-			    		
-			    	})
-			    	 n.close();
-			    }), 
-			    Noty.button('NO', 'btn btn-error', function () { 
-			        n.close();
-			    })
-			  ]
-			}).show(); 
-	
-	
+//隐藏博文
+ssfblog.hiddenBlog=function(id){
+	var del = function(){  
+		$.get("/pageTitle/hiddenContent/"+id,function(data){
+    		if('no'==data.error){
+    			ssfblog.alert("information","ok~")
+    			setTimeout(function(){location.href="/"},1000) 
+    		}else{
+    			ssfblog.alert("error","登入后才有权限操作~") 
+    		} 
+    	}) 
+	}
+	ssfblog.confirm("确定设未私有?",del) 
 }
 
-//begin 分页组件 
-//分页记录, 参数:limit, offset, 上一页下一页按钮, 总行数(总行数在初始化的时候不设置, 但获取到总行数后,再设置,这样下一页才会知道到哪一页停止)
-ssfblog.paging=function(lm,previous,next){
-	var page = {
-			limit:lm,
-			offset:0,
-			index:0,
-			count:(lm*2),
-			end:false 
+//删除博文
+ssfblog.deleteBlog=function(id){
+	var del = function(){
+		$.post("/article/delete/"+id,function(data){
+    		if('no'==data.error){
+    			ssfblog.alert("information","删除成功")
+    			setTimeout(function(){location.href="/"},1000) 
+    		}else{
+    			ssfblog.alert("error","没有权限") 
+    		} 
+    	}) 
 	}
-	$.extend(ssfblog.pageInfo,page)
-	var first = true;
-	return function(opt){  
-		var option ={
-				previous:false, 
-				setCount:{tf:false,count:0}
-		}
-		//只是设置总行数, 就返回方法了
-		$.extend(option,opt) 
-		if(option.setCount.tf){ 
-			page.count=option.setCount.count 
-			if(page.count <= lm){
-				 ssfblog.addDisabled(next) ; 	
-			}
-			$.extend(ssfblog.pageInfo,page)  //全局变量缓存
-			return page
-		} 
-		//如果是首页第一加载不走这里, 也就是不做翻页操作
-		 if(! first){
-			 if(option.previous){ 
-				 page.offset = page.offset - page.limit
-				 page.index = --page.index
-				 page.end=false;
-			 }else{ 
-				 page.offset = page.offset + page.limit
-				 page.index = ++page.index
-			 } 
-		 }else{
-			 first = false;	 
-		 } 
-		//给下一页加样式   
-		 if((page.offset+lm) >= page.count){  //偏移量加limit 大于总行数的话, 给下一页添加禁用样式
-			 if(next&& !option.previous){
-				 ssfblog.addDisabled(next) ; 
-			 } 
-		}else{
-			 if(next)
-			 ssfblog.rmDisabled(next)
-		} 
-		 //给上一页加样式 
-		 if(page.offset<=0){ //如果offset<=0 添加禁用样式
-			 if(previous)
-			 ssfblog.addDisabled(previous)
-		}else{
-			 if(previous)
-			 ssfblog.rmDisabled(previous)
-		} 
-		$.extend(ssfblog.pageInfo,page)  //全局变量缓存
-		return page;
-	}
+	ssfblog.confirm("确定删除?",del) 
 }
-  
-//添加禁用 
-ssfblog.addDisabled=function(obj){
-	var theObj = $(obj)
-	theObj.attr("disabled","Disabled");
-	var styleObj = $("style");
-	var tf = false;
-	$.each(styleObj,function(i,n){
-		var text = $(n).text();
-		 
-		if(text.indexOf(".cursor_not_allowed")>=0){
-			tf = true;
-		}
-	})
-	if(!tf){
-		$("head").append("<style>.cursor_not_allowed{cursor: not-allowed; color:#ccc;}</style>")
-		
+
+//public博文
+ssfblog.publicBlog=function(id){
+	var del = function(){
+		$.get("/pageTitle/publicContent/"+id,function(data){
+    		if('no'==data.error){
+    			ssfblog.alert("information","ok~")
+    			setTimeout(function(){location.href="/"},1000) 
+    		}else{
+    			ssfblog.alert("error","没有权限") 
+    		} 
+    	}) 
 	}
-	 
-	if(! theObj.hasClass("cursor_not_allowed")){  
-			theObj.addClass("cursor_not_allowed");  
-	} 
+	ssfblog.confirm("确定公开?",del) 
 }
- 
-//移除禁用样式
-ssfblog.rmDisabled=function(obj){
-	var theObj = $(obj)
-	theObj.removeAttr("disabled");
-	if(theObj.hasClass("cursor_not_allowed")){
-		theObj.removeClass("cursor_not_allowed")
-	}
-}
-//end 分页组件
+
 
 
 
@@ -326,15 +201,20 @@ $("#signInBtn").click(function(){
 			 $("#exampleModal").modal('show')
 		 }else{
 			 $.get("/signInPage.html",function(htmldata){  
-					$("body").append(htmldata); 
+					$("body").append(htmldata);
+					//定义在焦点失去的时候触发的函数;
+				    $("#signInForm").validate({
+				        onfocusout: function(element) { $(element).valid(); }
+				    });
 					$("#exampleModal").modal('show');
 					 ssfblog.key13("#submitSignIndata");
 					$("#submitSignIndata").click(function(){
 						 var tf = $("#signInForm").valid()
 						 if(!tf)return
 						$.post("/sigIn",$("#signInForm").serialize(),function(data){  
-							console.log(data)
+							//console.log(data)
 							if(data.error == "no"){ //登入成功 : 关闭界面, 提示成功,在浏览器session中保存登入过, 隐藏登入按钮,现实登出按钮
+								 ssfblog.offkey13("#submitSignIndata");
 								$("#siginPageClose").click()
 								//ssfblog.stroageAdd("signIn","success");
 								if(window.sessionStorage){
@@ -342,8 +222,7 @@ $("#signInBtn").click(function(){
 								}
 								ssfblog.toastr("success",data.msg)
 								ssfblog.navSignChange() 
-							}else{
-								//alert("fail")
+							}else{ 
 								ssfblog.toastr("warning",'帐号或密码错误!')
 								ssfblog.stroageAdd("signIn","fail");
 								
@@ -381,7 +260,8 @@ ssfblog.publishPage=function(){
 			//获取页面
 			$.get("/publishPage.html",function(htmldata){  
 				//else
-				$("body").append(htmldata); 
+				$("body").append(htmldata);
+				ssfblog.publishPage_html();
 				//模态框配置
 				$("#publishModal").modal({backdrop:false,keyboard:false,show:true}); 
 				publishPageEditor = new Simditor({
@@ -414,6 +294,7 @@ ssfblog.editPage=function(id){
 		$.get("/editPage.html",function(htmldata){ 
 				 
 				$("body").append(htmldata);  
+				ssfblog.editPage_html();
 				//模态框配置
 				 $("#editpublishModal").modal({backdrop:false,keyboard:false,show:true}); 
 				 publishPageEditor = new Simditor({
@@ -456,11 +337,11 @@ ssfblog.updateBlogData=function(data,$modal){
 	var formval  = $modal.find("#editPublishdataForm").serialize()
   
 	$.post("/updatePublishdata",formval ,function(returndata){  
-		if(returndata=="ok"){
+		if(returndata =="ok"){
 		//$("#publishdataPageClose").click()
 		var	closeBtn =  $modal.find("#publishdataPageClose");
 		ssfblog.openSignInWindow(closeBtn,null)//关闭窗口,
-		}else if(returndata=='nologin') {
+		}else if(returndata.error ='nologin') {
 			ssfblog.toastr("warning",'未登入不可发布!,请先登入~')	
 		 	ssfblog.openSignInWindow(closeBtn,"#signInBtn");	 
 		}
@@ -480,7 +361,7 @@ ssfblog.saveBlogData=function(data){
 	$("#textLength").val(textLength)
     $("#content").val(data)  
 	var formval  = $("#PublishdataForm").serialize()
-	alert(textLength)
+ 
 	//校验
 	if(!$("#publishTitle").valid() || textLength<1){
 		if(textLength<1){
@@ -490,9 +371,10 @@ ssfblog.saveBlogData=function(data){
 	}
 	
 	$.post("/submitPublishdata",formval ,function(returndata){  
-		if(returndata=="ok"){
+		 
+		if(returndata.error=="no"){
 		//$("#publishdataPageClose").click()
-			ssfblog.alert("success","发布成功~");
+			ssfblog.alert("success",returndata.msg);
 		ssfblog.openSignInWindow("#publishdataPageClose",null)//关闭窗口
 		
 		//在首页发布博文,就刷新页面
@@ -503,8 +385,8 @@ ssfblog.saveBlogData=function(data){
 			}  
 		},2000)
 			
-		}else if(returndata=='nologin') {
-			ssfblog.toastr("warning",'未登入不可发布!,请先登入~')	
+		}else {
+			ssfblog.toastr("warning",returndata.msg)	
 		 	ssfblog.openSignInWindow("#publishdataPageClose","#signInBtn");	 
 		}
 	})
@@ -525,6 +407,28 @@ ssfblog.openSignInWindow=function(close,open){
 }
 
 
+//加载导航
+ssfblog.navPage=function(){ 
+	$.get("/nav.html",function(htmldata){  //获取展示的html样式 
+		$("nav").append(htmldata);
+		ssfblog.nav_Html();
+		ssfblog.sigIn();
+		ssfblog.publishPage();
+		//如果登入过就隐藏登入按钮
+		if(window.sessionStorage){ 
+			 var si = window.sessionStorage.getItem("signIn") 
+			 if("success" == si){
+				 ssfblog.navSignChange() 
+			 }
+		}
+	})
+}
+//加载footer
+ssfblog.footerPage=function(){
+	$.get("/footer.html",function(htmldata){  //获取展示的html样式 
+		$("footer").append(htmldata) 
+	})
+}
 
 
 /*
@@ -537,7 +441,7 @@ ssfblog.alert=function(method,msg){
 ssfblog.toastr=function(method,msg){
 	 new Noty({
 	      text: msg,
-	      type:method  ,
+	      type:method  ,  // var types = ['alert', 'warning', 'success', 'information', 'error']
 	      theme: 'metroui',
 	      layout: 'topRight',
 	      timeout: 2000,
@@ -597,19 +501,38 @@ ssfblog.toastr=function(method,msg){
 		toastr[method](msg) //使用[]传字符串的方式来调用方法
 	} 
    
-   */	
-	
-	
+   */	 
+}
+
+//确认框
+ssfblog.confirm=function(msg,func){
+	var n = new Noty({
+		  text: msg,
+		  theme:'metroui',
+		  type:"warning",
+		  buttons: [
+		    Noty.button('YES', 'btn btn-success',function(){
+		    	func();
+		        n.close();
+		    }), 
+		    Noty.button('NO', 'btn btn-error', function () { 
+		        n.close();
+		    })
+		  ]
+		}).show();  
 }
 
 //回车触发点击事件
 ssfblog.key13=function(target){ 
-	$(document).keyup(function(e){   
+	$(document).on("keyup",function(e){   
 		if(e.keyCode == 13){ 
 			$(target).click()
 		} 
-	})
-	
+	}) 
+} 
+//解绑回车触发点击事件
+ssfblog.offkey13=function(target){ 
+	$(document).off("keyup") 
 } 
 
 
@@ -657,8 +580,7 @@ ssfblog.backToTop = function() {
 
 
 
-//提示组件的动画效果
-
+//提示组件的动画效果 
 var mojsShow = function (promise) {
   var n = this
   var Timeline = new mojs.Timeline()
@@ -737,3 +659,333 @@ var mojsClose = function (promise) {
   }).play()
 }
 
+//begin 分页组件 
+//分页信息缓存
+ssfblog.pageInfo={
+	limit:0,
+	offset:0,
+	index:0,
+	count:0,
+	first:true,
+	previous:"",
+	next:""
+}
+ 
+//分页记录, 参数:limit, offset, 上一页下一页按钮, 总行数(总行数在初始化的时候不设置, 但获取到总行数后,再设置,这样下一页才会知道到哪一页停止)
+ssfblog.paging=function(lm,previous,next){
+	var page = {
+			limit:lm,
+			offset:0,
+			index:0,
+			count:(lm*2),
+			end:false 
+	}
+	$.extend(ssfblog.pageInfo,page)
+	var first = true;
+	return function(opt){  
+		var option ={
+				previous:false, 
+				setCount:{tf:false,count:0}
+		}
+		//只是设置总行数, 就返回方法了
+		$.extend(option,opt) 
+		if(option.setCount.tf){ 
+			page.count=option.setCount.count 
+			if(page.count <= lm){
+				 ssfblog.addDisabled(next) ; 	
+			}
+			$.extend(ssfblog.pageInfo,page)  //全局变量缓存
+			return page
+		} 
+		//如果是首页第一加载不走这里, 也就是不做翻页操作
+		 if(! first){
+			 if(option.previous){ 
+				 page.offset = page.offset - page.limit
+				 page.index = --page.index
+				 page.end=false;
+			 }else{ 
+				 page.offset = page.offset + page.limit
+				 page.index = ++page.index
+			 } 
+		 }else{
+			 first = false;	 
+		 } 
+		//给下一页加样式   
+		 if((page.offset+lm) >= page.count){  //偏移量加limit 大于总行数的话, 给下一页添加禁用样式
+			 if(next&& !option.previous){
+				 ssfblog.addDisabled(next) ; 
+			 } 
+		}else{
+			 if(next)
+			 ssfblog.rmDisabled(next)
+		} 
+		 //给上一页加样式 
+		 if(page.offset<=0){ //如果offset<=0 添加禁用样式
+			 if(previous)
+			 ssfblog.addDisabled(previous)
+		}else{
+			 if(previous)
+			 ssfblog.rmDisabled(previous)
+		} 
+		$.extend(ssfblog.pageInfo,page)  //全局变量缓存
+		return page;
+	}
+}
+ssfblog.hasDisabledStyle = false;
+//添加禁用 
+ssfblog.addDisabled=function(obj){
+	var theObj = $(obj)
+	theObj.attr("disabled","Disabled"); 
+	//遍历style元素没有禁用样式就添加一个
+	if(!ssfblog.hasDisabledStyle){ 
+//		var styleObj = $("style");
+//		$.each(styleObj,function(i,n){
+//			var text = $(n).text(); 
+//			if(text.indexOf(".cursor_not_allowed")>=0){
+//				ssfblog.hasDisabledStyle = true;
+//				 return false;
+//			}
+//		}) 
+		ssfblog.hasDisabledStyle = true;
+		$("head").append("<style>.cursor_not_allowed{cursor: not-allowed; color:#ccc;}</style>")  
+	}
+	
+	if(! theObj.hasClass("cursor_not_allowed")){  
+		theObj.addClass("cursor_not_allowed");  
+	} 
+	 
+	
+}
+
+//移除禁用样式
+ssfblog.rmDisabled=function(obj){
+	var theObj = $(obj)
+	theObj.removeAttr("disabled");
+	if(theObj.hasClass("cursor_not_allowed")){
+		theObj.removeClass("cursor_not_allowed")
+	}
+}
+//end 分页组件
+
+
+
+
+//浏览器存储
+//增
+ssfblog.stroageAdd=function(key,val){
+	if(window.sessionStorage){
+		window.sessionStorage.setItem(key,val)
+	}else{
+		$.cookie(key, val, { expires: 1 }); 
+	}
+}
+//查
+ssfblog.stroageGet=function(key){
+	if(window.sessionStorage){
+		return window.sessionStorage.getItem(key)
+	}else{
+		return $.cookie(key); 
+	}
+}
+//改
+ssfblog.stroageUpdate=ssfblog.stroageAdd;
+//删
+ssfblog.stroageDelete=function(key){
+	if(window.sessionStorage){
+		return window.sessionStorage.removeItem(key)
+	}else{
+		return $.removeCookie(key); 
+	}
+}
+
+//control+enter键触发点击时间
+ssfblog.ctlEnterToClick=function(focus,btn){
+	$(focus).on("keyup",function(e){  
+		if(e.keyCode==13 ){
+			if (event.ctrlKey==1){ 
+				$(btn).click() 
+			}
+		}
+	})
+//	$("#publishModal").on("keyup",function(e){  
+//		if(e.keyCode==13 ){
+//			if (event.ctrlKey==1){ 
+//				$("#submitPublishdata").click() 
+//			}
+//		}
+//	})
+}
+
+
+//各页面初始化方法
+
+//nav.html
+ssfblog.nav_Html=function(){
+	// 不同页面, 对导航栏做不同效果定制
+	var href = location.pathname
+	if(href == "/index.html" || href== "/"){
+		$("#logo").text("")
+	} 
+	if($("body").hasClass("postpage")){
+		$("#bs-example-navbar-collapse-1>ul>li> a").attr("style","color: #969696")
+		$("#a_dropdown").attr("style","color: black");
+		$("#logo").attr("style","color: #969696");
+		$("nav").append('<hr style="margin-top: 0px;margin-bottom: 0px;">')
+	} 
+	//附加菜单使用鼠标悬浮出发
+	$("#a_dropdown").hover( function(){ $(this).click() },function(){} );
+}
+
+//publishPage.html
+ssfblog.publishPage_html=function(){ 
+	//把输入框中的标签放入标签栏,并情况输入框
+	var tagIn = function(){
+		if($("#tagInput").val()){
+			var val = $("#tagInput").val()
+			$("#tag").append( "<span class='foo'>"+" #"+val+" <button type='button' class='ssfbdel' onclick='ssfblog.rmtag(this)'><span aria-hidden='true' style=' float: none;'>×</span></button></span>"
+							  +"<input type='hidden' name='tag' value='#"+val+"' >"
+								)
+			$("#tagInput").val("") 
+		} 
+	}
+	//输入框change事件
+	$("#tagInput").on("change",function(e){
+		tagIn() 
+	})
+	//输入框中捕获回车,逗号,分号按键, 就将输入框中的值放入标签栏中
+	$("#tagInput").on("keyup",function(e){  
+		if(e.keyCode==13 || e.keyCode==186 || e.keyCode==188){ 
+			var str = $("#tagInput").val() 
+			str = str.substring(0,str.length-1)
+			  $("#tagInput").val(str)
+			tagIn()  
+    	}   
+	})  
+	//发布快捷键
+	ssfblog.ctlEnterToClick("#publishModal","#submitPublishdata")
+}
+
+//editPage.html
+ssfblog.editPage_html=function(){
+		//把输入框中的标签放入标签栏,并情况输入框
+	var tagIn = function(){
+		if($("#edittagInput").val()){
+			var val = $("#edittagInput").val()
+			$("#edittag").append( "<span class='foo'>"+" #"+val+" <button type='button' class='ssfbdel' onclick='ssfblog.rmtag(this)'><span aria-hidden='true' style=' float: none;'>×</span></button></span>"
+							  +"<input type='hidden' name='tag' value='#"+val+"' >"
+								)
+			$("#edittagInput").val("")
+			
+		} 
+	}
+	//输入框change事件
+	$("#edittagInput").on("change",function(e){
+		tagIn() 
+	})
+	//输入框中捕获回车,逗号,分号按键, 就将输入框中的值放入标签栏中
+	$("#edittagInput").on("keyup",function(e){  
+		if(e.keyCode==13 || e.keyCode==186 || e.keyCode==188){ 
+			var str = $("#edittagInput").val() 
+			str = str.substring(0,str.length-1)
+			  $("#edittagInput").val(str)
+			tagIn()  
+    	}   
+	}) 
+	//发布快捷键
+	ssfblog.ctlEnterToClick("#editpublishModal","#submitPublishdataBtn")
+//	$("#").on("keyup",function(e){  
+//		if(e.keyCode==13 ){
+//			if (event.ctrlKey==1){ 
+//				$("#").click() 
+//			}
+//		}
+//	}) 
+}
+ 
+$(function(){
+	ssfblog.initPage()  
+	ssfblog.backToTop()   
+	//index.html
+	if($("body").hasClass("index_page")){
+		//分页初始化; 设置每页显示的行数, 上一页和下一页的按钮
+		pageSplit = ssfblog.paging(10,"#previous","#next");  
+		//获取第一页
+		obj = pageSplit() 
+		//页面内容初始化
+	   $.get("/pageTitle/1/"+obj.limit+"/"+obj.offset,function(data){  
+		 /*   ssfblog.initIndex(data.mapRs.dataList) */
+		   ssfblog.initIndex(data)
+		   pageSplit({setCount:{tf:true,count:data.mapRs.Count}}) //把后端获取的总行数,赋值给分页对象的总行数
+		   
+		})
+		//下一页
+	 $("#next").click(function(){ 
+		 //到了最后一页,直接返回(点击无效)
+		 if((ssfblog.pageInfo.offset+ssfblog.pageInfo.limit) >=ssfblog.pageInfo.count){ 
+				 return
+			 }  
+		 var p =  pageSplit();    
+		 
+		  $.get("/pageTitle/0/"+p.limit+"/"+p.offset,function(data){    
+			  $("#pageTitleContainer").html("");	
+			   ssfblog.initIndex(data) 
+			})    
+	 })
+	 //上一页
+	 $("#previous").click(function(){ 
+		 //到了第一页,直接返回(点击无效)
+		 if(ssfblog.pageInfo.index <=0){ 
+			 return
+		 }   
+		  var p =  pageSplit({previous:true}); 
+		
+		  $.get("/pageTitle/0/"+p.limit+"/"+p.offset,function(data){ 
+			  $("#pageTitleContainer").html("");
+			   ssfblog.initIndex(data	) 
+			})   
+	 })
+	 
+	}
+	
+})
+
+
+//bolg内容加载
+//@Deprecated  //页面有后端渲染了
+ssfblog.initPost=function(){ 
+	var postContent = $.cookie("postContent")
+	
+	//$.removeCookie("postContent");
+	if(!postContent){return}
+	$.get("/pageTitle/postContent/"+postContent,function(data){ 
+		$(".post-heading").append('<span class="meta" id="time">Posted by <a href="#">Tenie Bolg</a> on '+$(data)[0].time+' </span>')
+		$("#post-title").text($(data)[0].post_title)
+		$("#post-subtitle").text($(data)[0].post_subtitle)
+		$("#postContent").html($(data)[0].post_content)
+	}) 
+}
+
+/**
+ *  图片轮播激活方法
+		$('.bg-slider').flexslider({
+	        animation: "fade",
+	        directionNav: false, //remove the default direction-nav - https://github.com/woothemes/FlexSlider/wiki/FlexSlider-Properties
+	        controlNav: false, //remove the default control-nav
+	        slideshowSpeed: 6000
+	    }); 
+ * //拖动元素框
+	$("#publishModal").Tdrag({
+    	 handle:".title"
+    });
+    //定义在焦点失去的时候触发验证函数;
+    $("#PublishdataForm").validate({
+      //  onfocusout: function(element) { $(element).valid(); }
+    }); 
+   //form提交时触发校验的回调 
+    $.validator.setDefaults({
+    submitHandler: function() {
+   //   alert("提交事件!"); 提交时会触发只有submit按钮和form.submit()才能触发
+    }
+});
+ * 
+ */

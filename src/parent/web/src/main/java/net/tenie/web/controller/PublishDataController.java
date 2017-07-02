@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import net.tenie.web.pojo.Result;
 @Controller
 public class PublishDataController {
 
@@ -22,7 +24,7 @@ public class PublishDataController {
 	private JdbcTemplate jdbc;
 	@RequestMapping(value="/submitPublishdata",method = RequestMethod.POST)
 	@ResponseBody
-	public String savePublishData(HttpServletRequest request, HttpServletResponse response,@RequestParam Map<String, Object> queryParam) throws ServletException, IOException{
+	public Result savePublishData(HttpServletRequest request, HttpServletResponse response,@RequestParam Map<String, Object> queryParam) throws ServletException, IOException{
       System.out.println("PublishDataController.savePublishData");
       String title = (String) queryParam.get("title"); 
       Integer textLength =Integer.valueOf( (String) queryParam.get("textLength")); 
@@ -37,8 +39,9 @@ public class PublishDataController {
       
       
      jdbc.update("insert into  blog  ( `post_title`, `post_subtitle`, `post_content`,`time`,text_length) values (?, ?, ?, ?,?)",title,tagVAL,data,new Date(),textLength);
-      
-      return "ok";
+      Result  rs= new Result();
+      rs.setMsg("发布成功~");
+      return rs;
 	}
 	
 	 

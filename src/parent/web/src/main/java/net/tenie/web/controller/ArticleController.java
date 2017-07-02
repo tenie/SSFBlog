@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import net.tenie.pojo.Blog;
 import net.tenie.web.pojo.Result;
 import net.tenie.web.session.LoginSession;
+import net.tenie.web.session.SessionUtil;
 import net.tenie.web.tools.ApplicationContextHelper; 
 /**
  * 获取文章正文
@@ -45,9 +46,16 @@ public class ArticleController {
 		
 		@RequestMapping(value="/{id}",method = RequestMethod.GET) 
 		public String htmlContent2(HttpServletRequest request, HttpServletResponse response,@PathVariable("id") String id) throws ServletException, IOException{
-	       System.err.println("free Marker......");
-	        
-	       Blog blog = new Blog().findById(id);
+		   //判断是否登入
+		   LoginSession session = SessionUtil.getSession();
+		   boolean islog = session.getIsLog();
+		   Blog blog;
+		   if(islog){
+			    blog = new Blog().findById(id);
+		   }else{
+			   blog = new Blog().findFirst("id=? and show_content=1", id);
+		   }
+	    
 	      // List<Map<String, Object>> list=jdbc.queryForList("select * from blog where id=? ",id);  
 	     
 	       if(blog==null){ 
@@ -58,7 +66,7 @@ public class ArticleController {
 	    	   blog.setInteger("read_quantity",index );
 	    	   blog.saveIt();
 	    	   request.setAttribute("data", blog);
-		       request.setAttribute("foo", "foo"); 
+		       request.setAttribute("isLog",islog); 
 	       }
 	       return  "/post";
 	    }
@@ -99,25 +107,9 @@ public class ArticleController {
 			}else{
 				rs.setError("yes");
 				return rs;
-			}
-			
-			
-	     
+			} 
 	       
 	       
-	    }
+	    } 
 		 
-		 
-		
- 
-		//使用数据源,使用ActiveJDBC 成功
-		public static void testActiveJDBC() {  
-			DataSource ds = (DataSource) ApplicationContextHelper.getBeanByType(BasicDataSource.class);
- 			//new DB("university").open("com.mysql.jdbc.Driver", "jdbc:mysql://localhost/web", "dev1", "dev1");
-			new DB("university").open(ds);
-			LazyList<Model> l = new Blog().findAll();
-			System.out.println("十多岁 "+l.size());
-	        
-	        new DB("university").close();
-		}
 }

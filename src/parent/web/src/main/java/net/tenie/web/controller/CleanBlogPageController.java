@@ -20,7 +20,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import net.tenie.pojo.Blog;
 import net.tenie.web.pojo.Result;
+import net.tenie.web.session.LoginSession;
+import net.tenie.web.session.SessionUtil;
 
 @Controller
 @RequestMapping("/pageTitle")
@@ -34,7 +37,8 @@ public class CleanBlogPageController {
 	@Autowired 
 	private JdbcTemplate jdbc;
 	
-	 
+//	@Autowired
+//	private  LoginSession session;
 	/**
 	 * 获取所以文章的索引
 	 * @param limit	分页设置
@@ -50,14 +54,29 @@ public class CleanBlogPageController {
 	@ResponseBody
 	public Result htmlView(@PathVariable(value="limit") Integer limit ,@PathVariable(value="offset") Integer offset ,
 											@PathVariable(value="getCount") String getCount  ) throws ServletException{
-      
-      List<Map<String, Object>> countList =new ArrayList();
-      List<Map<String, Object>> list=jdbc.queryForList("select * from blog   ORDER BY top,id  DESC limit ? offset ?",limit,offset);
-     //获取总行数,对分页最后页做判断时需要
-      if("1".equals(getCount)){
-    	 countList =  jdbc.queryForList("select count(id) as count from blog");
-      }
-       
+	  List<Map<String, Object>> countList =new ArrayList();
+	  List<Map<String, Object>> list=new ArrayList<>();
+	 //判断是否登入
+ 	 LoginSession session = SessionUtil.getSession();
+	 boolean bool =session.getIsLog();
+	 System.out.println("boolean==="+bool);
+	 
+	 //登入过的查询
+	 if(bool){
+		  list=jdbc.queryForList("select * from blog where  1=1 ORDER BY top,id  DESC limit ? offset ?",limit,offset);
+	      //获取总行数,对分页最后页做判断时需要
+	      if("1".equals(getCount)){
+	    	 countList =  jdbc.queryForList("select count(id) as count from blog");
+	      }     
+	 }else{
+		 list=jdbc.queryForList("select * from blog where show_content=1  ORDER BY top,id  DESC limit ? offset ?",limit,offset);
+	      //获取总行数,对分页最后页做判断时需要
+	      if("1".equals(getCount)){
+	    	 countList =  jdbc.queryForList("select count(id) as count from blog where show_content=1");
+	      } 
+	 }
+     
+    
       //结果集赋值
       Result rs = new Result(); 
       String rsCount="";
@@ -65,6 +84,7 @@ public class CleanBlogPageController {
       if(countList.size()>0){
     	  rsCount = ""+ countList.get(0).get("count");
       }
+      rsMap.put("signIn", bool);
       rsMap.put("Count", rsCount);
       rsMap.put("dataList", list); 
       rs.setMapRs(rsMap); 
@@ -81,6 +101,31 @@ public class CleanBlogPageController {
         return list.get(0);
     }
 	
+	//private文章
+		@RequestMapping(value="/hiddenContent/{id}",method = RequestMethod.GET)
+		@ResponseBody 
+		public Result  hiddenContact(HttpServletRequest request, HttpServletResponse response,@PathVariable("id") String id) throws ServletException, IOException{
+		
+			int i = Blog.update("show_content = ?","id=?", 	0,id);
+			Result rs = new Result();
+			if(i!=1){
+				rs.setError("yes");
+			} 
+			return rs;
+	    }
+	//public文章
+		@RequestMapping(value="/publicContent/{id}",method = RequestMethod.GET)
+		@ResponseBody 
+		public Result  publicContact(HttpServletRequest request, HttpServletResponse response,@PathVariable("id") String id) throws ServletException, IOException{
+			int i = Blog.update("show_content = ?","id=?", 	1,id);
+			Result rs = new Result();
+			if(i!=1){
+				rs.setError("yes");
+			} 
+			return rs;
+	    }
+		
+		
 	 
 	
 

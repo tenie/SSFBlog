@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Scope("session")
 public class LoginSession {
-	private Boolean isLog;
+	private Boolean isLog = false;
 
 	public Boolean getIsLog() {
 		return isLog;

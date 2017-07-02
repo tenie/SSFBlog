@@ -1,5 +1,3 @@
-
-
 <div  class="modal fade in bs-example-modal-lg" id="publishModal" tabindex="-1" role="dialog" aria-labelledby="publishModalLabel" style="display: block;    font-size: 14px;">
       <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
@@ -9,8 +7,7 @@
             	<div class="container">
 		            <div class="row">
 		                <div class=" col-md-6"> 
-							   <span >编辑</span>  
-							
+							   <span >编辑</span>   
 		                </div>
 		            </div>
 		        </div>
@@ -34,8 +31,7 @@
           <div class="modal-footer">
           	 
             <button type="button" class="btn btn-default" data-dismiss="modal" id="publishdataPageClose">Close</button>
-            <button type="button" class="btn btn-primary" id="submitPublishdata">Publish</button> 
-            <button onclick="foo()">btn</button>
+            <button type="button" class="btn btn-primary" id="submitPublishdata">Publish</button>  
           </div>
         </div>
       </div>
@@ -44,75 +40,3 @@
     
 <script src="/js/jquery-validation/js/jquery.validate.min.js"></script>  
 <script src="/js/jquery-validation/js/additional-methods.js"></script>  
-<script>
- 	function foo(){
- 		$("#publishTitle").valid();
- 	}
- 
-/*  //拖动元素框
-	$("#publishModal").Tdrag({
-    	 handle:".title"
-    });
-
-*/
-    	$(function(){
-    		//把输入框中的标签放入标签栏,并情况输入框
-    		var tagIn = function(){
-    			if($("#tagInput").val()){
-    				var val = $("#tagInput").val()
-    				$("#tag").append( "<span class='foo'>"+" #"+val+" <button type='button' class='ssfbdel' onclick='rmtag(this)'><span aria-hidden='true' style=' float: none;'>×</span></button></span>"
-    								  +"<input type='hidden' name='tag' value='#"+val+"' >"
-    									)
-        			$("#tagInput").val("")
-        			
-    			} 
-    		}
-    		//输入框change事件
-    		$("#tagInput").on("change",function(e){
-    			tagIn() 
-    		})
-    		//输入框中捕获回车,逗号,分号按键, 就将输入框中的值放入标签栏中
-    		$("#tagInput").on("keyup",function(e){  
-    			if(e.keyCode==13 || e.keyCode==186 || e.keyCode==188){ 
-    				var str = $("#tagInput").val() 
-    				str = str.substring(0,str.length-1)
-    				  $("#tagInput").val(str)
-    				tagIn() 
-    			   
-    	    	}  
-    			
-    		})
-    		
-    		
-    		//发布快捷键
-	    	$("#publishModal").on("keyup",function(e){  
-	    		if(e.keyCode==13 ){
-	    			if (event.ctrlKey==1){
-	    			 
-	    				$("#submitPublishdata").click()
-	    				
-	    			}
-	    		}
-	    	})
-	    	
-	    	
-	    	//校验
-    	setTimeout(function(){
-    		
-    		
-    	},200)
-    		
-    	}) 
-    	
-    	//删除标签
-    	function rmtag(the){  
-    		$(the).parent().remove();
-    	}
-    	
-$().ready(function() {  
- 	//定义在焦点失去的时候触发的函数;
-   /*  $("#PublishdataForm").validate({
-      //  onfocusout: function(element) { $(element).valid(); }
-    }); */
-});
-    </script>
