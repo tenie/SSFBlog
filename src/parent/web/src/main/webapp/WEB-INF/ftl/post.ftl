@@ -53,12 +53,15 @@
     <!-- Page Header -->
     <!-- Set your background image for this header on the line below. -->
   <!--   <header class="intro-header" style="background-image: url('img/post-bg.jpg')"> -->
-    <header  >
+    <header  style="margin-top: 65px">
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                     <div class="post-heading">
-                        <h2   id="post-title">${data.post_title} </h2>
+                        <h2   id="post-title" style="display: inline;">${data.post_title} </h2>
+                        <#if data.show_content == 0>
+						    <span class="badge"  style="margin-bottom: 25px;">private</span>
+						</#if> 
                         <!-- <p  style = "color:#777"  id="post-subtitle"> 
 							${data.post_subtitle} 
                        	 	<span class="meta" id="time">  </span>
@@ -82,10 +85,71 @@
 					            <span class="comments-count">评论 0</span>
 					            <span class="likes-count">喜欢 0</span>
 					            <span >
-					            	   <!-- 如果是当前作者，加入编辑按钮 -->
-								        <a href="#" style="    margin-top: -20px;float: right;padding: 0 12px;font-size: 14px;border: 1px solid #dcdcdc;color: #9b9b9b;line-height: 30px;border-radius: 50px;" target="_blank" class="edit">
-								      	  编辑文章
-								        </a>
+					            	   <!-- 如果是当前作者，加入编辑按钮 
+								        <a href="javascript:" onclick="ssfblog.editPage(${data.id})" style="    margin-top: -20px;float: right;padding: 0 12px;font-size: 14px;border: 1px solid #dcdcdc;color: #9b9b9b;line-height: 30px;border-radius: 50px;" target="_blank" class="edit">
+								      	  编辑文章.
+								        </a>-->
+								        
+								        <!-- Split button -->
+										<div class="btn-group" style="float: right; margin-top: -50px;border: 1px solid #dcdcdc;border-radius: 50px;" >
+										  <button type="button" onclick="ssfblog.editPage(${data.id})" class="btn  " style="background-color: transparent;;border-radius: 50px 0px 0px 50px;"> &nbsp; &nbsp; 编 辑 &nbsp; &nbsp; </button>
+										  <button type="button"  style="border-radius: 0px 50px 50px 0px;    background-color: transparent;" class="btn  dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+										    <span class="caret"></span>
+										    <span class="sr-only">Toggle Dropdown</span>
+										  </button>
+										  <ul class="dropdown-menu">
+										     
+										      <#if isLog>
+												 <li >
+												    <a href="javascript:" onclick='ssfblog.hiddenBlog(${data.id})'>
+												   		<i class="fa fa-lock"></i>&nbsp;&nbsp;
+												   		设为私有
+												    </a>
+											    </li>
+											<#else>  
+												 <li class="disabled">
+												    <a href="javascript:" >
+												   		<i class="fa fa-lock"></i>&nbsp;&nbsp;
+												   		设为私有
+												    </a>
+											    </li>
+											</#if> 
+										     <#if isLog>
+												 <li >
+												    <a href="javascript:" >
+													    <i class="fa fa-unlock" aria-hidden="true"></i>&nbsp;
+													    公开
+												    </a>
+											    </li>
+											<#else>  
+												 <li class="disabled">
+												    <a href="javascript:" >
+													    <i class="fa fa-unlock" aria-hidden="true"></i>&nbsp;
+													    公开
+												    </a>
+											    </li>
+											</#if> 
+										    
+										    <li role="separator" class="divider"></li>
+										     <#if isLog>
+												 <li >
+												   <a href="javascript:" onclick="ssfblog.deleteBlog(${data.id})"  >
+													    <i class="fa fa-trash-o" aria-hidden="true"></i>&nbsp;
+													    删除
+												    </a>
+											    </li>
+											<#else>  
+												 <li class="disabled">
+												    <a href="javascript:"    >
+													    <i class="fa fa-trash-o" aria-hidden="true"></i>&nbsp;
+													    删除
+												    </a>
+											    </li>
+											</#if> 
+										    
+										  </ul>
+										</div>
+								        
 					            </span>
 				            </div>
 				         </div> 
@@ -146,14 +210,5 @@
 <script type="text/javascript" src="/lib/noty-master/lib/noty.js"></script>
 
 <script type="text/javascript" src="/lib/noty-master/lib/mo.min.js"></script>
-
 </body>
-<script type="text/javascript"> 
-	$(function(){   
-		ssfblog.initPage() 
-		//ssfblog.initPost() 
-		ssfblog.backToTop() 
-	}) 
-</script>
-
 </html>

@@ -127,7 +127,7 @@
 </style>
 </head>
 
-<body>
+<body class="index_page">
 <!--  图片轮播 , 图片是通过css加载的-->
 	<!-- <div>
 		<div class="bg-slider-wrapper">
@@ -198,13 +198,13 @@
                         
                         
         
-<div class="wrapper-inner-tab-backgrounds">
+<!-- <div class="wrapper-inner-tab-backgrounds">
 	<div class="wrapper-inner-tab-backgrounds-first">
 		<div class="sim-button button19" data-text="Login">
 			<span>Login</span>
 		</div>
 	</div> 
-</div>
+</div> -->
                     </li>
                 </ul>
             </div>
@@ -250,85 +250,5 @@
 
 <script type="text/javascript" src="http://ned.im/noty/vendor/minibed/minibed.js"></script> -->
 
-</body>
-
-<script type="text/javascript"> 
-//分页初始化; 设置每页显示的行数, 上一页和下一页的按钮
-var pageing = ssfblog.paging(10,"#previous","#next");  
-
-$(function(){ 
- 
-	ssfblog.backToTop()
-	ssfblog.initPage()   
-	//获取第一页
-	obj = pageing() 
-	//页面内容初始化
-   $.get("/pageTitle/1/"+obj.limit+"/"+obj.offset,function(data){  
-	   ssfblog.initIndex(data.mapRs.dataList)
-	   pageing({setCount:{tf:true,count:data.mapRs.Count}}) //把后端获取的总行数,赋值给分页对象的总行数
-	   
-	})
-	//下一页
- $("#next").click(function(){ 
-	 //到了最后一页,直接返回(点击无效)
-	 if((ssfblog.pageInfo.offset+ssfblog.pageInfo.limit) >=ssfblog.pageInfo.count){ 
-			 return
-		 }  
-	 var p =  pageing();    
-	 
-	  $.get("/pageTitle/0/"+p.limit+"/"+p.offset,function(data){    
-		  $("#pageTitleContainer").html("");	
-		   ssfblog.initIndex(data.mapRs.dataList) 
-		})  
-	 
-	 
- })
- //上一页
- $("#previous").click(function(){ 
-	 //到了第一页,直接返回(点击无效)
-	 if(ssfblog.pageInfo.index <=0){ 
-		 return
-	 }   
-	  var p =  pageing({previous:true}); 
-	
-	  $.get("/pageTitle/0/"+p.limit+"/"+p.offset,function(data){ 
-		  $("#pageTitleContainer").html("");
-		   ssfblog.initIndex(data.mapRs.dataList) 
-		})   
- })
- 
- 
- 
-	/*  图片轮播激活方法
-		$('.bg-slider').flexslider({
-	        animation: "fade",
-	        directionNav: false, //remove the default direction-nav - https://github.com/woothemes/FlexSlider/wiki/FlexSlider-Properties
-	        controlNav: false, //remove the default control-nav
-	        slideshowSpeed: 6000
-	    });   */
-	 
-	    
-	   
-	
-}) 
-var types = ['alert', 'warning', 'success', 'information', 'error']
- function del(thiz){
-	var n = new Noty({
-		  text: '确定删除?',
-		  type:"warning",
-		  buttons: [
-		    Noty.button('YES', 'btn btn-success', function () {
-		    	//删除按钮事件 
-					var id =thiz.attr("rel")
-					ssfblog.deleteBlog(id) 
-		    }), 
-		    Noty.button('NO', 'btn btn-error', function () { 
-		        n.close();
-		    })
-		  ]
-		}).show();
-}
-  
-</script>
- 
+</body>  
 </html>

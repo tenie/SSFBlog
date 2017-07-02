@@ -30,20 +30,3 @@
 <script src="/js/bootstrap-toastr/toastr.min.js"></script>     
 <script src="/js/jquery-validation/js/jquery.validate.min.js"></script>  
 <script src="/js/jquery-validation/js/additional-methods.js"></script>  
-
-<script>
-$.validator.setDefaults({
-    submitHandler: function() {
-   //   alert("提交事件!"); 提交时会触发只有submit按钮和form.submit()才能触发
-    }
-});
-
-//页面载入添加样式
-$().ready(function() {  
- 	//定义在焦点失去的时候触发的函数;
-    $("#signInForm").validate({
-        onfocusout: function(element) { $(element).valid(); }
-    });
-});
-
-</script>
