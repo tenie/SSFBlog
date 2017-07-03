@@ -22,18 +22,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import net.tenie.pojo.Blog;
 import net.tenie.web.pojo.Result;
+import net.tenie.web.service.CecheResult;
 import net.tenie.web.session.LoginSession;
 import net.tenie.web.session.SessionUtil;
 
 @Controller
 @RequestMapping("/pageTitle")
 public class CleanBlogPageController {
-	private List<String> myList;
-	
-	CleanBlogPageController(){
-//		System.out.println("创建ＧetCleanBlogPageController");
-//		myList = new ArrayList();
-	}
+	 
+//	private Result SignIncacheRS;
+//	private Result cacheRS;
 	@Autowired 
 	private JdbcTemplate jdbc;
 	
@@ -61,21 +59,30 @@ public class CleanBlogPageController {
 	 boolean bool =session.getIsLog();
 	 System.out.println("boolean==="+bool);
 	 
+	 Result SignIncacheRS  = CecheResult.getSignIncacheRS();
+     Result cacheRS =  CecheResult.getCacheRS(); 
+	
+	 if("1".equals(getCount) && SignIncacheRS!=null && bool){
+    	 return SignIncacheRS;
+     }else  if("1".equals(getCount )&& cacheRS!=null && !bool){
+    	 return cacheRS;
+     }
+	 
 	 //登入过的查询
-	 if(bool){
-		  list=jdbc.queryForList("select * from blog where  1=1 ORDER BY top,id  DESC limit ? offset ?",limit,offset);
+	 if(bool && SignIncacheRS==null){
+		  list=jdbc.queryForList("select id,post_title,post_subtitle,time,show_content,top from blog where  1=1 ORDER BY top,id  DESC limit ? offset ?",limit,offset);
 	      //获取总行数,对分页最后页做判断时需要
 	      if("1".equals(getCount)){
 	    	 countList =  jdbc.queryForList("select count(id) as count from blog");
 	      }     
-	 }else{
-		 list=jdbc.queryForList("select * from blog where show_content=1  ORDER BY top,id  DESC limit ? offset ?",limit,offset);
+	 }else if(!bool && cacheRS==null){
+		 list=jdbc.queryForList("select id,post_title,post_subtitle,time,show_content,top from blog where show_content=1  ORDER BY top,id  DESC limit ? offset ?",limit,offset);
 	      //获取总行数,对分页最后页做判断时需要
 	      if("1".equals(getCount)){
 	    	 countList =  jdbc.queryForList("select count(id) as count from blog where show_content=1");
 	      } 
 	 }
-     
+    
     
       //结果集赋值
       Result rs = new Result(); 
@@ -88,6 +95,11 @@ public class CleanBlogPageController {
       rsMap.put("Count", rsCount);
       rsMap.put("dataList", list); 
       rs.setMapRs(rsMap); 
+      if(bool){
+    	  CecheResult.setSignIncacheRS(rs);
+      }else{ 
+    	  CecheResult.setCacheRS(rs);
+      }
       return rs;
     }
 	
@@ -111,6 +123,7 @@ public class CleanBlogPageController {
 			if(i!=1){
 				rs.setError("yes");
 			} 
+			CecheResult.setNullSignIncacheRS();
 			return rs;
 	    }
 	//public文章
@@ -122,6 +135,7 @@ public class CleanBlogPageController {
 			if(i!=1){
 				rs.setError("yes");
 			} 
+			CecheResult.setNullSignIncacheRS();
 			return rs;
 	    }
 		
