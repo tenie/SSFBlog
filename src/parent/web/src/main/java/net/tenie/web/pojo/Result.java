@@ -59,7 +59,9 @@ public class Result {
 	}
 	@Override
 	public String toString() {
-		return "Result [error=" + error + ", msg=" + msg + ", data=" + data + "]";
+		return "Result [error=" + error + ", success=" + success + ", msg=" + msg + ", data=" + data + ", mapRs="
+				+ mapRs + "]";
 	}
+	 
 	
 }
