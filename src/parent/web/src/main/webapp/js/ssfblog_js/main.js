@@ -57,7 +57,7 @@ ssfblog.tagSearch=function(tag){
 	tag = tag.substring(1,tag.length); 
 	var url = "/pageTitle/tagSearch/"+tag;
 	$.get(url,function(data){  
-		console.log(data)
+		//console.log(data)
 		$("#pageTitleContainer").html("");
 		$("#loading").removeClass("hidden");
 		$("#previous").hide();
@@ -73,7 +73,7 @@ ssfblog.tagSearch=function(tag){
 //首页
 //主页标题信息渲染
 ssfblog.initIndex=function(datas,callback){ //date是查询到的博客标题信息集 
-	console.log(datas)
+	//console.log(datas)
 	var data =  datas.mapRs.dataList
 	var signIn = datas.mapRs.signIn
 	var datalen = $(data).length
@@ -428,7 +428,7 @@ ssfblog.updateBlogData=function(data,$modal){
 	var text = $modal.find(".simditor-body").text();
 		text=text.replace(/\s/gi,""); // "\s" :匹配空白符
 		textLength = text.length
-		console.log(textLength)
+		//console.log(textLength)
 	$modal.find("#edittextLength").val(textLength)
     $modal.find("#editcontent").val(data)  
 	var formval  = $modal.find("#editPublishdataForm").serialize()
