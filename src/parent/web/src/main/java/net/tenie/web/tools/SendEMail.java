@@ -17,7 +17,7 @@ import javamail.MyAuthenticator;
 
 public class SendEMail {
 
-	private String from ="13564234363@163.com";
+	private String from ="tenie@tenie.net";
 	private static String to = "tenie@tenie.net";
 	//获取邮件发送服务器
 
@@ -28,7 +28,7 @@ public class SendEMail {
  		props.put("mail.smtp.host", "localhost");
 //	    props.put("mail.smtp.auth", "true");
 		//授权者
-//		MyAuthenticator authenticator = new MyAuthenticator("13564234363@163.com", "mimatrj1314");
+//		MyAuthenticator authenticator = new MyAuthenticator("tenie@tenie.net", "pwd");
 		
 		//获取session
 		Session session = Session.getDefaultInstance(props);//,authenticator);
@@ -77,48 +77,35 @@ public class SendEMail {
 				StringUtils.isNullOrEmpty(body)   ){
 			  throw new UtilException("参数都必须有值"); 
 		}
-			System.out.println("host :"+to);
-			System.out.println("host :"+from);
-			System.out.println("host :"+password);
-			System.out.println("host :"+Subject);
-			System.out.println("host :"+host);
-			System.out.println("host :"+body);
-		// 收件人电子邮箱
-	  //    String to = "tenie@tenie.net"; 
-	      // 发件人电子邮箱
-	  //    String from = "username@163.com";
-	      //密码
-	    //  String password = "password";
-	      // 指定发送邮件的主机为 localhost
-	   //   String host = "smtp.163.com"; 
-		
+
+  	try{ 	  
 	      // 获取系统属性
-	      Properties properties = System.getProperties(); 
-	      // 设置邮件服务器
-	     // properties.setProperty("mail.smtp.host", host);
-	      properties.setProperty("mail.smtp.host", "localhost");
-	   //   properties.put("mail.smtp.auth", "true");
-	    //授权者;发信的帐号密码
-			MyAuthenticator authenticator = new MyAuthenticator(from,password );
-			
-	      // 获取默认的 Session 对象。
-//	      Session session = Session.getInstance(properties,authenticator);  
-	      Session session = Session.getInstance(properties);//,authenticator);  
-	      try{
-	         // 创建默认的 MimeMessage 对象。
-	         MimeMessage message = new MimeMessage(session); 
-	         // Set From: 头部头字段 //发信人
-	       //  message.setFrom(new InternetAddress(from));   //本机的邮件服务不加发信人会自动加上
-	         // Set To: 头部头字段 //收信人
-	         message.addRecipient(Message.RecipientType.TO,   new InternetAddress(to)); 
-	         // Set Subject: 头字段 //信的主题,标题
-	         message.setSubject(Subject,"utf-8");  
-	         // 发送 HTML 消息, 可以插入html标签  //信的body,
-	         message.setContent(body,  "text/html;charset=utf-8" ); 
-	         // 发送消息
-	         Transport.send(message);
-	         System.out.println("Sent message successfully....");
-	      }catch (MessagingException mex) {
+	      Properties properties = System.getProperties();  
+	     
+	    //授权者;发信的帐号密码 
+	      if(password.length()>0){  
+		      // 设置邮件服务器
+		      properties.setProperty("mail.smtp.host", host);
+		      properties.put("mail.smtp.auth", "true"); 
+			  MyAuthenticator authenticator = new MyAuthenticator(from,password ); 
+		      Session session = Session.getInstance(properties,authenticator);   
+	          MimeMessage message = new MimeMessage(session);  
+	          message.setFrom(new InternetAddress(from));  
+	          message.addRecipient(Message.RecipientType.TO,   new InternetAddress(to));  
+	          message.setSubject(Subject,"utf-8");   
+	          message.setContent(body,  "text/html;charset=utf-8" );  
+	          Transport.send(message);  
+	      }else{
+	    	 
+		      properties.setProperty("mail.smtp.host", "localhost"); 
+		      Session session = Session.getInstance(properties);//,authenticator);  
+		      MimeMessage message = new MimeMessage(session);   
+		      message.addRecipient(Message.RecipientType.TO,   new InternetAddress(to));  
+		      message.setSubject(Subject,"utf-8");   
+		      message.setContent(body,  "text/html;charset=utf-8" );  
+		      Transport.send(message);  
+	      } 
+  	  }catch (MessagingException mex) {
 	         mex.printStackTrace();
 	      }
 	}
@@ -136,7 +123,7 @@ public class SendEMail {
 //	      // 发件人电子邮箱
 //	      String from = "root";
 //	      //密码
-//	      String password = "mimatrj1314";
+//	      String password = "pwd";
 //	      // 指定发送邮件的主机为 localhost
 //	      String host = "smtp.163.com";  
 //	      // 获取系统属性
@@ -168,4 +155,7 @@ public class SendEMail {
 //	      }
 //	}
 }
+/**
+ *     
+ */
 
