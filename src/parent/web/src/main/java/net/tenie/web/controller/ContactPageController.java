@@ -58,15 +58,13 @@ public class ContactPageController {
 		  StringUtils.isNullOrEmpty(message.trim()) ){
     	  return new Result(true,"Name,Email,Message不能空白!");
       }
-      //String name = queryParam.get("name");
-      //jdbc.update(sql, args)
+       
        jdbc.update("insert into  contact_data  ( `email`, `phone`, `message`, `name`) values ( ?, ?, ?, ?)",email,phone,message,name);
-     
-       SendEMail.simpleSendMail("tenie@tenie.net", from, password, host,
-    		   	"有人通过联系页面发信息给你了!", "<b>信息:</b>"+message+"<br> <b>name:</b> "+name+"<br> <b>email:</b>"+email
-    		   );
-       //   mailSender.sendMail();
-     //   SendEMail.sendmail2(); // 测试通过
+//     
+       SendEMail.simpleSendMail(to, from, password, host,
+				    		   	"有人通过联系页面发信息给你了!",
+				    		   	"<b>信息:</b>"+message+"<br> <b>name:</b> "+name+"<br> <b>email:</b>"+email
+				    		   ); 
        return new Result("信息已经发生给tenie@tenie.net!");
     }
 }

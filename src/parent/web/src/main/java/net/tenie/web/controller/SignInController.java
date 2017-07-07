@@ -27,10 +27,10 @@ public class SignInController {
 	@Autowired 
 	private JdbcTemplate jdbc;
     
-	@Value("ssfblog.username")
+	@Value("${ssfblog.username}")
 	private String userName;
 	
-	@Value("ssfblog.username")
+	@Value("${ssfblog.password}")
 	private String pwd;
 	
 	
