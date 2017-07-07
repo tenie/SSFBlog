@@ -3,6 +3,7 @@ package net.tenie.web.controller;
 import java.io.IOException;
 import java.util.Map;
 
+import javax.mail.MessagingException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,6 +21,7 @@ import net.tenie.web.pojo.Result;
 import net.tenie.web.service.MailSender;
 import net.tenie.web.tools.SendEMail;
 import net.tenie.web.tools.StringUtils;
+import net.tenie.web.tools.UtilException;
 
 @Controller
 public class ContactPageController {
@@ -42,16 +44,12 @@ public class ContactPageController {
 	
 	@RequestMapping(value="/postContactData",method = RequestMethod.POST)
 	@ResponseBody
-	public Result postContactData(HttpServletRequest request, HttpServletResponse response,@RequestParam Map<String, String> queryParam) throws ServletException, IOException{
+	public Result postContactData(HttpServletRequest request, HttpServletResponse response,@RequestParam Map<String, String> queryParam) throws ServletException, IOException, UtilException, MessagingException{
       System.out.println("ＧetCleanBlogPageController.postContactData");
       String name = queryParam.get("name");
       String phone = queryParam.get("phone");
       String email = queryParam.get("email");
-      String message = queryParam.get("message");
-      System.out.println("name= "+name);
-      System.out.println("phone= "+phone);
-      System.out.println("email= "+email);
-      System.out.println("message= "+message);
+      String message = queryParam.get("message"); 
       
       if( StringUtils.isNullOrEmpty(name.trim())&&
 		  StringUtils.isNullOrEmpty(email.trim())&&
@@ -60,7 +58,7 @@ public class ContactPageController {
       }
        
        jdbc.update("insert into  contact_data  ( `email`, `phone`, `message`, `name`) values ( ?, ?, ?, ?)",email,phone,message,name);
-//     
+   
        SendEMail.simpleSendMail(to, from, password, host,
 				    		   	"有人通过联系页面发信息给你了!",
 				    		   	"<b>信息:</b>"+message+"<br> <b>name:</b> "+name+"<br> <b>email:</b>"+email
