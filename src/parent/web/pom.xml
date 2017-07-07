@@ -1,16 +1,22 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>net.tenie</groupId>
-    <artifactId>parent</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+      <groupId>net.tenie</groupId>
+	  <artifactId>parent</artifactId>
+	  <version>0.0.1-SNAPSHOT</version> 
   </parent>
   <groupId>net.tenie</groupId>
   <artifactId>web</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>war</packaging>
    
-   
+   <pluginRepositories>
+		<pluginRepository>
+			<name>oss.sonatype.org</name>
+			<id>oss.sonatype.org</id>
+			<url>http://oss.sonatype.org/content/groups/public</url>
+		</pluginRepository>
+	</pluginRepositories>
   <build>
   	<finalName>ROOT</finalName>
   	<plugins>
@@ -22,6 +28,67 @@
 				 <groupId>org.eclipse.m2e</groupId>
 	          	 <artifactId>lifecycle-mapping</artifactId>
            </plugin>
+           
+           
+	      
+	         <!-- YUI Compressor Maven压缩插件 -->
+	      <!-- <plugin>  
+                <groupId>net.alchim31.maven</groupId>  
+                <artifactId>yuicompressor-maven-plugin</artifactId>  
+                <version>1.5.1</version>  
+                <executions>  
+                    <execution>  
+                        <goals>  
+                            <goal>compress</goal>  
+                        </goals>  
+                    </execution>  
+                </executions>  
+                <configuration>  
+                    <jswarn>false</jswarn>  
+                    <nosuffix>true</nosuffix>  
+                    <aggregations>  
+                        <aggregation>  
+                            <removeIncluded>true</removeIncluded>  
+                            <insertNewLine>true</insertNewLine>  
+                            <inputDir>${basedir}/</inputDir>  
+                            <output>${basedir}/app.js</output>  
+                            <includes>  
+                               <include>**/main.js</include>
+                                <include>jquery.lazyload.js</include>  
+                                <include>jqueryCookie.js</include>  
+                                <include>autocomplete.js</include>  
+                                <include>json.js</include>  
+                                <include>common.setting.js</include>  
+                                <include>public.login.js</include>  
+                                <include>click_xiu.js</include>  
+                                <include>util.xiu.js</include>  
+                                <include>click_xiu_pass_sid.js</include>  
+                                <include>util.js</include>  
+                            </includes>  
+                        </aggregation>  
+                        <aggregation>  
+                            <insertNewLine>true</insertNewLine>  
+                            <inputDir>${project.build.directory}/${project.build.finalName}/resources/static/js/xiu</inputDir>    
+                            <output>${project.build.directory}/${project.build.finalName}/build/js/publicHeadApp.min.js</output>  
+                            <includes>  
+                                <include>public.head.app.js</include>  
+                            </includes>  
+                        </aggregation>  
+                        <aggregation>  
+                            <insertNewLine>true</insertNewLine>  
+                            <inputDir>${project.build.directory}/${project.build.finalName}/resources/static/css/default</inputDir>    
+                            <output>${project.build.directory}/${project.build.finalName}/build/css/publicHead.min.css</output>  
+                            <includes>  
+                                <include>hugoboss.css</include>  
+                                <include>product.css</include>  
+                                <include>promotions.css</include>  
+                                <include>publicHead.css</include>  
+                            </includes>  
+                        </aggregation>  
+                    </aggregations>  
+                </configuration>  
+            </plugin>   -->
+           
 		</plugins>
   </build>
   <dependencies>

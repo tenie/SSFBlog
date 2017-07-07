@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,7 +26,14 @@ public class SignInController {
 
 	@Autowired 
 	private JdbcTemplate jdbc;
-
+    
+	@Value("ssfblog.username")
+	private String userName;
+	
+	@Value("ssfblog.username")
+	private String pwd;
+	
+	
 	
 	@RequestMapping(value="/sigIn",method = RequestMethod.POST)
 	@ResponseBody
@@ -33,19 +41,18 @@ public class SignInController {
      
       String name = queryParam.get("name");
       String password = queryParam.get("password");
-      System.out.println("name="+name);
-      System.out.println("password="+password); 
+   
       //为空返回失败
       if(name ==null &&   "".equals(name)){
-    	  return new Result("error","登入失败");
+    	  return new Result(true,"登入失败");
       }
-      
-      if( "tenie@tenie.net".equals(name) && "bolgmimabolg1234".equals(password)){
+ 
+      if( userName.equals(name) && pwd.equals(password)){
  		 LoginSession loginInfo = ApplicationContextHelper.getBeanByType(LoginSession.class);  
  		 loginInfo.setIsLog(true);
  		 return new Result("登入成功");
       }else{
-    	 return new Result("error","登入失败");
+    	 return new Result(true,"登入失败");
       }  
     }
 	

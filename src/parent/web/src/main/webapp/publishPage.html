@@ -2,7 +2,11 @@
       <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
           <div class="modal-header title">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            	<span aria-hidden="true" style="    padding-right: 15px;padding-left: 15px;">
+            		 &nbsp;× &nbsp;
+            	</span>
+            </button>
             <h4 class="modal-title" id="publishModalLabel">
             	<div class="container">
 		            <div class="row">
@@ -17,15 +21,19 @@
           <div class="modal-body">
             <form id="PublishdataForm"> 
                <input type="hidden" id="textLength" name="textLength">
-                <input type="hidden" id="content" name="content">
-                
+               <input type="hidden" id="content" name="content">
+               <input type="hidden" id="showContent"  name="showContent" value="false"><!-- 公开私有 -->
 			   <input id="publishTitle"  autofocus name="title" type="text" style=" border: 0px;width: 100%;"  placeholder="标题:" required data-validation-required-message="必填"  aria-describedby="sizing-addon1"> 
                <textarea id="editorPublish" placeholder="Balabala" ></textarea>
-               <div  id="tag">
+               <div  id="tag" class="editPageTag">
                标签: 
                </div>
                 
                 <input id="tagInput" type="text" style=" border: 0px;width: 100%;"  placeholder="添加相关标签，用逗号或回车分隔 " aria-describedby="sizing-addon1">  
+           		
+           		<div class="switch" >
+				    是否公开: <input type="checkbox"   name="publishPagecheckbox"/>
+				</div>
             </form>
           </div>
           <div class="modal-footer">
@@ -39,4 +47,23 @@
     <script type="text/javascript" src="/js/Tdrag-master/JavaScript/Tdrag.js"></script>
     
 <script src="/js/jquery-validation/js/jquery.validate.min.js"></script>  
-<script src="/js/jquery-validation/js/additional-methods.js"></script>  
+<script src="/js/jquery-validation/js/additional-methods.js"></script> 
+<script src="/lib/bootstrap_switch/js/bootstrap-switch.js "></script>  
+<script>
+	$(function(){
+		$('input[name="publishPagecheckbox"]').bootstrapSwitch({
+				state:false,  //input的checked可以控制这个状态
+				onText:"Public",
+				offText:"Private",
+				labelText:"State",
+				offColor:"warning",
+				/* onInit:function(event, state) {
+					this.state=false
+				}, */
+			    onSwitchChange:function(event, state) {
+					 $("#showContent").val(state)
+			   }		
+		});
+		 
+	})
+</script>

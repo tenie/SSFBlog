@@ -31,7 +31,7 @@
 	<link href="/css/pageTransition/animations.css" rel="stylesheet">
 	
 	<link href="/css/ssfblog_css/main.css" rel="stylesheet">
-	  
+	 <link rel="stylesheet" type="text/css" href="/lib/bootstrap_switch/css/bootstrap3/bootstrap-switch.css" />  
 <style>
 	p{
 	margin: 0px 0;
@@ -60,14 +60,20 @@
                     <div class="post-heading">
                         <h2   id="post-title" style="display: inline;">${data.post_title} </h2>
                         <#if data.show_content == 0>
-						    <span class="badge"  style="margin-bottom: 25px;">private</span>
+						    <span class="badge"  id="post_badge" style="margin-bottom: 25px;">private</span>
+						<#else>  
+							 <span class="badge hidden" id="post_badge" style="margin-bottom: 25px;">private</span>
 						</#if> 
-                        <!-- <p  style = "color:#777"  id="post-subtitle"> 
-							${data.post_subtitle} 
+						<p>
+						<#list tags as tag>
+							<span style ='color: #888b94;'	>${tag.tag}</span>  &nbsp;
+						</#list>
+						</p>	
+                        <!-- <p  style = "color:#777"  id="post-subtitle">   
                        	 	<span class="meta" id="time">  </span>
                         </p> -->
                     </div>
-                    <div class="author" style="    margin: 30px 0 40px;">
+                    <div class="author" style="    margin: 20px 0 40px;">
 			           <!--  <a class="avatar" href="/u/fbd6cad57496" style="width: 48px;height: 48px; vertical-align: middle; display: inline-block;">
 			           		 <img style="width: 100%;height: 100%; border: 1px solid #ddd;border-radius: 50%;" src="//upload.jianshu.io/users/upload_avatars/6615117/9954acce-5f24-408e-b3d1-636eecd73903?imageMogr2/auto-orient/strip|imageView2/1/w/144/h/144" alt="144">
 						</a>          -->
@@ -99,7 +105,7 @@
 										  </button>
 										  <ul class="dropdown-menu">
 										     
-										      <#if isLog>
+										      <#if isLog && data.show_content == 1>
 												 <li >
 												    <a href="javascript:" onclick='ssfblog.hiddenBlog(${data.id})'>
 												   		<i class="fa fa-lock"></i>&nbsp;&nbsp;
@@ -114,16 +120,16 @@
 												    </a>
 											    </li>
 											</#if> 
-										     <#if isLog>
+										     <#if isLog  && data.show_content == 0>
 												 <li >
-												    <a href="javascript:" >
+												    <a href="javascript:" onclick='ssfblog.publicBlog(${data.id})' >
 													    <i class="fa fa-unlock" aria-hidden="true"></i>&nbsp;
 													    公开
 												    </a>
 											    </li>
 											<#else>  
 												 <li class="disabled">
-												    <a href="javascript:" >
+												    <a href="javascript:"  >
 													    <i class="fa fa-unlock" aria-hidden="true"></i>&nbsp;
 													    公开
 												    </a>

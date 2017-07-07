@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 @Scope("session")
 public class LoginSession {
 	private Boolean isLog = false;
+	private String url;
 
 	public Boolean getIsLog() {
 		return isLog;
@@ -17,10 +18,21 @@ public class LoginSession {
 		this.isLog = isLog;
 	}
 
+	
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
+	}
+
 	@Override
 	public String toString() {
-		return "LoginSession [isLog=" + isLog + "]";
+		return "LoginSession [isLog=" + isLog + ", url=" + url + "]";
 	}
+
+	 
 	
 	
 	

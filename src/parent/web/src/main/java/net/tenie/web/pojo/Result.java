@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 public class Result {
-	private String error ="no";
+	private Boolean error = false;
 	private String success = "success";
 	private String msg;
 	private List<Map<String,Object>> data;
@@ -12,7 +12,7 @@ public class Result {
 	
 	
 	public Result(){}
-	public Result(String err,String massage){
+	public Result(Boolean err,String massage){
 		error = err;
 		msg = massage;
 	}
@@ -39,10 +39,11 @@ public class Result {
 	public void setMapRs(Map<String, Object> mapRs) {
 		this.mapRs = mapRs;
 	}
-	public String getError() {
+	 
+	public Boolean getError() {
 		return error;
 	}
-	public void setError(String error) {
+	public void setError(Boolean error) {
 		this.error = error;
 	}
 	public String getMsg() {
