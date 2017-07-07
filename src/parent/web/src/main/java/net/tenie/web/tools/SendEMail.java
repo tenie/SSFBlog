@@ -12,8 +12,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
-
-import javamail.MyAuthenticator;
+ 
 
 public class SendEMail {
 
@@ -103,7 +102,7 @@ public class SendEMail {
 		      message.addRecipient(Message.RecipientType.TO,   new InternetAddress(to));  
 		      message.setSubject(Subject,"utf-8");   
 		      message.setContent(body,  "text/html;charset=utf-8" );  
-		      Transport.send(message);  
+		         Transport.send(message);  
 	      } 
   	  }catch (MessagingException mex) {
 	         mex.printStackTrace();

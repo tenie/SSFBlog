@@ -1,4 +1,4 @@
-package javamail;
+package net.tenie.web.tools;
 
 /**
  *Module:       MailInfo.java
