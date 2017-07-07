@@ -1,6 +1,6 @@
 ﻿target/
 parent/.project
 parent/.settings
-web/src/main/resources/webconfig.properties
+web/src/main/resources/webconfig.properties 
 .project
 .settings
