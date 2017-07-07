@@ -1,6 +1,5 @@
 ﻿target/
 parent/.project
 parent/.settings
-*.properties 
-.project
+*.properties
 .settings
