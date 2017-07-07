@@ -59,11 +59,28 @@
   .noty_theme__mint.noty_bar .noty_buttons {
     padding: 10px; } */
 
+/*标签搜索后被选择的样式*/
+.tagSearch{
+	/* color: #fff; */
+    text-shadow: none;
+    background:#dff0d8;
+}
+.editPageTag{
+	margin-top: 10px;
+    margin-bottom: 10px;
+}
+.editPageTag+input{
+ 
+    margin-bottom: 10px;
+}
 
 a{
 	text-decoration: none !important;
 }
-
+/*徽章字体颜色*/
+.badge{
+	 color: #f2dede;;
+}
 
 /*错误信息样式,校验组件用*/
 .error{color:red;}

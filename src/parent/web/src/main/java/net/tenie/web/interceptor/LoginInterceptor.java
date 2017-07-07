@@ -15,6 +15,7 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import net.tenie.web.pojo.Result;
 import net.tenie.web.session.LoginSession;
+import net.tenie.web.session.SessionUtil;
 import net.tenie.web.tools.ApplicationContextHelper;
 
 public class LoginInterceptor extends HandlerInterceptorAdapter {
@@ -28,13 +29,13 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 		HttpServletRequest httpServletRequest =   request;
         //获取请求的URL
         String path = httpServletRequest.getRequestURI();
-        System.out.println(path);
+        LoginSession loginInfo = SessionUtil.getSession();//ApplicationContextHelper.getBeanByType(LoginSession.class);
+        loginInfo.setUrl(path);
+     
 		if(path.indexOf("/submitPublishdata") >=0
+		  || path.indexOf("/updatePublishdata") >=0
 		   ||path.indexOf("/hiddenContent/") >=0
-		   ){
-			System.out.println("进入..");
-			LoginSession loginInfo = ApplicationContextHelper.getBeanByType(LoginSession.class);
-			 
+		   ){  
 			if(loginInfo.getIsLog()!=null && loginInfo.getIsLog()){
 				System.out.println("....登入过....");
 				return true;
@@ -44,7 +45,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 				response.setHeader("Content-Type", "application/json;charset=UTF-8");
 				//out.print("nologin");
 				Result rs=new Result();
-				rs.setError("yes");
+				rs.setError(true);
 				rs.setMsg("请先登入~");
 				JsonGenerator   jsonGenerator = objectMapper.getJsonFactory().createJsonGenerator(response.getOutputStream(),JsonEncoding.UTF8);
 				

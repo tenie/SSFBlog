@@ -56,7 +56,7 @@ public class ContactPageController {
       if( StringUtils.isNullOrEmpty(name.trim())&&
 		  StringUtils.isNullOrEmpty(email.trim())&&
 		  StringUtils.isNullOrEmpty(message.trim()) ){
-    	  return new Result("error","Name,Email,Message不能空白!");
+    	  return new Result(true,"Name,Email,Message不能空白!");
       }
       //String name = queryParam.get("name");
       //jdbc.update(sql, args)

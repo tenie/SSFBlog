@@ -13,6 +13,9 @@ import org.aspectj.lang.annotation.Before;
 import org.javalite.activejdbc.DB;
 import org.springframework.stereotype.Component;
 
+import net.tenie.web.service.CecheResult;
+import net.tenie.web.session.LoginSession;
+import net.tenie.web.session.SessionUtil;
 import net.tenie.web.tools.ApplicationContextHelper;
 
 @Component   //将其纳入SpringIOC
@@ -42,6 +45,19 @@ public class OperateLogger{
 		 new DB().open(ds);
 	    //目标方法的调用
 		 Object obj = p.proceed(); 
+		 
+		 //判断那些url下需要清空缓存
+		 LoginSession loginInfo = SessionUtil.getSession();
+		 String url = loginInfo.getUrl();
+		 if( url.indexOf("/updatePublishdata") >=0
+		   ||url.indexOf("/submitPublishdata") >=0
+		   ||url.indexOf("/article/delete") >=0
+		   ||url.indexOf("/pageTitle/delete") >=0
+		   ||url.indexOf("/pageTitle/publicContent") >=0 
+		   ||url.indexOf("/pageTitle/hiddenContent") >=0 
+		   ){
+			 CecheResult.setNullSignIncacheRS(); 
+		 }
 	     return obj;
 		} finally {
 			new DB().close();

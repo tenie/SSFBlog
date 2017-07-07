@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.websocket.server.PathParam;
 
+import org.javalite.activejdbc.LazyList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import net.tenie.pojo.Blog;
+import net.tenie.pojo.BlogTag;
 import net.tenie.web.pojo.Result;
 import net.tenie.web.service.CecheResult;
 import net.tenie.web.session.LoginSession;
@@ -50,8 +52,9 @@ public class CleanBlogPageController {
 	 */
 	@RequestMapping(value="/{getCount}/{limit}/{offset}",method = RequestMethod.GET)
 	@ResponseBody
-	public Result htmlView(@PathVariable(value="limit") Integer limit ,@PathVariable(value="offset") Integer offset ,
-											@PathVariable(value="getCount") String getCount  ) throws ServletException{
+	public Result htmlView( @PathVariable(value="limit") Integer limit ,
+							@PathVariable(value="offset") Integer offset ,
+							@PathVariable(value="getCount") String getCount ) throws ServletException{
 	  List<Map<String, Object>> countList =new ArrayList();
 	  List<Map<String, Object>> list=new ArrayList<>();
 	 //判断是否登入
@@ -69,20 +72,30 @@ public class CleanBlogPageController {
      }
 	 
 	 //登入过的查询
-	 if(bool && SignIncacheRS==null){
-		  list=jdbc.queryForList("select id,post_title,post_subtitle,time,show_content,top from blog where  1=1 ORDER BY top,id  DESC limit ? offset ?",limit,offset);
+	 if(bool ){
+		  list=jdbc.queryForList("select id,post_title,time,show_content,top from blog where  1=1 ORDER BY top,id  DESC limit ? offset ?",limit,offset);
 	      //获取总行数,对分页最后页做判断时需要
 	      if("1".equals(getCount)){
 	    	 countList =  jdbc.queryForList("select count(id) as count from blog");
 	      }     
-	 }else if(!bool && cacheRS==null){
-		 list=jdbc.queryForList("select id,post_title,post_subtitle,time,show_content,top from blog where show_content=1  ORDER BY top,id  DESC limit ? offset ?",limit,offset);
+	 }else{
+		 list=jdbc.queryForList("select id,post_title,time,show_content,top from blog where show_content=1  ORDER BY top,id  DESC limit ? offset ?",limit,offset);
 	      //获取总行数,对分页最后页做判断时需要
 	      if("1".equals(getCount)){
 	    	 countList =  jdbc.queryForList("select count(id) as count from blog where show_content=1");
 	      } 
 	 }
-    
+	 List<Map<String, Object>> Rslist=new ArrayList<>();
+	 for(Map<String,Object> map :list){
+		Integer id =  (Integer) map.get("id");
+		List<String> rstaglist = new ArrayList<>();
+		 LazyList<BlogTag> taglist =	BlogTag.where("blog_id=?", id);
+		 for(BlogTag tags:taglist){
+			 rstaglist.add( tags.getString("tag"));
+		 }
+		map.put("tags", rstaglist);
+		Rslist.add(map);
+	 }
     
       //结果集赋值
       Result rs = new Result(); 
@@ -93,13 +106,67 @@ public class CleanBlogPageController {
       }
       rsMap.put("signIn", bool);
       rsMap.put("Count", rsCount);
-      rsMap.put("dataList", list); 
+      rsMap.put("dataList", Rslist); 
+      
       rs.setMapRs(rsMap); 
-      if(bool){
+    //缓存
+      if(bool && "1".equals(getCount )){
     	  CecheResult.setSignIncacheRS(rs);
-      }else{ 
+      }else if(!bool && "1".equals(getCount)){ 
     	  CecheResult.setCacheRS(rs);
       }
+      return rs;
+    }
+	
+	
+	//获取tag查询结果
+	@RequestMapping(value="/tagSearch/{tag}",method = RequestMethod.GET)
+	@ResponseBody
+	public Result tagSearchhtmlView(  @PathVariable(value="tag") String tag  ) throws ServletException{
+	  List<Map<String, Object>> countList =new ArrayList();
+	  List<Map<String, Object>> list=new ArrayList<>();
+	 //判断是否登入
+	  tag = "#"+tag;
+ 	 LoginSession session = SessionUtil.getSession();
+	 boolean bool =session.getIsLog();
+	 System.out.println("boolean==="+bool);  
+	 //登入过的查询
+	 if(bool ){
+		 
+		  list=jdbc.queryForList("select DISTINCT b.id,b.post_title,b.time,b.show_content,b.top from blog_tag a  "
+		  		+ " left JOIN blog b on b.id = a.blog_id  "
+		  		+ "   where  1=1  and a.tag =?  ORDER BY b.top,b.id  DESC ",tag);
+	        
+	 }else{
+		 list=jdbc.queryForList("select DISTINCT b.id,b.post_title,b.time,b.show_content,b.top from blog_tag a  "
+			  		+ " left JOIN blog b on b.id = a.blog_id  "
+			  		+ "   where  1=1  and b.show_content=1 and a.tag =?  ORDER BY b.top,b.id  DESC ",tag);
+		// list=jdbc.queryForList("select id,post_title,post_subtitle,time,show_content,top from blog where show_content=1  ORDER BY top,id  DESC  ");
+	      
+	 }
+	 List<Map<String, Object>> Rslist=new ArrayList<>();
+	 for(Map<String,Object> map :list){
+		Integer id =  (Integer) map.get("id");
+		List<String> rstaglist = new ArrayList<>();
+		 LazyList<BlogTag> taglist =	BlogTag.where("blog_id=?", id);
+		 for(BlogTag tags:taglist){
+			 rstaglist.add( tags.getString("tag"));
+		 }
+		map.put("tags", rstaglist);
+		Rslist.add(map);
+	 }
+    
+      //结果集赋值
+      Result rs = new Result(); 
+      String rsCount="";
+      Map<String,Object> rsMap = new HashMap();
+      if(countList.size()>0){
+    	  rsCount = ""+ countList.get(0).get("count");
+      }
+      rsMap.put("signIn", bool);
+      rsMap.put("Count", rsCount);
+      rsMap.put("dataList", Rslist); 
+      rs.setMapRs(rsMap); 
       return rs;
     }
 	
@@ -121,9 +188,9 @@ public class CleanBlogPageController {
 			int i = Blog.update("show_content = ?","id=?", 	0,id);
 			Result rs = new Result();
 			if(i!=1){
-				rs.setError("yes");
+				rs.setError(true);
 			} 
-			CecheResult.setNullSignIncacheRS();
+			
 			return rs;
 	    }
 	//public文章
@@ -133,9 +200,9 @@ public class CleanBlogPageController {
 			int i = Blog.update("show_content = ?","id=?", 	1,id);
 			Result rs = new Result();
 			if(i!=1){
-				rs.setError("yes");
+				rs.setError(true);
 			} 
-			CecheResult.setNullSignIncacheRS();
+			
 			return rs;
 	    }
 		
