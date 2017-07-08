@@ -39,7 +39,7 @@
 1. 前端:
     1. 主要页面是静态的, 数据是动态加载的, 其中每个页面都要用到的导航栏, 和footer 是制作成单独html,在页面初始化的时候进行单独加载的到主页面中.
        在首页分页查询篇博文是前端控制的, 写在了js代码中, 现在是每次加载10篇文章,如不满意可以修改源码main.js; 该分页组件是我自己写的,结合了,后端的分页查询缓存,所以,在修改前端分页相关的代码时, 可能不起效果是因为后端缓存造成的.
-    1. 展示层(view): 基于bootstrap 的一个开源模板:[cleanblog](https://github.com/deviodigital/cleanblog/)
+    1. 展示层(view): 基于bootstrap 的一个开源模板:[cleanblog](https://startbootstrap.com/template-overviews/clean-blog/)
     1. 控制层(control): jQuery框架, 页面使用ajax,与服务器端API交互json数据来控制view层;
     1. 数据模型(model) : 调用服务器端API 都会返回一个相同结构的json数据对象, 字段信息如下:
     
@@ -55,7 +55,7 @@
         项目使用了很多开源项目, 能用上这些项目非常幸运.
         还有很多网站的页面设计很优秀让我大开眼睛, 豁然开朗,包塞顿开,学到很多,如:[简书](http://www.jianshu.com/)的文章阅读页面,当前阅读页面标题部分是模仿简书的(未能超越);
         页面中的置顶按钮是从[极客标签](http://www.gbtags.com/)学来的,其他不一一列举了(如有版权,联系我删除~)
-        1. 页面模板 : [cleanblog](https://github.com/deviodigital/cleanblog/)
+        1. 页面模板 : [cleanblog](https://startbootstrap.com/template-overviews/clean-blog/)
         1. alert组件 :  [noty.js](http://ned.im/noty) 
         1. 富文本编辑组件 :  [simditor.js](http://simditor.tower.im/) 
         1. 图标组件 :  [Font Awesome](http://fontawesome.io/)
