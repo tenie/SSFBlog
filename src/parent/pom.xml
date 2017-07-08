@@ -4,8 +4,7 @@
   <artifactId>parent</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>pom</packaging>
- <modules>
- 	 <module>tools</module>   
+ <modules>   
  	 <module>pojo</module>   
 	 <module>web</module>   
 	</modules>
