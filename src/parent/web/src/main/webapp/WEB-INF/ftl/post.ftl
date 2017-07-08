@@ -10,28 +10,24 @@
     <meta name="author" content="">
 
     <title>Tenie Blog</title>
+	
 	<!--  小图标 -->
-	<link rel="shortcut icon" href="/assets/img/codeMonkey.ico">
+	<link rel="shortcut icon" href="../lib/assets/img/codeMonkey.ico"> 
     <!-- Bootstrap Core CSS -->
-    <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-
+    <link href="../lib/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet"> 
+	 <link href="../lib/css/ssfblog_css/main.css" rel="stylesheet">
     <!-- Theme CSS -->
-    <link href="/css/clean-blog.min.css" rel="stylesheet">
-
-    <!-- Custom Fonts -->
-    <link href="/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" type="text/css" href="/simditor/styles/simditor.css" /> 
-    <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
-  
+    <link href="../lib/css/clean-blog.min.css" rel="stylesheet"> 
+    <!-- Custom Fonts --> 
+    <link href="../lib/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="../lib/css/font.css" rel="stylesheet" type="text/css"> 
+	<link rel="stylesheet" type="text/css" href="../lib/simditor/styles/simditor.css" /> 
+	<!--  提示alert样式 -->
+	<link rel="stylesheet" type="text/css" href="../lib/js/bootstrap-toastr/toastr.min.css" />  
+	<link rel="stylesheet" type="text/css" href="../lib/js/jQuery-FlexSlider/flexslider.css" />  
+	<link rel="stylesheet" type="text/css" href="../lib/noty-master/lib/noty.css" />  
+	<link rel="stylesheet" type="text/css" href="../lib/bootstrap_switch/css/bootstrap3/bootstrap-switch.css" /> 
 	 
-	<link rel="stylesheet" type="text/css" href="/lib/noty-master/lib/noty.css" /> 
-	
-	<!--  pageTransition-->
-	<link href="/css/pageTransition/animations.css" rel="stylesheet">
-	
-	<link href="/css/ssfblog_css/main.css" rel="stylesheet">
-	 <link rel="stylesheet" type="text/css" href="/lib/bootstrap_switch/css/bootstrap3/bootstrap-switch.css" />  
 <style>
 	p{
 	margin: 0px 0;
@@ -190,31 +186,26 @@
     
     
     
-
-    <!-- jQuery -->
-<script src="/vendor/jquery/jquery.min.js"></script> 
-<script src="/js/jquery.cookie.js" type="text/javascript"></script> 
-<script src="/js/ssfblog_js/main.js"></script>
-
-<!--  <script src="/https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>-->
-<!-- Bootstrap Core JavaScript https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css-->
-<script src="/vendor/bootstrap/js/bootstrap.min.js"></script>
-<!-- <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>--> 
-
+	 
+<!-- jQuery -->
+<script src="../lib/vendor/jquery/jquery.min.js"></script>   
+<script src="../lib/js/jquery.cookie.js" type="text/javascript"></script> 
+<!--  my js-->
+<script src="../lib/js/ssfblog_js/main.js"></script> 
+<script src="../lib/vendor/bootstrap/js/bootstrap.min.js"></script> 
 <!-- Contact Form JavaScript -->
-<script src="/js/jqBootstrapValidation.js"></script>
-<script src="/js/contact_me.js"></script>
-
+<script src="../lib/js/jqBootstrapValidation.js"></script>
+<script src="../lib/js/contact_me.js"></script> 
 <!-- Theme JavaScript -->
-<script src="/js/clean-blog.min.js"></script> 
+<script src="../lib/js/clean-blog.min.js"></script> 
+<script src="../lib/js/bootstrap-toastr/toastr.min.js"></script>
      <!-- 富文本编辑框 -->
-<script type="text/javascript" src="/simditor/scripts/module.js"></script>
-<script type="text/javascript" src="/simditor/scripts/hotkeys.js"></script> 
-<script type="text/javascript" src="/simditor/scripts/simditor.js"></script>
-
-
-<script type="text/javascript" src="/lib/noty-master/lib/noty.js"></script>
-
-<script type="text/javascript" src="/lib/noty-master/lib/mo.min.js"></script>
+<script type="text/javascript" src="../lib/simditor/scripts/module.js"></script>
+<script type="text/javascript" src="../lib/simditor/scripts/hotkeys.js"></script> 
+<script type="text/javascript" src="../lib/simditor/scripts/simditor.js"></script> 
+<script type="text/javascript" src="../lib/js/jQuery-FlexSlider/jquery.flexslider-min.js"></script>
+<script type="text/javascript" src="../lib/noty-master/lib/noty.js"></script> 
+<script type="text/javascript" src="../lib/noty-master/lib/mo.min.js"></script>
+ 
 </body>
 </html>

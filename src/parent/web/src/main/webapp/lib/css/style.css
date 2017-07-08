@@ -28,21 +28,21 @@
   height: 780px;
 }
 .bg-slider-wrapper .flexslider .slide.slide-1 {
-  background: #253340 url('/img/bg-header-1.jpg') no-repeat 50% top;
+  background: #253340 url('../img/bg-header-1.jpg') no-repeat 50% top;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
 }
 .bg-slider-wrapper .flexslider .slide.slide-2 {
-  background: #253340 url('/img/bg-header-2.jpg') no-repeat 50% top;
+  background: #253340 url('../img/bg-header-2.jpg') no-repeat 50% top;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
 }
 .bg-slider-wrapper .flexslider .slide.slide-3 {
-  background: #253340 url('/img/bg-header-3.jpg') no-repeat 50% top;
+  background: #253340 url('../img/bg-header-3.jpg') no-repeat 50% top;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -65,18 +65,18 @@
   top: 0;
   left: 0;
   height: 500px;
-  background: #253340 url('/img/bg-header-small-1.jpg') no-repeat 50% top;
+  background: #253340 url('../img/bg-header-small-1.jpg') no-repeat 50% top;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
 }
 .headline-bg.pricing-headline-bg {
-  background-image: url('/img/bg-header-small-2.jpg');
+  background-image: url('../img/bg-header-small-2.jpg');
 }
 .headline-bg.contact-headline-bg {
-  background-image: url('/img/bg-header-small-3.jpg');
+  background-image: url('../img/bg-header-small-3.jpg');
 }
 .headline-bg.about-headline-bg {
-  background-image: url('/img/bg-header-small-4.jpg');
+  background-image: url('../img/bg-header-small-4.jpg');
 }
