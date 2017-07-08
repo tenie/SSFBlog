@@ -20,3 +20,13 @@ CREATE TABLE `blog_tag` (
   PRIMARY KEY (`id`),
   KEY `blog_id` (`blog_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8 COMMENT='标签'
+
+
+CREATE TABLE `contact_data` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(30) DEFAULT NULL,
+  `phone` varchar(11) DEFAULT NULL,
+  `email` varchar(60) DEFAULT NULL,
+  `message` varchar(300) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8
