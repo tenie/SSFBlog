@@ -3,6 +3,7 @@ package net.tenie.web.controller;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -28,8 +29,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import net.tenie.pojo.Blog;
+import net.tenie.pojo.BlogComment;
 import net.tenie.pojo.BlogTag;
 import net.tenie.web.pojo.Result;
+import net.tenie.web.pojo.VisitorPO;
 import net.tenie.web.service.CecheResult;
 import net.tenie.web.session.LoginSession;
 import net.tenie.web.session.SessionUtil;
@@ -70,6 +73,39 @@ public class ArticleController {
 	    	   request.setAttribute("data", blog);
 	    	   request.setAttribute("tags", taglist);
 		       request.setAttribute("isLog",islog); 
+		       //评论数据
+		      List<BlogComment>  BlogCommentlist=BlogComment.where("post_id= ? and parent_id is null or parent_id = '' ",id).load();
+		      List<Map> rs = new ArrayList();
+		      for(BlogComment bc:BlogCommentlist){
+		    	  Map<String,Object> rmap = bc.toMap();
+		    	  rmap.put("subcomment", BlogComment.where("post_id=? and parent_id=?", id,bc.getId()).load()); 
+		    	  rs.add(rmap);
+		      }
+//		      List<BlogComment>  BlogCommentlist=BlogComment.where("post_id= ? and parent_id is null or parent_id = '' ",id).load();
+		      //List<BlogComment>  subCommentlist=BlogComment.where("parent_id is not null or parent_id <> '' and post_id= ?" ,id).load();  
+//		      Map<Integer,List<BlogComment>> subcomment = new LinkedHashMap();
+//		      for(BlogComment po : BlogCommentlist){
+//		    	  Integer parentId = po.getInteger("parent_id");
+//		    	  List<BlogComment>  polist ;
+//		    	  if(parentId !=null){
+//		    		  polist =   subcomment.get(parentId);
+//		    		  if(polist !=null){
+//		    			  polist.add(po);  
+//		    		  }else{
+//		    			  polist = new ArrayList<>();
+//		    			  polist.add(po);
+//		    			  subcomment.put(parentId, polist);
+//		    		  }
+//		    		  
+//		    	  }
+//		      }
+//		      System.out.println(subcomment);
+		      Map<String,String> map = new LinkedHashMap();
+		     // map.put("foo", "1111");
+//		      request.setAttribute("subcommentMap", rs);
+		      request.setAttribute("commentLength",BlogCommentlist.size()); 
+		      request.setAttribute("comments",rs); 
+		       
 	       }
 	       return  "/post";
 	    }
@@ -122,6 +158,32 @@ public class ArticleController {
 				rs.setError(true);
 				return rs;
 			} 
+	    } 
+		
+		/**
+		 * 保存评论
+		 * @param request
+		 * @param id
+		 * @return
+		 * @throws ServletException
+		 * @throws IOException
+		 */
+		@RequestMapping(value="/comment/{parentId}",method = RequestMethod.POST) 
+		@ResponseBody
+		public Result saveComment(HttpServletRequest request,@PathVariable("parentId") String parentId,VisitorPO visitor) throws ServletException, IOException{ 
+			BlogComment comment = new BlogComment();
+			comment.setString("post_id",visitor.getPostId());
+			comment.setString("name",visitor.getName());
+			comment.setString("comment",visitor.getComment());
+			comment.setString("email", visitor.getEmail());
+			comment.setString("url", visitor.getUrl());
+			if(parentId !=null && !"".equals(parentId) &&  !"-1".equals(parentId)){
+				comment.setString("parent_id", parentId);
+			}
+			comment.insert();
+		  	Result rs = new Result(); 
+			return rs;
+			  
 	    } 
 		 
 }
