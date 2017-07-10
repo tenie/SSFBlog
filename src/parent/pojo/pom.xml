@@ -11,15 +11,11 @@
  
 
  <build> 
-    <plugins>
-      <plugin>
-        <groupId>org.javalite</groupId>
-        <artifactId>activejdbc-instrumentation</artifactId>
-      </plugin>
-      <plugin>
-         <groupId>org.eclipse.m2e</groupId>
-               <artifactId>lifecycle-mapping</artifactId>
-           </plugin>
-    </plugins>
+   	 <plugins>
+			<plugin>
+				<groupId>org.javalite</groupId>
+				<artifactId>activejdbc-instrumentation</artifactId>
+			</plugin>
+		</plugins>
   </build>
 </project>

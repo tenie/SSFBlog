@@ -346,14 +346,14 @@
 	<dependency>
 	    <groupId>javax.mail</groupId>
 	    <artifactId>javax.mail-api</artifactId>
-	    <version>1.5.6</version>
+	    <version>1.5.5</version>
 	</dependency>
 		<!-- https://mvnrepository.com/artifact/com.sun.mail/javax.mail -->
-	<dependency>
-	    <groupId>com.sun.mail</groupId>
-	    <artifactId>javax.mail</artifactId>
-	    <version>1.5.6</version>
-	</dependency>
+	<!-- <dependency> -->
+	    <!-- <groupId>com.sun.mail</groupId> -->
+	    <!-- <artifactId>javax.mail</artifactId> -->
+	    <!-- <version>1.5.6</version> -->
+	<!-- </dependency> -->
     <dependency>
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-email</artifactId>
@@ -394,7 +394,7 @@
                 </excludes>
             </resource>
         </resources>
-        
+        <pluginManagement>
 	    <plugins>
 	        <!-- 设置使用多少的jdk编译, 不设置会以1.5的来编译,坑爹 -->  
 	        <plugin>  
@@ -438,13 +438,15 @@
       		 <plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-resources-plugin</artifactId>
-					 <version>2.4</version>
+					 <version>3.0.0</version>
 					<configuration>
 						<encoding>UTF-8</encoding>
 					</configuration>
-				</plugin>  
+			</plugin>  
+			
+			
 				
-           <!--  <plugin>
+           <plugin>
                 <groupId>org.javalite</groupId>
                 <artifactId>activejdbc-instrumentation</artifactId>
                 <version>1.4.13</version>
@@ -456,53 +458,40 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>   -->
+            </plugin>    
             
-            <plugin>
-          <groupId>org.javalite</groupId>
-          <artifactId>activejdbc-instrumentation</artifactId>
-          <version>1.4.13</version>
-          <executions>
-            <execution>
-              <phase>process-classes</phase>
-              <goals>
-                <goal>instrument</goal>
-              </goals>
-            </execution>
-          </executions>
-        </plugin>
-         <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
-        <plugin>
-            <groupId>org.eclipse.m2e</groupId>
-            <artifactId>lifecycle-mapping</artifactId>
-            <version>1.0.0</version>
-            <configuration>
-                <lifecycleMappingMetadata>
-                    <pluginExecutions>
-                        <pluginExecution>
-                            <pluginExecutionFilter>
-                                <groupId>org.javalite</groupId>
-                                <artifactId>
-                                    activejdbc-instrumentation
-                                </artifactId>
-                                <versionRange>
-                                    [1.4.13,)
-                                </versionRange>
-                                <goals>
-                                    <goal>instrument</goal>
-                                </goals>
-                            </pluginExecutionFilter>
-                            <action>
-                                <ignore></ignore>
-                            </action>
-                        </pluginExecution>
-                    </pluginExecutions>
-                </lifecycleMappingMetadata>
-            </configuration>
-        </plugin>
-            
-            
+           
+				 <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>org.javalite</groupId>
+										<artifactId>
+											activejdbc-instrumentation
+										</artifactId>
+										<versionRange>
+											[1.4.13,)
+										</versionRange>
+										<goals>
+											<goal>instrument</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore></ignore>
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>  
 	    </plugins>  
+	</pluginManagement>
 	</build>  
 	
  <!--依赖仓库设置  -->
