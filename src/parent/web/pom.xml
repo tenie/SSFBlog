@@ -20,10 +20,10 @@
   <build>
   	<finalName>ROOT</finalName>
   	<plugins>
-			<plugin>
+			<!-- <plugin>
 				<groupId>org.javalite</groupId>
 				<artifactId>activejdbc-instrumentation</artifactId>
-			</plugin>
+			</plugin> -->
 			<plugin>
 				 <groupId>org.eclipse.m2e</groupId>
 	          	 <artifactId>lifecycle-mapping</artifactId>
