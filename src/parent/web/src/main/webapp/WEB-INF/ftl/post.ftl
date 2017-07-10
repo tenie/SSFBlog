@@ -204,7 +204,7 @@
 				</div>
        		</div>
        		 <div class="row"><!-- 喜欢按钮-->
-       		 	<div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1" >
+       		 	<div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1" style="margin-top: 20px;margin-bottom: 30px;" >
 						<div class="meta-bottom">
 						    <div class="like">
 						    	<div class="btn like-group" style=" padding: 13px 0 15px;  font-size: 0;  border: 1px solid #ea6f5a;  border-radius: 40px;">
@@ -216,105 +216,135 @@
 						   	</div> <!----></div> 
 						</div>                    
 				</div>
-       		</div>
+       		</div> 
        		
             <div class="row">
        		 	<div id="post_coment"class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1" >
                    <div class="row">
-                   		<div class=col-xs-12">
-                   			评论
+                   		<div class="col-xs-12">
+                   			<h5>
+                   			 <span id="coment_count">${commentLength}</span> 评论
+                   			</h5>
                    		</div>
-                   		<div class=col-xs-12">
+                   		<div class="col-xs-12">
+						<#list comments as commentObj> 
+							   
                    			 <!-- 评论模块, 包含主评论和子评论 -->
 								<div  id="comment-12597916" class="comment" style="padding: 20px 0 30px;border-bottom: 1px solid #f0f0f0;">
 									<div class="master_comment">
 										<div class="author" style="    margin-bottom: 15px;">
 											<a href="#" style= "margin-right: 5px; width: 38px; height: 38px;  vertical-align: middle;  display: inline-block;" target="_blank" class="avatar">
-												<img style="width: 100%; height: 100%;  border: 1px solid #ddd;  border-radius: 50%;" src="//upload.jianshu.io/users/upload_avatars/5951273/c18ed5e9-7077-462d-a163-976f1232be28.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/114/h/114">
+												<img style="width: 100%; height: 100%;  border: 1px solid #ddd;  border-radius: 50%;" src="/lib/img/head/head_96.754632229085px_1196697_easyicon.net.png">
 											</a>
 											<div class="info" style="display: inline-block; vertical-align: middle;">
-												<a href="/u/ef1ab35d8e27" target="_blank" class="name">不倒翁Linda</a><!---->
+												<a href="javascript:" target="_blank" class="name">${commentObj.name}</a><!---->
 												<div class="meta" style="font-size: 12px;  color: #969696;">
-													<span>2楼 · 2017.07.07 22:33</span>
+													<span>${commentObj_index + 1 }楼 · ${commentObj.created_at}</span>
 												</div>
 											</div>
 										</div>
 										<div class="comment-wrap">
 											<div class="comment_content">
 												<p style=" font-size: 16px;">
-												皓月当空，泪眼婆娑晚安💤愿远嫁的姑娘都幸福<img src="//static.jianshu.io/assets/emojis/blossom.png" alt=":blossom:" title=":blossom:" class="emoji" width="20" height="20"><img src="//static.jianshu.io/assets/emojis/cherry_blossom.png" alt=":cherry_blossom:" title=":cherry_blossom:" class="emoji" width="20" height="20">🍵
+												${commentObj.comment}
 												</p>
 											</div> 
 												<a  href="#"style="color:#969696"> <i class="fa fa-thumbs-o-up" aria-hidden="true"></i> <span>赞</span></a>
-												<a onclick="foo()" href="javascript:"style="color:#969696"> <i class="fa fa-commenting-o" aria-hidden="true"></i> <span>回复</span></a> 
+												<a onclick="foo(this,${commentObj.id})" href="javascript:"style="color:#969696"> <i class="fa fa-commenting-o" aria-hidden="true"></i> <span>回复</span></a> 
 										</div>
 									</div>
-									<!-- 子评论: 初始时没有-->
+									  
+								  <#if  commentObj.subcomment?has_content  >
+								  <#assign i =  commentObj.subcomment?size>
+								  
+								   <#list commentObj.subcomment as item>  
+									<!-- 子评论: 初始时没有 subcommentMap-->
 									<div class="sub-comment-list  "  style="margin-top: 20px;  padding: 5px 0 5px 20px; border-left: 2px solid #d9d9d9;">
 										<div id="comment-12598354" class="sub-comment" style="margin-bottom: 15px;  padding-bottom: 15px;  border-bottom: 1px dashed #f0f0f0;">
 											<p style="margin: 0 0 5px; font-size: 14px; line-height: 1.5;">
-												<a style='    color: #3194d0;' href="/u/0f6e22338545" target="_blank">简舒悦</a>：
-												<span><a href="/users/ef1ab35d8e27" class="maleskine-author" target="_blank" data-user-slug="ef1ab35d8e27">@不倒翁Linda</a> 谢谢，晚安</span>
+												<a style='    color: #3194d0;' href="javascript:" target="_blank">${item.name}</a>：
+												<span><a href="/users/ef1ab35d8e27" class="maleskine-author" target="_blank" data-user-slug="ef1ab35d8e27">${item.comment}</span>
 											</p>
 											<div class="sub-tool-group" style="font-size: 12px; color: #969696;">
-												<span>2017.07.07 22:43</span>
-												<a href="#" style="margin-left: 10px;  color: #969696;"><i class="fa fa-commenting-o" aria-hidden="true"></i><span>回复</span></a>
-												<!--<a class="report"><span>举报</span></a>-->
+												<span>${item.created_at}</span>
+												<a href="javascript:" onclick="foo(this,${commentObj.id},'${item.name}')" style="margin-left: 10px;  color: #969696;"><i class="fa fa-commenting-o" aria-hidden="true"></i><span>回复</span></a>
 											</div>
 										</div>
+										<!--
 										<div class="sub-comment more-comment"  style="font-size: 14px; margin-bottom: 15px;  padding-bottom: 15px; color: #969696; border: none;">
-											<a style="color: #969696" href="javascript:" class="add-comment-btn"><i class="fa fa-pencil" aria-hidden="true"></i><span>添加新评论</span></a><!----><!----><!---->
-										</div>
-										<!---->
-                                        <!-- 回复评论-->
-                                            <div id="reply_area" class="hidden" >
-                                                <form class="new-comment"> 
-                                                	<div class="row">
-  <div class="col-xs-6">
-    <div class="input-group">
-      <span class="input-group-btn">
-        <a  class="btn btn-default" style="    padding: 6px 12px;">name</a>
-      </span>
-      <input style="border-radius:0;" type="text" class="form-control" >
-    </div><!-- /input-group -->
-  </div><!-- /.col-lg-6 -->
-   <div class="col-xs-6">
-    <div class="input-group">
-      <span class="input-group-btn">
-        <a class="btn btn-default" style="    padding: 6px 12px;" type="button">email</a>
-      </span>
-      <input style="border-radius:0;" type="text" class="form-control" placeholder="Search for...">
-    </div><!-- /input-group -->
-  </div><!-- /.col-lg-6 --> 
-</div><!-- /.row -->
-                                                	
-                                                	
-                                                	
-                                                	
-                                                    <textarea class="foo" placeholder="写下你的评论...">
-                                                    </textarea>
-                                                    <div style="height: 50px;" class="write-function-block">
-                                                        <div class="emoji-modal-wrap">
-                                                            <a class="emoji">
-                                                                <i class="iconfont ic-comment-emotions">
-                                                                </i>
-                                                            </a> 
-                                                        </div>
-                                                        <div class="hint" style="float: left;  margin: 20px 0 0 20px; font-size: 13px;  color: #969696;"> ⌘+Return 发表 </div>
-                                                        <a class="btn btn-send  foosend"> 发送 </a>
-                                                        <a class="cancel" style=" float: right; margin: 18px 30px 0 0; font-size: 16px;  color: #969696;"> 取消 </a>
-                                                    </div>
-                                                </form>
-                                            </div>	
+											<a style="color: #969696" href="javascript:" class="add-comment-btn"><i class="fa fa-pencil" aria-hidden="true"></i><span>添加新评论</span></a>
+										</div> -->
+										<#if item_index == (i-1)>
+										 <!-- 回复评论-->
+                                         <div class="reply_area"   >
+                                         </div>	
+										</#if>
+                                       
 									</div>
-									
-																	
-								</div>                  			 
+								 </#list> 
+								 <#else>
+								 <!-- 子评论: 初始时没有 subcommentMap-->
+									<div class="sub-comment-list  hidden "  style="margin-top: 20px;  padding: 5px 0 5px 20px; border-left: 2px solid #d9d9d9;"> 
+                                        <!-- 回复评论-->
+                                         <div class="reply_area"   >
+                                        </div>	
+									</div>
+								 </#if>
+									 				
+								</div>    
+							</#list>	              			 
                    		</div>
                    		
                    </div>
 				</div>
        		</div>
+            <!-- 提交评论区-->
+             <div class="row" >
+       		 	<div id="comment_form_div"class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1" >
+                        <div class="comment_block">
+							<form id="coment_form">
+                            <p class="comment-form-comment">
+                                <label for="comment">
+                                    Comment <a href="javascript:" id="cancel_reply" class='hidden' style="font-weight: lighter;padding-left:10px;text-decoration: underline !important;">Cancel</a>
+                                </label>
+                                <textarea id="comment" name="comment"   cols="45" rows="8" maxlength="65525" aria-required="true" required="required" style="width: 100%;"></textarea>
+                            </p>
+                            <p class="comment-form-author">
+                                <label for="author">
+                                    Name
+                                    <span class="required">
+                                        *
+                                    </span>
+                                </label>
+                                <input id="author" name="name" type="text"  size="30" maxlength="30" aria-required="true" required="required">
+                            </p>
+                            <p class="comment-form-email">
+                                <label for="email">
+                                    Email
+                                    <span class="required">
+                                        *
+                                    </span>
+                                </label>
+                                <input id="email" name="email" type="email"  size="30"  maxlength="80" aria-describedby="email-notes" aria-required="true" required="required">
+                            </p>
+                            <p class="comment-form-url">
+                                <label for="url">
+                                    Website
+                                </label>
+                                <input id="url" name="url" type="url" value="" size="30" maxlength="200">
+                            </p>
+								<input type="hidden" name="postId" value="${data.id}"> 
+							</form>
+							 <p  >
+								<button id="post_comment">
+									Post Comment
+								</button>
+                            </p>
+                        </div>                       
+       		 	</div>
+             </div><!-- end 提交评论区-->
+
+
         </div>
     </article>
 
@@ -348,9 +378,50 @@
 <script type="text/javascript" src="../lib/noty-master/lib/noty.js"></script> 
 <script type="text/javascript" src="../lib/noty-master/lib/mo.min.js"></script>
  <script>
- 	function foo(){ 
- 		$("#reply_area").removeClass("hidden")
+ //@ sourceURL=jsname.js
+ 	var comment_html;
+ 	function foo(thiz,id,name){ 
+		 
+         var $div = $("#comment_form_div");
+		 console.log($div.html())   
+         $div.empty()
+         //找到评论的区
+        var $comment =  $(thiz).closest(".comment")
+        var $reply_area =  $comment.find(".reply_area")
+         $reply_area.append(comment_html)
+         if(name){
+         	$("#comment").append("@"+name+" ")
+         }
+         $("#comment").focus()
+         $reply_area.parent().removeClass("hidden")   
+          $("#cancel_reply").removeClass("hidden")
+          //取消
+         $("#cancel_reply").one("click",function(){  
+         		 $reply_area.empty();
+         		 $div.append(comment_html)
+         		 $("#cancel_reply").addClass("hidden")
+         		 $("#post_comment").click(function(){
+					 bindEvenToPostComment("-1")
+						
+					})
+         	})
+         	//提交
+		 $("#post_comment").on("click",function(){bindEvenToPostComment(id)})
  	}
+
+	$(function(){
+		comment_html =  $("#comment_form_div").html();
+		$("#post_comment").click(function(){
+		 bindEvenToPostComment("-1")
+			
+		})
+	})
+
+	function bindEvenToPostComment(id){ 
+	$.post("comment/"+id,$("#coment_form").serialize(),function(){
+		location.reload();
+	})
+	}
  </script>
 </body>
 </html>
