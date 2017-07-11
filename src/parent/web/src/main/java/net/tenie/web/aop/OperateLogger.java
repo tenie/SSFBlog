@@ -55,9 +55,13 @@ public class OperateLogger{
 		   ||url.indexOf("/pageTitle/delete") >=0
 		   ||url.indexOf("/pageTitle/publicContent") >=0 
 		   ||url.indexOf("/pageTitle/hiddenContent") >=0 
+		   ||url.indexOf("/sigOut") >=0   
 		   ){
-			 CecheResult.setNullSignIncacheRS(); 
+			 CecheResult.setNullSignIncacheRS();
+			 CecheResult.setNullCacheRS();
 		 }
+		 
+		 
 	     return obj;
 		} finally {
 			new DB().close();

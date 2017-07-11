@@ -394,7 +394,7 @@ ssfblog.editPage=function(id){
 							//标签赋值
 							for(var i=0;i<data.data.length;i++){
 								var val = data.data[i].tag
-								$("#edittag").append( "<span class='foo'>"+" "+val+" <button type='button' class='ssfbdel' onclick='ssfblog.rmtag(this)'><span aria-hidden='true' style=' float: none;'>×</span></button>"
+								$("#edittag").append( "<span class=''>"+" "+val+" <button type='button' class='ssfbdel' onclick='ssfblog.rmtag(this)'><span aria-hidden='true' style=' float: none;'>×</span></button>"
 										  +"<input type='hidden' name='tag' value='"+val+"' ></span>"
 											)
 							}
@@ -459,9 +459,7 @@ ssfblog.updateBlogData=function(data,$modal){
 }
 
 //提交博文保存
-ssfblog.saveBlogData=function(data){
-	 
- 
+ssfblog.saveBlogData=function(data){ 
 	
 	//获取字符数
 	var text = $(".simditor-body").text();
@@ -830,19 +828,23 @@ ssfblog.paging=function(lm,previous,next){
 		//给下一页加样式   
 		 if((page.offset+lm) >= page.count){  //偏移量加limit 大于总行数的话, 给下一页添加禁用样式
 			 if(next&& !option.previous){
-				 ssfblog.addDisabled(next) ; 
+				 $(next).hide();  //隐藏
+				// ssfblog.addDisabled(next) ; //禁用样式 
 			 } 
 		}else{
 			 if(next)
-			 ssfblog.rmDisabled(next)
+			// ssfblog.rmDisabled(next)
+				 $(next).show();  //显示
 		} 
 		 //给上一页加样式 
 		 if(page.offset<=0){ //如果offset<=0 添加禁用样式
 			 if(previous)
-			 ssfblog.addDisabled(previous)
+			// ssfblog.addDisabled(previous) //禁用样式改为隐藏
+			$(previous).hide();			    //隐藏
 		}else{
 			 if(previous)
-			 ssfblog.rmDisabled(previous)
+				 $(previous).show();			//现实
+			// ssfblog.rmDisabled(previous)//移除禁用样式改为显示
 		} 
 		$.extend(ssfblog.pageInfo,page)  //全局变量缓存
 		return page;
@@ -953,13 +955,13 @@ ssfblog.nav_Html=function(){
 	$("#a_dropdown").hover( function(){ $(this).click() },function(){} );
 }
 
-//publishPage.html
+//publishPage.html 页面初始化函数
 ssfblog.publishPage_html=function(){ 
 	//把输入框中的标签放入标签栏,并情况输入框
 	var tagIn = function(){
 		if($("#tagInput").val()){
 			var val = $("#tagInput").val()
-			$("#tag").append( "<span class='foo'>"+" #"+val+" <button type='button' class='ssfbdel' onclick='ssfblog.rmtag(this)'><span aria-hidden='true' style=' float: none;'>×</span></button>"
+			$("#tag").append( "<span class=''>"+" #"+val+" <button type='button' class='ssfbdel' onclick='ssfblog.rmtag(this)'><span aria-hidden='true' style=' float: none;'>×</span></button>"
 							  +"<input type='hidden' name='tag' value='#"+val+"' ></span>"
 								)
 			$("#tagInput").val("") 
@@ -988,7 +990,7 @@ ssfblog.editPage_html=function(){
 	var tagIn = function(){
 		if($("#edittagInput").val()){
 			var val = $("#edittagInput").val()
-			$("#edittag").append( "<span class='foo'>"+" #"+val+" <button type='button' class='ssfbdel' onclick='ssfblog.rmtag(this)'><span aria-hidden='true' style=' float: none;'>×</span></button>"
+			$("#edittag").append( "<span class=''>"+" #"+val+" <button type='button' class='ssfbdel' onclick='ssfblog.rmtag(this)'><span aria-hidden='true' style=' float: none;'>×</span></button>"
 							  +"<input type='hidden' name='tag' value='#"+val+"' ></span>"
 								)
 			$("#edittagInput").val("")
@@ -1029,7 +1031,7 @@ $(function(){
 	//index.html
 	if($("body").hasClass("index_page")){
 		//分页初始化; 设置每页显示的行数, 上一页和下一页的按钮
-		pageSplit = ssfblog.paging(10,"#previous","#next");  
+		pageSplit = ssfblog.paging(2,"#previous","#next");  
 		//获取第一页
 		obj = pageSplit() 
 		//页面内容初始化
@@ -1077,18 +1079,18 @@ $(function(){
 
 //bolg内容加载
 //@Deprecated  //页面有后端渲染了
-ssfblog.initPost=function(){ 
-	var postContent = $.cookie("postContent")
-	
-	//$.removeCookie("postContent");
-	if(!postContent){return}
-	$.get("/pageTitle/postContent/"+postContent,function(data){ 
-		$(".post-heading").append('<span class="meta" id="time">Posted by <a href="#">Tenie Bolg</a> on '+$(data)[0].time+' </span>')
-		$("#post-title").text($(data)[0].post_title)
-		$("#post-subtitle").text($(data)[0].post_subtitle)
-		$("#postContent").html($(data)[0].post_content)
-	}) 
-}
+//ssfblog.initPost=function(){ 
+//	var postContent = $.cookie("postContent")
+//	
+//	//$.removeCookie("postContent");
+//	if(!postContent){return}
+//	$.get("/pageTitle/postContent/"+postContent,function(data){ 
+//		$(".post-heading").append('<span class="meta" id="time">Posted by <a href="#">Tenie Bolg</a> on '+$(data)[0].time+' </span>')
+//		$("#post-title").text($(data)[0].post_title)
+//		$("#post-subtitle").text($(data)[0].post_subtitle)
+//		$("#postContent").html($(data)[0].post_content)
+//	}) 
+//}
 
 /**
  *  图片轮播激活方法

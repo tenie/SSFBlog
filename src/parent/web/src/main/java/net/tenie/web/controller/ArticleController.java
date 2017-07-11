@@ -70,9 +70,9 @@ public class ArticleController {
 	    	   index++;
 	    	   blog.setInteger("read_quantity",index );
 	    	   blog.saveIt();
-	    	   request.setAttribute("data", blog);
-	    	   request.setAttribute("tags", taglist);
-		       request.setAttribute("isLog",islog); 
+	    	 
+		       
+		       
 		       //评论数据
 		      List<BlogComment>  BlogCommentlist=BlogComment.where("post_id= ? and parent_id is null or parent_id = '' ",id).load();
 		      List<Map> rs = new ArrayList();
@@ -80,29 +80,11 @@ public class ArticleController {
 		    	  Map<String,Object> rmap = bc.toMap();
 		    	  rmap.put("subcomment", BlogComment.where("post_id=? and parent_id=?", id,bc.getId()).load()); 
 		    	  rs.add(rmap);
-		      }
-//		      List<BlogComment>  BlogCommentlist=BlogComment.where("post_id= ? and parent_id is null or parent_id = '' ",id).load();
-		      //List<BlogComment>  subCommentlist=BlogComment.where("parent_id is not null or parent_id <> '' and post_id= ?" ,id).load();  
-//		      Map<Integer,List<BlogComment>> subcomment = new LinkedHashMap();
-//		      for(BlogComment po : BlogCommentlist){
-//		    	  Integer parentId = po.getInteger("parent_id");
-//		    	  List<BlogComment>  polist ;
-//		    	  if(parentId !=null){
-//		    		  polist =   subcomment.get(parentId);
-//		    		  if(polist !=null){
-//		    			  polist.add(po);  
-//		    		  }else{
-//		    			  polist = new ArrayList<>();
-//		    			  polist.add(po);
-//		    			  subcomment.put(parentId, polist);
-//		    		  }
-//		    		  
-//		    	  }
-//		      }
-//		      System.out.println(subcomment);
-		      Map<String,String> map = new LinkedHashMap();
-		     // map.put("foo", "1111");
-//		      request.setAttribute("subcommentMap", rs);
+		      } 
+		      Map<String,String> map = new LinkedHashMap(); 
+		      request.setAttribute("data", blog);
+	    	  request.setAttribute("tags", taglist);
+		      request.setAttribute("isLog",islog); 
 		      request.setAttribute("commentLength",BlogCommentlist.size()); 
 		      request.setAttribute("comments",rs); 
 		       
@@ -182,8 +164,46 @@ public class ArticleController {
 			}
 			comment.insert();
 		  	Result rs = new Result(); 
-			return rs;
-			  
+			return rs; 
 	    } 
+		
+		/**
+		 * 喜欢按钮触发 加1并返回
+		 * @param id
+		 * @return
+		 * @throws ServletException
+		 * @throws IOException
+		 */
+		@RequestMapping(value="/likeplus/{id}",method = RequestMethod.GET) 
+		@ResponseBody
+		public Result likePlusPlus(@PathVariable("id") String id) throws ServletException, IOException{ 
+	       Blog blog = new Blog().findById(id); 
+	       Integer likecount = (blog.getInteger("post_like")+1);
+	       blog.setInteger("post_like", likecount);
+	       blog.saveIt();
+	       Result rs = new Result(); 
+	       rs.setMsg(likecount+"");
+	       return rs;
+	    }
+		
+		/**
+		 * 评论里的赞 加1后返回
+		 * @param id
+		 * @return
+		 * @throws ServletException
+		 * @throws IOException
+		 */
+		@RequestMapping(value="/commentLikePlus/{id}",method = RequestMethod.GET) 
+		@ResponseBody
+		public Result commentLikePlusPlus(@PathVariable("id") String id) throws ServletException, IOException{ 
+			 BlogComment blogComment = new BlogComment().findById(id); 
+		       Integer likecount = (blogComment.getInteger("comment_like")+1);
+		       blogComment.setInteger("comment_like", likecount);
+		       blogComment.saveIt();
+		       Result rs = new Result(); 
+		       rs.setMsg(likecount+"");
+		       return rs;
+	    }
+		
 		 
 }

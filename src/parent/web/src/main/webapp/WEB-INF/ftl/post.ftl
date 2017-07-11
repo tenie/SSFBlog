@@ -27,7 +27,7 @@
 	<link rel="stylesheet" type="text/css" href="../lib/js/jQuery-FlexSlider/flexslider.css" />  
 	<link rel="stylesheet" type="text/css" href="../lib/noty-master/lib/noty.css" />  
 	<link rel="stylesheet" type="text/css" href="../lib/bootstrap_switch/css/bootstrap3/bootstrap-switch.css" /> 
-	 
+	<link rel="stylesheet" type="text/css" href="../lib/viewer/viewer.min.css " /> 
 <style>
 	p{
 	margin: 0px 0;
@@ -35,35 +35,7 @@
 	body{
 	    font-size: 14px;
 	}
-	
-	.foo{
-	    padding: 10px 15px;
-	    width: 100%;
-	    height: 80px;
-	    font-size: 13px;
-	    border: 1px solid #dcdcdc;
-	    border-radius: 4px;
-	    background-color: hsla(0,0%,71%,.1);
-	    resize: none;
-	    display: inline-block;
-	    vertical-align: top;
-	    outline-style: none;
-	}
-	
-	.foosend{
-		float: right;
-	    width: 78px;
-	    margin: 10px 0;
-	    padding: 8px 18px;
-	    font-size: 16px;
-	    border: none;
-	    border-radius: 4px;
-	    color: #fff!important;
-	    background-color: #42c02e;
-	    cursor: pointer;
-	    outline: none;
-	    display: block;
-	}
+	 
 
 </style>
 </head>
@@ -98,22 +70,23 @@
                         </p> -->
                     </div>
                     <div class="author" style="    margin: 20px 0 40px;">
-			           <!--  <a class="avatar" href="/u/fbd6cad57496" style="width: 48px;height: 48px; vertical-align: middle; display: inline-block;">
-			           		 <img style="width: 100%;height: 100%; border: 1px solid #ddd;border-radius: 50%;" src="//upload.jianshu.io/users/upload_avatars/6615117/9954acce-5f24-408e-b3d1-636eecd73903?imageMogr2/auto-orient/strip|imageView2/1/w/144/h/144" alt="144">
-						</a>          -->
+			                   
 						<div class="info">
+							<a class="avatar" href="javascript:" style="width: 48px;height: 48px; vertical-align: middle; display: inline-block;">
+				           		 <img class="image" style="width: 100%;height: 100%; border: 1px solid #ddd;border-radius: 50%;" src="../lib/assets/img/codeMonkey.ico" alt="144">
+							</a>
 				            <span class="tag" style="    padding: 1px 2px;   font-size: 12px;   color: #ea6f5a;   border: 1px solid #ea6f5a;   border-radius: 3px;">作者</span>
-				            <span class="name" ><a href="/u/fbd6cad57496">Tenie</a></span>
+				            <span class="name" ><a href="/index.html">Tenie</a></span>
 				            <!-- 关注用户按钮 -->
-				            <div data-author-follow-button=""></div>
+				             
 				            <!-- 文章数据信息 -->
 				            <div class="meta" style="margin-top: 5px;font-size: 12px;color: #969696;border-bottom: 1px solid #eee;padding-bottom: 5px;">
 				              	<!-- 如果文章更新时间大于发布时间，那么使用 tooltip 显示更新时间 -->
 				                <span class="publish-time" id="time">${data.time}  </span>
 					            <span class="wordage">字数 ${data.text_length} </span>  
 					            <span class="views-count">阅读 ${data.read_quantity}</span>
-					            <span class="comments-count">评论 0</span>
-					            <span class="likes-count">喜欢 0</span>
+					            <span class="comments-count">评论 ${commentLength}</span>
+					            <span class="likes-count" >喜欢 <span id="postLike">${data.post_like}</span></span>
 					            <span >
 					            	   <!-- 如果是当前作者，加入编辑按钮 
 								        <a href="javascript:" onclick="ssfblog.editPage(${data.id})" style="    margin-top: -20px;float: right;padding: 0 12px;font-size: 14px;border: 1px solid #dcdcdc;color: #9b9b9b;line-height: 30px;border-radius: 50px;" target="_blank" class="edit">
@@ -209,10 +182,10 @@
 						    <div class="like">
 						    	<div class="btn like-group" style=" padding: 13px 0 15px;  font-size: 0;  border: 1px solid #ea6f5a;  border-radius: 40px;">
 						    		<div class="btn-like" style="font-size: 19px;  display: inline-block;">
-						    		<a style="    color: #ea6f5a; padding: 18px 15px 18px 30px;"><i style="    margin-right: 5px;font-size: 21px;" class="iconfont ic-like"></i>喜欢</a>
+						    		<a id="likebtn"style="color: #ea6f5a; padding: 18px 15px 18px 30px;"><i style=" margin-right: 5px;font-size: 21px;" class="iconfont ic-like"></i>喜欢</a>
 						    	</div> 
 						   	<div class="modal-wrap" style="font-size: 18px;  border-left: 1px solid rgba(236,97,73,.4);  display: inline-block;">
-						   		<a style="    color: #ea6f5a; padding: 18px 30px 18px 17px;">3</a></div>
+						   		<a style="color: #ea6f5a; padding: 18px 30px 18px 17px;" id="likecount">${data.post_like}</a></div>
 						   	</div> <!----></div> 
 						</div>                    
 				</div>
@@ -230,11 +203,11 @@
 						<#list comments as commentObj> 
 							   
                    			 <!-- 评论模块, 包含主评论和子评论 -->
-								<div  id="comment-12597916" class="comment" style="padding: 20px 0 30px;border-bottom: 1px solid #f0f0f0;">
+								<div    class="comment" style="padding: 20px 0 30px;border-bottom: 1px solid #f0f0f0;">
 									<div class="master_comment">
 										<div class="author" style="    margin-bottom: 15px;">
-											<a href="#" style= "margin-right: 5px; width: 38px; height: 38px;  vertical-align: middle;  display: inline-block;" target="_blank" class="avatar">
-												<img style="width: 100%; height: 100%;  border: 1px solid #ddd;  border-radius: 50%;" src="/lib/img/head/head_96.754632229085px_1196697_easyicon.net.png">
+											<a href="javascript:" style= "margin-right: 5px; width: 38px; height: 38px;  vertical-align: middle;  display: inline-block;" target="_blank" class="avatar">
+												<img  class="image" style="width: 100%; height: 100%;  border: 1px solid #ddd;  border-radius: 50%;" src="/lib/img/head/head_96.754632229085px_1196697_easyicon.net.png">
 											</a>
 											<div class="info" style="display: inline-block; vertical-align: middle;">
 												<a href="javascript:" target="_blank" class="name">${commentObj.name}</a><!---->
@@ -249,8 +222,8 @@
 												${commentObj.comment}
 												</p>
 											</div> 
-												<a  href="#"style="color:#969696"> <i class="fa fa-thumbs-o-up" aria-hidden="true"></i> <span>赞</span></a>
-												<a onclick="foo(this,${commentObj.id})" href="javascript:"style="color:#969696"> <i class="fa fa-commenting-o" aria-hidden="true"></i> <span>回复</span></a> 
+												<a  href="javascript:" onclick="commentLike(${commentObj.id},this)" style="color:#969696"> <i class="fa fa-thumbs-o-up" aria-hidden="true"></i></a> <span style="color:#969696"><span class="commentLikelength">${commentObj.comment_like}</span>赞</span>
+												<a onclick="foo(this,${commentObj.id},'${commentObj.name}')" href="javascript:"style="color:#969696"> <i class="fa fa-commenting-o" aria-hidden="true"></i> <span>回复</span></a> 
 										</div>
 									</div>
 									  
@@ -260,10 +233,10 @@
 								   <#list commentObj.subcomment as item>  
 									<!-- 子评论: 初始时没有 subcommentMap-->
 									<div class="sub-comment-list  "  style="margin-top: 20px;  padding: 5px 0 5px 20px; border-left: 2px solid #d9d9d9;">
-										<div id="comment-12598354" class="sub-comment" style="margin-bottom: 15px;  padding-bottom: 15px;  border-bottom: 1px dashed #f0f0f0;">
+										<div   class="sub-comment" style="margin-bottom: 15px;  padding-bottom: 15px;  border-bottom: 1px dashed #f0f0f0;">
 											<p style="margin: 0 0 5px; font-size: 14px; line-height: 1.5;">
 												<a style='    color: #3194d0;' href="javascript:" target="_blank">${item.name}</a>：
-												<span><a href="/users/ef1ab35d8e27" class="maleskine-author" target="_blank" data-user-slug="ef1ab35d8e27">${item.comment}</span>
+												<span><a href="javascript:" class="maleskine-author" target="_blank" data-user-slug="ef1ab35d8e27">${item.comment}</span>
 											</p>
 											<div class="sub-tool-group" style="font-size: 12px; color: #969696;">
 												<span>${item.created_at}</span>
@@ -310,16 +283,16 @@
                                 <textarea id="comment" name="comment"   cols="45" rows="8" maxlength="65525" aria-required="true" required="required" style="width: 100%;"></textarea>
                             </p>
                             <p class="comment-form-author">
-                                <label for="author">
+                                <label for="author" style="width: 55px;">
                                     Name
                                     <span class="required">
                                         *
                                     </span>
                                 </label>
-                                <input id="author" name="name" type="text"  size="30" maxlength="30" aria-required="true" required="required">
+                                <input id="author" name="name" type="text"  size="30" maxlength="30"  aria-required="true" required="required">
                             </p>
                             <p class="comment-form-email">
-                                <label for="email">
+                                <label for="email" style="width: 55px;">
                                     Email
                                     <span class="required">
                                         *
@@ -328,7 +301,7 @@
                                 <input id="email" name="email" type="email"  size="30"  maxlength="80" aria-describedby="email-notes" aria-required="true" required="required">
                             </p>
                             <p class="comment-form-url">
-                                <label for="url">
+                                <label for="url" style="width: 55px;">
                                     Website
                                 </label>
                                 <input id="url" name="url" type="url" value="" size="30" maxlength="200">
@@ -336,8 +309,8 @@
 								<input type="hidden" name="postId" value="${data.id}"> 
 							</form>
 							 <p  >
-								<button id="post_comment">
-									Post Comment
+								<button class="btn btn-info" id="post_comment">
+									提交
 								</button>
                             </p>
                         </div>                       
@@ -377,6 +350,11 @@
 <script type="text/javascript" src="../lib/js/jQuery-FlexSlider/jquery.flexslider-min.js"></script>
 <script type="text/javascript" src="../lib/noty-master/lib/noty.js"></script> 
 <script type="text/javascript" src="../lib/noty-master/lib/mo.min.js"></script>
+
+
+<script src="/lib/js/jquery-validation/js/jquery.validate.min.js"></script>  
+<script src="/lib/js/jquery-validation/js/additional-methods.js"></script>
+<script src="/lib/viewer/viewer.min.js"></script>  
  <script>
  //@ sourceURL=jsname.js
  	var comment_html;
@@ -387,7 +365,17 @@
          $div.empty()
          //找到评论的区
         var $comment =  $(thiz).closest(".comment")
-        var $reply_area =  $comment.find(".reply_area")
+        var $reply_area =  $comment.find(".reply_area");
+        /*
+        $(".reply_area").empty();//评论区先清空 
+        $.each( $(".sub-comment-list"),function(i,n){
+        	if($(n).find('div').length<2){
+        		$(n).addClass("hidden")
+        	}
+        })
+        */
+        cleanCommentDiv();
+        
          $reply_area.append(comment_html)
          if(name){
          	$("#comment").append("@"+name+" ")
@@ -397,30 +385,71 @@
           $("#cancel_reply").removeClass("hidden")
           //取消
          $("#cancel_reply").one("click",function(){  
-         		 $reply_area.empty();
-         		 $div.append(comment_html)
-         		 $("#cancel_reply").addClass("hidden")
-         		 $("#post_comment").click(function(){
-					 bindEvenToPostComment("-1")
-						
-					})
-         	})
-         	//提交
+        	//主评论区, 添加评论form, 取消按钮隐藏, 主评论区的提交重新帮定事件的清空子评论区的form
+        	//$reply_area.empty(); 
+         	$div.append(comment_html)	
+         	//$("#cancel_reply").addClass("hidden")
+         	cleanCommentDiv();
+     		$("#post_comment").click(function(){
+				 bindEvenToPostComment("-1");
+			})
+         })
+         	//提交按钮绑定新的事件
 		 $("#post_comment").on("click",function(){bindEvenToPostComment(id)})
  	}
 
+	function cleanCommentDiv(){
+	 $(".reply_area").empty();//评论区先清空 
+        $.each( $(".sub-comment-list"),function(i,n){
+        	if($(n).find('div').length<2){
+        		$(n).addClass("hidden")
+        	}
+        })
+     $("#cancel_reply").addClass("hidden")
+	}
 	$(function(){
+		 
+		$(".image").viewer({url:"data-original",title:false,toolbar:false,tooltip:false});
+		 
+	
 		comment_html =  $("#comment_form_div").html();
 		$("#post_comment").click(function(){
-		 bindEvenToPostComment("-1")
-			
+		    bindEvenToPostComment("-1") 
 		})
+		
+		//喜欢按钮
+		$("#likebtn").click(function(){
+			$.get("likeplus/"+"${data.id}",function(data){
+				if(!data.error){
+					$("#likecount").text(data.msg)
+					$("#postLike").text(data.msg)
+				}
+			})	
+		});
 	})
-
+	
+	
+	function commentLike(id,thiz){
+			$.get("commentLikePlus/"+id,function(data){
+				if(!data.error){
+					 $(thiz).parent().find(".commentLikelength").text(data.msg)
+				}
+			})	
+		 
+	}
+	
+	
+	
+	
+	//表单提交
 	function bindEvenToPostComment(id){ 
-	$.post("comment/"+id,$("#coment_form").serialize(),function(){
-		location.reload();
-	})
+	if($("#coment_form").valid()){  
+		$.post("comment/"+id,$("#coment_form").serialize(),function(){
+			location.reload();
+		})
+	}
+	
+	
 	}
  </script>
 </body>

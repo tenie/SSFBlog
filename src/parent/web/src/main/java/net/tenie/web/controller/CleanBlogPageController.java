@@ -140,9 +140,7 @@ public class CleanBlogPageController {
 	 }else{
 		 list=jdbc.queryForList("select DISTINCT b.id,b.post_title,b.time,b.show_content,b.top from blog_tag a  "
 			  		+ " left JOIN blog b on b.id = a.blog_id  "
-			  		+ "   where  1=1  and b.show_content=1 and a.tag =?  ORDER BY b.top,b.id  DESC ",tag);
-		// list=jdbc.queryForList("select id,post_title,post_subtitle,time,show_content,top from blog where show_content=1  ORDER BY top,id  DESC  ");
-	      
+			  		+ "   where  1=1  and b.show_content=1 and a.tag =?  ORDER BY b.top,b.id  DESC ",tag); 
 	 }
 	 List<Map<String, Object>> Rslist=new ArrayList<>();
 	 for(Map<String,Object> map :list){
