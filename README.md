@@ -59,6 +59,7 @@
         1. alert组件 :  [noty.js](http://ned.im/noty) 
         1. 富文本编辑组件 :  [simditor.js](http://simditor.tower.im/) 
         1. 图标组件 :  [Font Awesome](http://fontawesome.io/)
+	1. 图片查看组件: [fengyuanchen/viewer](https://fengyuanchen.github.io/viewer)
         1. 其他知名框架: Bootstrap;
         Bootstrap-switch.js;
         jquery.js;
@@ -83,11 +84,11 @@
     
 1. 数据库:
     
-     mySQL;需要建3个表; 见src目录下的sql脚本.
+     mySQL;需要建4个表; 见src目录下的sql脚本.
     1. 一个表用来存放发表的博文信息:内容,状态,阅读量等..
     2. 一个表用来存博文的标签, 是博文表的子表.与上表一对多的关系
     3. 还有一个表存放联系页面, 提交心信息;
-
+    4. 还有一个评论表, 添加评论数据
 
 
        
