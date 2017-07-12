@@ -19,6 +19,7 @@ import org.javalite.activejdbc.LazyList;
 import org.javalite.activejdbc.Model;
 import org.javalite.activejdbc.annotations.DbName;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -47,6 +48,9 @@ import net.tenie.web.tools.ApplicationContextHelper;
 public class ArticleController {
 		@Autowired  
 		private JdbcTemplate jdbc; 
+		
+		@Value("${who.am.i}")
+		private String myname;
 		
 		@RequestMapping(value="/{id}",method = RequestMethod.GET) 
 		public String htmlContent2(HttpServletRequest request, HttpServletResponse response,@PathVariable("id") String id) throws ServletException, IOException{
@@ -77,6 +81,7 @@ public class ArticleController {
 		      List<BlogComment>  BlogCommentlist=BlogComment.where("post_id= ? and parent_id is null or parent_id = '' ",id).load();
 		      List<Map> rs = new ArrayList();
 		      for(BlogComment bc:BlogCommentlist){
+//		    	  System.out.println(bc.getInteger("myselft"));
 		    	  Map<String,Object> rmap = bc.toMap();
 		    	  rmap.put("subcomment", BlogComment.where("post_id=? and parent_id=?", id,bc.getId()).load()); 
 		    	  rs.add(rmap);
@@ -115,18 +120,15 @@ public class ArticleController {
 	       rs.setData(rsl);
 	       return rs;
 	    }
-		
-//		@RequestMapping(value="/update",method = RequestMethod.PUT) 
-//		@ResponseBody
-//		public Result updateContent(HttpServletRequest request) throws ServletException, IOException{ 
-//	       Blog blog = new Blog();
-//	       request.getParameterMap();
-//	       Result rs = new Result();
-//	       Map<String, Object> map = blog.toMap();
-//	       rs.setMapRs(map);
-//	       return rs;
-//	    }
-		
+		 
+		/**
+		 * 删除博文
+		 * @param request
+		 * @param id
+		 * @return
+		 * @throws ServletException
+		 * @throws IOException
+		 */
 		@RequestMapping(value="/delete/{id}",method = RequestMethod.POST) 
 		@ResponseBody
 		public Result deleteContent(HttpServletRequest request,@PathVariable("id") String id) throws ServletException, IOException{ 
@@ -153,7 +155,16 @@ public class ArticleController {
 		@RequestMapping(value="/comment/{parentId}",method = RequestMethod.POST) 
 		@ResponseBody
 		public Result saveComment(HttpServletRequest request,@PathVariable("parentId") String parentId,VisitorPO visitor) throws ServletException, IOException{ 
+			
+			boolean isLogin = SessionUtil.islogin();
 			BlogComment comment = new BlogComment();
+			if(isLogin){
+				visitor.setName(myname);
+				comment.setInteger("myselft",1);
+							 
+			}
+			
+			
 			comment.setString("post_id",visitor.getPostId());
 			comment.setString("name",visitor.getName());
 			comment.setString("comment",visitor.getComment());

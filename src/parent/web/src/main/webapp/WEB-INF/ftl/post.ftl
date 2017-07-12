@@ -205,14 +205,25 @@
                    			 <!-- 评论模块, 包含主评论和子评论 -->
 								<div    class="comment" style="padding: 20px 0 30px;border-bottom: 1px solid #f0f0f0;">
 									<div class="master_comment">
-										<div class="author" style="    margin-bottom: 15px;">
+										<div class="author" style=" margin-bottom: 15px;">
+										 <#if  commentObj.myselft=1 >
 											<a href="javascript:" style= "margin-right: 5px; width: 38px; height: 38px;  vertical-align: middle;  display: inline-block;" target="_blank" class="avatar">
-												<img  class="image" style="width: 100%; height: 100%;  border: 1px solid #ddd;  border-radius: 50%;" src="/lib/img/head/head_96.754632229085px_1196697_easyicon.net.png">
+												<img  class="image" style="width: 100%; height: 100%;  border: 1px solid #ddd;  border-radius: 50%;" src="/lib/assets/img/codeMonkey.ico">
 											</a>
 											<div class="info" style="display: inline-block; vertical-align: middle;">
-												<a href="javascript:" target="_blank" class="name">${commentObj.name}</a><!---->
+												<a href="javascript:" target="_blank" class="name">${commentObj.name}
+												<span class="tag" style="    padding: 1px 2px;   font-size: 12px;   color: #ea6f5a;   border: 1px solid #ea6f5a;   border-radius: 3px;">博主</span>
+												 </a> 
+										<#else>
+											<a href="javascript:" style= "margin-right: 5px; width: 38px; height: 38px;  vertical-align: middle;  display: inline-block;" target="_blank" class="avatar">
+												<img  class="image" style="width: 100%; height: 100%;  border: 1px solid #ddd;  border-radius: 50%;" src="/lib/img/head/head_96.754632229085px_1196697_easyicon.net.png">
+											</a> 
+											<div class="info" style="display: inline-block; vertical-align: middle;">
+												<a href="javascript:" target="_blank" class="name">${commentObj.name}</a> 
+										 </#if>	
+											
 												<div class="meta" style="font-size: 12px;  color: #969696;">
-													<span>${commentObj_index + 1 }楼 · ${commentObj.created_at}</span>
+													<span>${commentObj_index + 1 }楼 · ${commentObj.created_at};</span>
 												</div>
 											</div>
 										</div>
@@ -235,7 +246,14 @@
 									<div class="sub-comment-list  "  style="margin-top: 20px;  padding: 5px 0 5px 20px; border-left: 2px solid #d9d9d9;">
 										<div   class="sub-comment" style="margin-bottom: 15px;  padding-bottom: 15px;  border-bottom: 1px dashed #f0f0f0;">
 											<p style="margin: 0 0 5px; font-size: 14px; line-height: 1.5;">
-												<a style='    color: #3194d0;' href="javascript:" target="_blank">${item.name}</a>：
+												 <#if  item.myselft == 1 >
+													 <a style='    color: #3194d0;' href="javascript:" target="_blank">${item.name}
+														<span class="tag" style="    padding: 1px 2px;   font-size: 12px;   color: #ea6f5a;   border: 1px solid #ea6f5a;   border-radius: 3px;">博主</span>
+													 </a>：
+												 <#else>
+												 	<a style='    color: #3194d0;' href="javascript:" target="_blank">${item.name}</a>： 
+												 </#if>
+												
 												<span><a href="javascript:" class="maleskine-author" target="_blank" data-user-slug="ef1ab35d8e27">${item.comment}</span>
 											</p>
 											<div class="sub-tool-group" style="font-size: 12px; color: #969696;">
@@ -276,39 +294,43 @@
        		 	<div id="comment_form_div"class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1" >
                         <div class="comment_block">
 							<form id="coment_form">
-                            <p class="comment-form-comment">
-                                <label for="comment">
-                                    Comment <a href="javascript:" id="cancel_reply" class='hidden' style="font-weight: lighter;padding-left:10px;text-decoration: underline !important;">Cancel</a>
-                                </label>
-                                <textarea id="comment" name="comment"   cols="45" rows="8" maxlength="65525" aria-required="true" required="required" style="width: 100%;"></textarea>
-                            </p>
-                            <p class="comment-form-author">
-                                <label for="author" style="width: 55px;">
-                                    Name
-                                    <span class="required">
-                                        *
-                                    </span>
-                                </label>
-                                <input id="author" name="name" type="text"  size="30" maxlength="30"  aria-required="true" required="required">
-                            </p>
-                            <p class="comment-form-email">
-                                <label for="email" style="width: 55px;">
-                                    Email
-                                    <span class="required">
-                                        *
-                                    </span>
-                                </label>
-                                <input id="email" name="email" type="email"  size="30"  maxlength="80" aria-describedby="email-notes" aria-required="true" required="required">
-                            </p>
-                            <p class="comment-form-url">
-                                <label for="url" style="width: 55px;">
-                                    Website
-                                </label>
-                                <input id="url" name="url" type="url" value="" size="30" maxlength="200">
-                            </p>
+	                            <p class="comment-form-comment">
+	                                <label for="comment">
+	                                    Comment <a href="javascript:" id="cancel_reply" class='hidden' style="font-weight: lighter;padding-left:10px;text-decoration: underline !important;">Cancel</a>
+	                                </label>
+	                                <textarea id="comment" name="comment"   cols="45" rows="8" maxlength="65525" aria-required="true" required="required" style="width: 100%;"></textarea>
+	                            </p>
+	                            <#if ! isLog >
+	                            <div class="commenter_info">
+	                            	<p class="comment-form-author">
+		                                <label for="author" style="width: 55px;">
+		                                    Name
+		                                    <span class="required">
+		                                        *
+		                                    </span>
+		                                </label>
+		                                <input id="author" name="name" type="text"  size="30" maxlength="30"  aria-required="true" required="required">
+		                            </p>
+		                            <p class="comment-form-email">
+		                                <label for="email" style="width: 55px;">
+		                                    Email
+		                                    <span class="required">
+		                                        *
+		                                    </span>
+		                                </label>
+		                                <input id="email" name="email" type="email"  size="30"  maxlength="80" aria-describedby="email-notes" aria-required="true" required="required">
+		                            </p>
+		                            <p class="comment-form-url">
+		                                <label for="url" style="width: 55px;">
+		                                    Website
+		                                </label>
+		                                <input id="url" name="url" type="url" value="" size="30" maxlength="200">
+		                            </p>
+	                            </div>
+	                            </#if>
 								<input type="hidden" name="postId" value="${data.id}"> 
 							</form>
-							 <p  >
+							 <p>
 								<button class="btn btn-info" id="post_comment">
 									提交
 								</button>
