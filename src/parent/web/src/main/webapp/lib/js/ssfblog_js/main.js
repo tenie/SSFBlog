@@ -275,9 +275,17 @@ $("#signInBtn").click(function(){
 				        onfocusout: function(element) { $(element).valid(); }
 				    });
 					$("#exampleModal").modal('show');
+					$("#exampleModal").on('hidden.bs.modal', function (e) {
+						$("#imageCodeSpan").hide();  
+					})
 					 ssfblog.key13("#submitSignIndata");
 					$("#submitSignIndata").click(function(){
 						 var tf = $("#signInForm").valid()
+						 
+						 if($("#imageCode").val().length==0){
+							 ssfblog.toastr("warning","验证码不能为空") 
+							 return
+						 }
 						 if(!tf)return
 						$.post("/sigIn",$("#signInForm").serialize(),function(data){  
 							//console.log(data)
@@ -293,7 +301,7 @@ $("#signInBtn").click(function(){
 								//刷新首页
 								ssfblog.refreshHtml()
 							}else{ 
-								ssfblog.toastr("warning",'帐号或密码错误!')
+								ssfblog.toastr("warning",data.msg)
 								ssfblog.stroageAdd("signIn","fail");
 								
 							}
@@ -943,7 +951,7 @@ ssfblog.nav_Html=function(){
 	// 不同页面, 对导航栏做不同效果定制
 	var href = location.pathname
 	if(href == "/index.html" || href== "/"){
-		$("#logo").text("")
+ 		$("#logo").addClass("visible-xs")
 	} 
 	if($("body").hasClass("postpage")){
 		$("#bs-example-navbar-collapse-1>ul>li> a").attr("style","color: #969696")

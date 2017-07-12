@@ -9,6 +9,17 @@ import org.springframework.stereotype.Component;
 public class LoginSession {
 	private Boolean isLog = false;
 	private String url;
+	private String imageCode;
+	
+	
+
+	public String getImageCode() {
+		return imageCode;
+	}
+
+	public void setImageCode(String imageCode) {
+		this.imageCode = imageCode;
+	}
 
 	public Boolean getIsLog() {
 		return isLog;
@@ -29,8 +40,10 @@ public class LoginSession {
 
 	@Override
 	public String toString() {
-		return "LoginSession [isLog=" + isLog + ", url=" + url + "]";
+		return "LoginSession [isLog=" + isLog + ", url=" + url + ", imageCode=" + imageCode + "]";
 	}
+
+	 
 
 	 
 	

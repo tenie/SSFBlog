@@ -18,7 +18,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import net.tenie.web.pojo.Result;
+import net.tenie.web.service.VerificationCode;
 import net.tenie.web.session.LoginSession;
+import net.tenie.web.session.SessionUtil;
 import net.tenie.web.tools.ApplicationContextHelper;
 
 @Controller
@@ -41,26 +43,55 @@ public class SignInController {
      
       String name = queryParam.get("name");
       String password = queryParam.get("password");
+      String code = queryParam.get("code");
    
       //为空返回失败
       if(name ==null &&   "".equals(name)){
     	  return new Result(true,"登入失败");
       }
- 
-      if( userName.equals(name) && pwd.equals(password)){
- 		 LoginSession loginInfo = ApplicationContextHelper.getBeanByType(LoginSession.class);  
- 		 loginInfo.setIsLog(true);
- 		 return new Result("登入成功");
-      }else{
-    	 return new Result(true,"登入失败");
+      LoginSession session=SessionUtil.getSession();
+      String secode =  session.getImageCode();
+      if(code.equalsIgnoreCase(secode)){ 
+	      if( userName.equals(name) && pwd.equals(password)){
+	 		 LoginSession loginInfo = ApplicationContextHelper.getBeanByType(LoginSession.class);  
+	 		 loginInfo.setIsLog(true);
+	 	 	 return new Result("登入成功~");
+	       }else{
+	    	 return new Result(true,"帐号或密码错误~");
+	       }
+	 }else{
+		    return new Result(true,"验证码错误~");
       }  
     }
-	
+	/**
+	 * 退出
+	 * @param request
+	 * @param response
+	 * @param queryParam
+	 * @return
+	 * @throws ServletException
+	 * @throws IOException
+	 */
 	@RequestMapping(value="/sigOut",method = RequestMethod.POST)
 	@ResponseBody
 	public Result signOut(HttpServletRequest request, HttpServletResponse response,@RequestParam Map<String, String> queryParam) throws ServletException, IOException{
 		 LoginSession loginInfo = ApplicationContextHelper.getBeanByType(LoginSession.class);  
  		 loginInfo.setIsLog(false);
 		return new Result("退出成功!");  
+    }
+	
+	/**
+	 * 获取验证码
+	 * @param request
+	 * @param response
+	 * @param queryParam
+	 * @return
+	 * @throws ServletException
+	 * @throws IOException
+	 */
+	@RequestMapping(value="/getImageCode",method = RequestMethod.GET) 
+	public void getimage(HttpServletRequest request, HttpServletResponse response,@RequestParam Map<String, String> queryParam) throws ServletException, IOException{
+		 LoginSession loginInfo = ApplicationContextHelper.getBeanByType(LoginSession.class);
+		 VerificationCode.getImage(request, response); 
     }
 }
