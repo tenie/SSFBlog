@@ -635,16 +635,33 @@ ssfblog.confirm=function(msg,func){
 }
 
 //回车触发点击事件
-ssfblog.key13=function(target){ 
-	$(document).on("keyup",function(e){   
+ssfblog.key13=function(target,el){ 
+	var ele ;
+	if(el){
+		ele = el
+	}else{
+		ele=document 
+	}
+	$(ele).on("keyup",function(e){   
 		if(e.keyCode == 13){ 
 			$(target).click()
 		} 
 	}) 
 } 
+//别名
+ssfblog.key_enter=function(target,el){
+	ssfblog.key13(target,el);
+}
+
 //解绑回车触发点击事件
-ssfblog.offkey13=function(target){ 
-	$(document).off("keyup") 
+ssfblog.offkey13=function(el){ 
+	var ele ;
+	if(el){
+		ele = el
+	}else{
+		ele=document 
+	}
+	$(ele).off("keyup") 
 } 
 
 
@@ -1037,7 +1054,12 @@ $(function(){
 	ssfblog.initPage()  
 	ssfblog.backToTop()   
 	//index.html
-	if($("body").hasClass("index_page")){
+	var search = location.search;
+	var query  = search.substring(1,7);
+	var queryVals = search.split("=");
+	if("?search"==query){
+		
+	}else if($("body").hasClass("index_page")){
 		//分页初始化; 设置每页显示的行数, 上一页和下一页的按钮
 		pageSplit = ssfblog.paging(2,"#previous","#next");  
 		//获取第一页
@@ -1084,6 +1106,38 @@ $(function(){
 	
 })
 
+ssfblog.search=function(val){
+	var url = "/search/"+val;
+	$.get(url,function(data){  
+		//console.log(data)
+		$("#pageTitleContainer").html("");
+		
+		$("#loading").removeClass("hidden");
+		$("#previous").hide();
+		$("#next").hide();
+		var callback = function(){
+		 var htmltext = "<span class='tagSearch'>"+val+"</span>"
+		 var length = 	$(".post-title").length
+			$.each($(".post-title"),function(i,n){
+				var el = $(n);
+				var text = el.text();   
+				text = text.replace(new RegExp(val, 'g'), htmltext); 
+				 el.empty();
+				 el.append(text)  
+			}) 
+			$("#searchModalClose").click();
+		 	$("#searchInput").val("");
+//		 	 $("#search_a").off("click")
+		  
+		    if(data.mapRs.dataList.length== 0){
+		    	$("#pageTitleContainer").empty()
+		    	$("#pageTitleContainer").append("<p>没找到与'"+htmltext+"'相关的标题</p>")
+		    }
+		}
+		ssfblog.initIndex(data,callback);
+		   
+		})
+}
 
 //bolg内容加载
 //@Deprecated  //页面有后端渲染了

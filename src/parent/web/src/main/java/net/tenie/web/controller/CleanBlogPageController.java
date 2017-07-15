@@ -25,6 +25,7 @@ import net.tenie.pojo.Blog;
 import net.tenie.pojo.BlogTag;
 import net.tenie.web.pojo.Result;
 import net.tenie.web.service.CecheResult;
+import net.tenie.web.service.Search;
 import net.tenie.web.session.LoginSession;
 import net.tenie.web.session.SessionUtil;
 
@@ -33,9 +34,12 @@ import net.tenie.web.session.SessionUtil;
 public class CleanBlogPageController {
 	 
 //	private Result SignIncacheRS;
-//	private Result cacheRS;
+//	private Result cacheRS; 
 	@Autowired 
 	private JdbcTemplate jdbc;
+	
+	@Autowired 
+	private Search search;
 	
 //	@Autowired
 //	private  LoginSession session;
@@ -123,47 +127,12 @@ public class CleanBlogPageController {
 	@RequestMapping(value="/tagSearch/{tag}",method = RequestMethod.GET)
 	@ResponseBody
 	public Result tagSearchhtmlView(  @PathVariable(value="tag") String tag  ) throws ServletException{
-	  List<Map<String, Object>> countList =new ArrayList();
-	  List<Map<String, Object>> list=new ArrayList<>();
-	 //判断是否登入
-	  tag = "#"+tag;
- 	 LoginSession session = SessionUtil.getSession();
-	 boolean bool =session.getIsLog();
-	 System.out.println("boolean==="+bool);  
-	 //登入过的查询
-	 if(bool ){
-		 
-		  list=jdbc.queryForList("select DISTINCT b.id,b.post_title,b.time,b.show_content,b.top from blog_tag a  "
-		  		+ " left JOIN blog b on b.id = a.blog_id  "
-		  		+ "   where  1=1  and a.tag =?  ORDER BY b.top,b.id  DESC ",tag);
-	        
-	 }else{
-		 list=jdbc.queryForList("select DISTINCT b.id,b.post_title,b.time,b.show_content,b.top from blog_tag a  "
-			  		+ " left JOIN blog b on b.id = a.blog_id  "
-			  		+ "   where  1=1  and b.show_content=1 and a.tag =?  ORDER BY b.top,b.id  DESC ",tag); 
-	 }
-	 List<Map<String, Object>> Rslist=new ArrayList<>();
-	 for(Map<String,Object> map :list){
-		Integer id =  (Integer) map.get("id");
-		List<String> rstaglist = new ArrayList<>();
-		 LazyList<BlogTag> taglist =	BlogTag.where("blog_id=?", id);
-		 for(BlogTag tags:taglist){
-			 rstaglist.add( tags.getString("tag"));
-		 }
-		map.put("tags", rstaglist);
-		Rslist.add(map);
-	 }
-    
+	 
       //结果集赋值
-      Result rs = new Result(); 
-      String rsCount="";
-      Map<String,Object> rsMap = new HashMap();
-      if(countList.size()>0){
-    	  rsCount = ""+ countList.get(0).get("count");
-      }
-      rsMap.put("signIn", bool);
-      rsMap.put("Count", rsCount);
-      rsMap.put("dataList", Rslist); 
+      Result rs = new Result();  
+      Map<String,Object> rsMap = new HashMap(); 
+      rsMap.put("signIn", SessionUtil.islogin());  //是否登入
+      rsMap.put("dataList", search.tagSearch(tag)); 
       rs.setMapRs(rsMap); 
       return rs;
     }

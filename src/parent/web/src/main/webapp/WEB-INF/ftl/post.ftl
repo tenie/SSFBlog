@@ -28,6 +28,7 @@
 	<link rel="stylesheet" type="text/css" href="../lib/noty-master/lib/noty.css" />  
 	<link rel="stylesheet" type="text/css" href="../lib/bootstrap_switch/css/bootstrap3/bootstrap-switch.css" /> 
 	<link rel="stylesheet" type="text/css" href="../lib/viewer/viewer.min.css " /> 
+	<link href="../lib/vendor/font-awesome/css/font-awesome-animation .css" rel="stylesheet" type="text/css">
 <style>
 	p{
 	margin: 0px 0;
@@ -233,8 +234,8 @@
 												${commentObj.comment}
 												</p>
 											</div> 
-												<a  href="javascript:" onclick="commentLike(${commentObj.id},this)" style="color:#969696"> <i class="fa fa-thumbs-o-up" aria-hidden="true"></i></a> <span style="color:#969696"><span class="commentLikelength">${commentObj.comment_like}</span>赞</span>
-												<a onclick="foo(this,${commentObj.id},'${commentObj.name}')" href="javascript:"style="color:#969696"> <i class="fa fa-commenting-o" aria-hidden="true"></i> <span>回复</span></a> 
+												<a  href="javascript:" onclick="commentLike(${commentObj.id},this)" style="color:#969696"><i class="fa fa-thumbs-o-up faa-vertical animated-hover"></i></a> <span style="color:#969696"><span class="commentLikelength">${commentObj.comment_like}</span>赞</span>
+												<a onclick="foo(this,${commentObj.id},'${commentObj.name}')" href="javascript:"style="color:#969696"> <i class="fa fa-commenting-o faa-vertical animated-hover" aria-hidden="true"></i> <span>回复</span></a> 
 										</div>
 									</div>
 									  
