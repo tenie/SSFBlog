@@ -78,6 +78,24 @@ input[type="text"]:focus, input[type="email"]:focus, input[type="url"]:focus, in
     outline:#000 !important;
 }
 
+
+/*搜索框样式  */ 
+.search {
+border: 0px !important;
+}
+#searchInput:focus{
+	border: 0px !important;
+}
+/*  搜索*/
+div.search {padding: 30px 0}
+/* form {
+  position: relative;
+  width: 300px;
+  margin: 0 auto;
+}
+ */
+
+
 button:focus{
 	border: 1px solid #000000 !important;
     outline:#000 !important;

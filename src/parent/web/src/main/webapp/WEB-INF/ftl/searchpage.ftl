@@ -33,8 +33,49 @@
 	 
 <style>
 
- 
- 
+
+/*  搜索输入框*/
+.search {
+border: 0px !important;
+}
+#searchInput:focus{
+	border: 0px !important;
+}
+/*  搜索*/
+div.search {padding: 30px 0}
+form {
+  position: relative;
+  width: 300px;
+  margin: 0 auto;
+}
+/* .d1 {background: #A3D0C3;} */
+.d1 input {
+  width: 100%;
+  height: 42px;
+  padding-left: 10px;
+  border: 2px solid #7BA7AB;
+  border-radius: 5px;
+  outline: none;
+  background: #F9F0DA;
+  color: #9E9C9C;
+}
+.d1 button {
+  position: absolute; 
+  top: 0;
+  right: 0px;
+  width: 42px;
+  height: 42px;
+  border: none;
+  background: #7BA7AB;
+  border-radius: 0 5px 5px 0;
+  cursor: pointer;
+}
+.d1 button:before {
+  content: "\f002";
+  font-family: FontAwesome;
+  font-size: 16px;
+  color: #F9F0DA;
+}
 /*  按钮动画*/
 .wrapper-inner-tab-backgrounds-first{
 	float: left;	
@@ -231,10 +272,10 @@
 <div class="modal fade" tabindex="-1" role="dialog" id="searchModal">
     <div class="modal-dialog modal-lg" role="document" style="max-width: 700px;" >
       <div class="modal-content" style=" box-shadow: -3px 10px 20px #f5f5f5; top: 200px;  ">
-     	 <button  type="button" class="hidden" data-dismiss="modal" id="searchModalClose">Close</button>
-			<div class="input-group input-group-lg"> 
-			  <span class="input-group-addon " id="searchbtn" style="border: 0px;background-color:white;"><a  id="search_a" href="javascript:"><i class="fa fa-search" aria-hidden="true"></i></a></span>
-			  <input id="searchInput"  type="text" class="form-control search" placeholder="标题搜索..." >
+			<div class="input-group input-group-lg">
+			 
+			  <span class="input-group-addon " id="searchbtn" style="border: 0px;background-color:white;"><a href="javascript:"><i class="fa fa-search" aria-hidden="true"></i></a></span>
+			  <input id="searchInput"  type="text" class="form-control search" placeholder="搜索..." >
 			</div> 
       </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
@@ -242,21 +283,7 @@
 </body> 
 <script>
 	function showSearch(){
-		$('#searchModal').modal({backdrop:true,show:true});  
-		 $("#search_a").one('click',function(){  
-			 var val = $("#searchInput").val(); 
-			 ssfblog.search(val);
-			 ssfblog.offkey13("#searchInput")
-		 })
-		 ssfblog.key_enter("#search_a","#searchInput")
-		 
-		 
-		 
+		$('#searchModal').modal({backdrop:true,show:true}); 
 	}
-	
-	 $(function(){
-		 
-		 
-	 })
 </script> 
 </html>

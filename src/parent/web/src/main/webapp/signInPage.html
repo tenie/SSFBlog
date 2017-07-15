@@ -1,3 +1,4 @@
+
 <form id="signInForm">
 <div class="modal fade in" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="display: block;">
   <div class="modal-dialog" role="document">
@@ -28,13 +29,14 @@
       	</span> 
   
       	<span  id="imageCodeSpan"  style="   border-radius: 3px; padding-right: 3px; margin-top: 1px;float: left;margin-left: 3px;;border: 1px solid; ">
-      	 <img id="image" src=""    onclick="changeImage()">
-      	 <a   onclick="changeImage()"><i class="fa fa-refresh" aria-hidden="true"></i></a>
+      	 <img id="image" onload="loadimage()"src="/getImageCode?"    onclick="changeImage()">
+      	 <a   onclick="changeImage()"><i id="refresh_i" class="fa fa-refresh " aria-hidden="true"></i></a>
+      	 <i id="spinner_i" class="fa fa-spinner fa-spin animated"></i>
       	</span>
       	<div class="row">
       		<div class="col-xs-12">
       		<button type="button" class="btn btn-default" data-dismiss="modal" id="siginPageClose">Close</button>
-         	 <button type="button" class="btn btn-primary" id="submitSignIndata">Sign In</button> 
+         	<button type="button" class="btn btn-primary" id="submitSignIndata">Sign In</button> 
       		</div>
       	</div>
         
@@ -47,16 +49,28 @@
 <script src="/lib/js/jquery-validation/js/jquery.validate.min.js"></script>  
 <script src="/lib/js/jquery-validation/js/additional-methods.js"></script>  
 <script>
+	
+	function loadimage(){ 
+	  $("#refresh_i").show();
+	  $("#spinner_i").hide();  
+	}
 	$(function(){ 
 		$("#imageCodeSpan").hide();  
+		//点击输入框
 		$("#imageCode").click(function(){
-			changeImage();
-			$("#imageCodeSpan").show();   
+			//changeImage();
+			$("#imageCodeSpan").show();
+		    $("#refresh_i").show();
 		})
 	})
 	function changeImage(){ 
+		$("#refresh_i").hide();
+		$("#spinner_i").show();  
 		var date =  new Date(); 
-		$("#image").attr("src","/getImageCode?"+date);
+		setTimeout(function(){
+			$("#image").attr("src","/getImageCode?"+date);
+		},20)
+	
 		 
 	}
 </script>
