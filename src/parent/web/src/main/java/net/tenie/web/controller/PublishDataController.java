@@ -42,6 +42,8 @@ public class PublishDataController {
       System.out.println("PublishDataController.savePublishData");
        
       String showContent = (String) queryParam.get("showContent"); 
+
+      String istop = (String) queryParam.get("istop"); 
       String title = (String) queryParam.get("title"); 
       Integer textLength =Integer.valueOf( (String) queryParam.get("textLength")); 
       String tags[] = request.getParameterValues("tag");
@@ -52,8 +54,10 @@ public class PublishDataController {
       blog.setString("post_content", data);
       blog.setDate("time", new Date());
       blog.setInteger("text_length", textLength);
-     int tf =  "true".equals(showContent)?1:0;
+      int tf =  "true".equals(showContent)?1:0;
       blog.setInteger("show_content", tf);
+      blog.setInteger("top", "true".equals(istop)?0:1);
+      
       blog.saveIt();
       Integer id = Integer.valueOf( blog.getId().toString()) ; 
       
@@ -86,6 +90,7 @@ public class PublishDataController {
       System.out.println("PublishDataController.updatePublishData");
       String id = (String) queryParam.get("id"); 
       String showContent = (String) queryParam.get("showContent"); 
+      String isTop = (String) queryParam.get("editisTop"); 
       String title = (String) queryParam.get("title"); 
       Integer textLength =Integer.valueOf( (String) queryParam.get("textLength")); 
       String tags[] = request.getParameterValues("tag");
@@ -95,7 +100,7 @@ public class PublishDataController {
       blog.setString("post_title", title); 
       blog.setString("post_content", data);
       blog.setDate("time", new Date());
-      
+      blog.setInteger("top", "true".equals(isTop)?0:1);
       blog.setInteger("show_content", "true".equals(showContent)?1:0);
       blog.setString("text_length", textLength);
       blog.saveIt();

@@ -23,6 +23,7 @@
                <input type="hidden" id="edittextLength" name="textLength">
                <input type="hidden" id="editcontent" name="content">
                <input type="hidden" id="editshowContent"  name="showContent" ><!-- 公开私有 -->
+                <input type="hidden" id="editisTop"  name="editisTop" ><!-- 公开私有 -->
 			   <input id="editpublishTitle" name="title" type="text" style=" border: 0px;width: 100%;"  placeholder="标题: " aria-describedby="sizing-addon1"> 
                <textarea id="editorPublishText" placeholder="Balabala" autofocus></textarea>
                <div  id="edittag" class="editPageTag tagtext">
@@ -32,6 +33,9 @@
                 <input id="edittagInput" type="text" style=" border: 0px;width: 100%;"  placeholder="添加相关标签，用逗号或回车分隔 " aria-describedby="sizing-addon1">  
            		<div class="switch" >
 				   是否公开: <input type="checkbox" checked id="editpublishPagecheckbox"  name="editpublishPagecheckbox"/>
+				</div>
+				<div class="switch" >
+				   是否置顶: <input type="checkbox" checked id="editTop"  name="editTop"/>
 				</div>
             </form>
           </div>

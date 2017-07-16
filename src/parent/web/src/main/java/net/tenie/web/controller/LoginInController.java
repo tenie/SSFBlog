@@ -24,11 +24,9 @@ import net.tenie.web.session.SessionUtil;
 import net.tenie.web.tools.ApplicationContextHelper;
 
 @Controller
-public class SignInController {
+public class LoginInController {
 
-	@Autowired 
-	private JdbcTemplate jdbc;
-    
+	 
 	@Value("${ssfblog.username}")
 	private String userName;
 	
@@ -37,7 +35,7 @@ public class SignInController {
 	
 	
 	
-	@RequestMapping(value="/sigIn",method = RequestMethod.POST)
+	@RequestMapping(value="/login",method = RequestMethod.POST)
 	@ResponseBody
 	public Result signIn(HttpServletRequest request, HttpServletResponse response,@RequestParam Map<String, String> queryParam) throws ServletException, IOException{
      
@@ -72,7 +70,7 @@ public class SignInController {
 	 * @throws ServletException
 	 * @throws IOException
 	 */
-	@RequestMapping(value="/sigOut",method = RequestMethod.POST)
+	@RequestMapping(value="/logout",method = RequestMethod.POST)
 	@ResponseBody
 	public Result signOut(HttpServletRequest request, HttpServletResponse response,@RequestParam Map<String, String> queryParam) throws ServletException, IOException{
 		 LoginSession loginInfo = ApplicationContextHelper.getBeanByType(LoginSession.class);  

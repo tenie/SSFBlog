@@ -27,12 +27,20 @@ public class SearchController {
 	@Autowired 
 	private Search search;
 	
-	//public文章
+	/**
+	 * 通过文章标题来查找文章
+	 * @param request
+	 * @param response
+	 * @param val
+	 * @return
+	 * @throws ServletException
+	 * @throws IOException
+	 */
 	@RequestMapping(value="/{val}",method = RequestMethod.GET)
 	@ResponseBody 
 	public Result  publicContact(HttpServletRequest request, HttpServletResponse response,@PathVariable("val") String val) throws ServletException, IOException{
 	
-		 
+		  val = val.substring(4);
 		  //结果集赋值
 	      Result rs = new Result();  
 	      Map<String,Object> rsMap = new HashMap(); 
@@ -42,5 +50,25 @@ public class SearchController {
 	      return rs;
 		
 	}
+	
+	
+	/**
+	 * 通过标签来查找文章
+	 * @param tag
+	 * @return
+	 * @throws ServletException
+	 */
+	@RequestMapping(value="/tagSearch/{tag}",method = RequestMethod.GET)
+	@ResponseBody
+	public Result tagSearchhtmlView(  @PathVariable(value="tag") String tag  ) throws ServletException{
+	 
+      //结果集赋值
+      Result rs = new Result();  
+      Map<String,Object> rsMap = new HashMap(); 
+      rsMap.put("signIn", SessionUtil.islogin());  //是否登入
+      rsMap.put("dataList", search.tagSearch(tag)); 
+      rs.setMapRs(rsMap); 
+      return rs;
+    }
 			
 }

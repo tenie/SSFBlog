@@ -5,22 +5,22 @@ import net.tenie.web.pojo.Result;
 
 public class CecheResult {
 	
-	private static Result SignIncacheRS;
+	private static Result logincacheRS;
 	private static Result cacheRS;
 	
 	//设置为null
 	public static void setNullCacheRS(){
 		cacheRS= null;
 	}
-	public static void setNullSignIncacheRS(){
-		SignIncacheRS= null;
+	public static void setNullLogincacheRS(){
+		logincacheRS= null;
 	}
 	
 	public static Result getSignIncacheRS() {
-		return SignIncacheRS;
+		return logincacheRS;
 	}
-	public static void setSignIncacheRS(Result signIncacheRS) {
-		SignIncacheRS = signIncacheRS; 
+	public static void setLogincacheRS(Result logincacheRS) {
+		logincacheRS = logincacheRS; 
 	}
 	public static Result getCacheRS() {
 		return cacheRS;

@@ -216,5 +216,33 @@ public class ArticleController {
 		       return rs;
 	    }
 		
+		
+		
+		//private文章
+			@RequestMapping(value="/hiddenContent/{id}",method = RequestMethod.GET)
+			@ResponseBody 
+			public Result  hiddenContact(HttpServletRequest request, HttpServletResponse response,@PathVariable("id") String id) throws ServletException, IOException{
+			
+				int i = Blog.update("show_content = ?","id=?", 	0,id);
+				Result rs = new Result();
+				if(i!=1){
+					rs.setError(true);
+				} 
+				
+				return rs;
+		    }
+		//public文章
+			@RequestMapping(value="/publicContent/{id}",method = RequestMethod.GET)
+			@ResponseBody 
+			public Result  publicContact(HttpServletRequest request, HttpServletResponse response,@PathVariable("id") String id) throws ServletException, IOException{
+				int i = Blog.update("show_content = ?","id=?", 	1,id);
+				Result rs = new Result();
+				if(i!=1){
+					rs.setError(true);
+				} 
+				
+				return rs;
+		    }
+		
 		 
 }

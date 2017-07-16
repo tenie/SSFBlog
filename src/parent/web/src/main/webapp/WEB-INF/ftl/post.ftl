@@ -29,16 +29,7 @@
 	<link rel="stylesheet" type="text/css" href="../lib/bootstrap_switch/css/bootstrap3/bootstrap-switch.css" /> 
 	<link rel="stylesheet" type="text/css" href="../lib/viewer/viewer.min.css " /> 
 	<link href="../lib/vendor/font-awesome/css/font-awesome-animation .css" rel="stylesheet" type="text/css">
-<style>
-	p{
-	margin: 0px 0;
-	}
-	body{
-	    font-size: 14px;
-	}
-	 
 
-</style>
 </head>
 
 <body class="fadeIn postpage">
@@ -55,7 +46,12 @@
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                     <div class="post-heading">
-                        <h2   id="post-title" style="display: inline;">${data.post_title} </h2>
+                    	<p>
+                    		<span class='blogtop' style="font-size: 16px;">[置顶]</span>
+                    		<h1  id="post-title" style="display: inline;">${data.post_title} </h1>
+                    		<input type="hidden" id='postId' value='${data.id}'>
+                    	</p>
+                        
                         <#if data.show_content == 0>
 						    <span class="badge"  id="post_badge" style="margin-bottom: 25px;">private</span>
 						<#else>  
@@ -234,8 +230,8 @@
 												${commentObj.comment}
 												</p>
 											</div> 
-												<a  href="javascript:" onclick="commentLike(${commentObj.id},this)" style="color:#969696"><i class="fa fa-thumbs-o-up faa-vertical animated-hover"></i></a> <span style="color:#969696"><span class="commentLikelength">${commentObj.comment_like}</span>赞</span>
-												<a onclick="foo(this,${commentObj.id},'${commentObj.name}')" href="javascript:"style="color:#969696"> <i class="fa fa-commenting-o faa-vertical animated-hover" aria-hidden="true"></i> <span>回复</span></a> 
+												<a  href="javascript:" onclick="ssfblog.commentLike(${commentObj.id},this)" style="color:#969696"><i class="fa fa-thumbs-o-up faa-vertical animated-hover"></i></a> <span style="color:#969696"><span class="commentLikelength">${commentObj.comment_like}</span>赞</span>
+												<a onclick="ssfblog.reply(this,${commentObj.id},'${commentObj.name}')" href="javascript:"style="color:#969696"> <i class="fa fa-commenting-o faa-vertical animated-hover" aria-hidden="true"></i> <span>回复</span></a> 
 										</div>
 									</div>
 									  
@@ -259,7 +255,7 @@
 											</p>
 											<div class="sub-tool-group" style="font-size: 12px; color: #969696;">
 												<span>${item.created_at}</span>
-												<a href="javascript:" onclick="foo(this,${commentObj.id},'${item.name}')" style="margin-left: 10px;  color: #969696;"><i class="fa fa-commenting-o" aria-hidden="true"></i><span>回复</span></a>
+												<a href="javascript:" onclick="ssfblog.reply(this,${commentObj.id},'${item.name}')" style="margin-left: 10px;  color: #969696;"><i class="fa fa-commenting-o" aria-hidden="true"></i><span>回复</span></a>
 											</div>
 										</div>
 										<!--
@@ -378,102 +374,5 @@
 <script src="/lib/js/jquery-validation/js/jquery.validate.min.js"></script>  
 <script src="/lib/js/jquery-validation/js/additional-methods.js"></script>
 <script src="/lib/viewer/viewer.min.js"></script>  
- <script>
- //@ sourceURL=jsname.js
- 	var comment_html;
- 	function foo(thiz,id,name){ 
-		 
-         var $div = $("#comment_form_div");
-		 console.log($div.html())   
-         $div.empty()
-         //找到评论的区
-        var $comment =  $(thiz).closest(".comment")
-        var $reply_area =  $comment.find(".reply_area");
-        /*
-        $(".reply_area").empty();//评论区先清空 
-        $.each( $(".sub-comment-list"),function(i,n){
-        	if($(n).find('div').length<2){
-        		$(n).addClass("hidden")
-        	}
-        })
-        */
-        cleanCommentDiv();
-        
-         $reply_area.append(comment_html)
-         if(name){
-         	$("#comment").append("@"+name+" ")
-         }
-         $("#comment").focus()
-         $reply_area.parent().removeClass("hidden")   
-          $("#cancel_reply").removeClass("hidden")
-          //取消
-         $("#cancel_reply").one("click",function(){  
-        	//主评论区, 添加评论form, 取消按钮隐藏, 主评论区的提交重新帮定事件的清空子评论区的form
-        	//$reply_area.empty(); 
-         	$div.append(comment_html)	
-         	//$("#cancel_reply").addClass("hidden")
-         	cleanCommentDiv();
-     		$("#post_comment").click(function(){
-				 bindEvenToPostComment("-1");
-			})
-         })
-         	//提交按钮绑定新的事件
-		 $("#post_comment").on("click",function(){bindEvenToPostComment(id)})
- 	}
-
-	function cleanCommentDiv(){
-	 $(".reply_area").empty();//评论区先清空 
-        $.each( $(".sub-comment-list"),function(i,n){
-        	if($(n).find('div').length<2){
-        		$(n).addClass("hidden")
-        	}
-        })
-     $("#cancel_reply").addClass("hidden")
-	}
-	$(function(){
-		 
-		$(".image").viewer({url:"data-original",title:false,toolbar:false,tooltip:false});
-		 
-	
-		comment_html =  $("#comment_form_div").html();
-		$("#post_comment").click(function(){
-		    bindEvenToPostComment("-1") 
-		})
-		
-		//喜欢按钮
-		$("#likebtn").click(function(){
-			$.get("likeplus/"+"${data.id}",function(data){
-				if(!data.error){
-					$("#likecount").text(data.msg)
-					$("#postLike").text(data.msg)
-				}
-			})	
-		});
-	})
-	
-	
-	function commentLike(id,thiz){
-			$.get("commentLikePlus/"+id,function(data){
-				if(!data.error){
-					 $(thiz).parent().find(".commentLikelength").text(data.msg)
-				}
-			})	
-		 
-	}
-	
-	
-	
-	
-	//表单提交
-	function bindEvenToPostComment(id){ 
-	if($("#coment_form").valid()){  
-		$.post("comment/"+id,$("#coment_form").serialize(),function(){
-			location.reload();
-		})
-	}
-	
-	
-	}
- </script>
 </body>
 </html>
