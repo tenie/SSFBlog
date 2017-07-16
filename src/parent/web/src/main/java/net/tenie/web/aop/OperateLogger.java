@@ -55,9 +55,9 @@ public class OperateLogger{
 		   ||url.indexOf("/pageTitle/delete") >=0
 		   ||url.indexOf("/pageTitle/publicContent") >=0 
 		   ||url.indexOf("/pageTitle/hiddenContent") >=0 
-		   ||url.indexOf("/sigOut") >=0   
+		   ||url.indexOf("/logout") >=0   
 		   ){
-			 CecheResult.setNullSignIncacheRS();
+			 CecheResult.setNullLogincacheRS();
 			 CecheResult.setNullCacheRS();
 		 }
 		 

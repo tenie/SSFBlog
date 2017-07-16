@@ -40,11 +40,9 @@ public class CleanBlogPageController {
 	
 	@Autowired 
 	private Search search;
-	
-//	@Autowired
-//	private  LoginSession session;
+	 
 	/**
-	 * 获取所以文章的索引
+	 * 首页数据加载
 	 * @param limit	分页设置
 	 * @param offset 分页偏移量
 	 * @param getCount	该值为1时, 查找所有记录的总数
@@ -59,63 +57,29 @@ public class CleanBlogPageController {
 	public Result htmlView( @PathVariable(value="limit") Integer limit ,
 							@PathVariable(value="offset") Integer offset ,
 							@PathVariable(value="getCount") String getCount ) throws ServletException{
-	  List<Map<String, Object>> countList =new ArrayList();
-	  List<Map<String, Object>> list=new ArrayList<>();
-	 //判断是否登入
- 	 LoginSession session = SessionUtil.getSession();
-	 boolean bool =session.getIsLog();
-	 System.out.println("boolean==="+bool);
-	 
-	 Result SignIncacheRS  = CecheResult.getSignIncacheRS();
-     Result cacheRS =  CecheResult.getCacheRS(); 
-	
-	 if("1".equals(getCount) && SignIncacheRS!=null && bool){
-    	 return SignIncacheRS;
-     }else  if("1".equals(getCount )&& cacheRS!=null && !bool){
-    	 return cacheRS;
-     }
-	 
-	 //登入过的查询
-	 if(bool ){
-		  list=jdbc.queryForList("select id,post_title,time,show_content,top from blog where  1=1 ORDER BY top,id  DESC limit ? offset ?",limit,offset);
-	      //获取总行数,对分页最后页做判断时需要
-	      if("1".equals(getCount)){
-	    	 countList =  jdbc.queryForList("select count(id) as count from blog");
-	      }     
-	 }else{
-		 list=jdbc.queryForList("select id,post_title,time,show_content,top from blog where show_content=1  ORDER BY top,id  DESC limit ? offset ?",limit,offset);
-	      //获取总行数,对分页最后页做判断时需要
-	      if("1".equals(getCount)){
-	    	 countList =  jdbc.queryForList("select count(id) as count from blog where show_content=1");
-	      } 
-	 }
-	 List<Map<String, Object>> Rslist=new ArrayList<>();
-	 for(Map<String,Object> map :list){
-		Integer id =  (Integer) map.get("id");
-		List<String> rstaglist = new ArrayList<>();
-		 LazyList<BlogTag> taglist =	BlogTag.where("blog_id=?", id);
-		 for(BlogTag tags:taglist){
-			 rstaglist.add( tags.getString("tag"));
-		 }
-		map.put("tags", rstaglist);
-		Rslist.add(map);
-	 }
-    
+	  //判断是否登入 
+	  boolean bool =SessionUtil.islogin(); 
+	  //获取缓存 
+	  if(offset == 0){
+		 if(bool){
+	    	  Result logincacheRS  = CecheResult.getSignIncacheRS();
+	    	  if(logincacheRS!=null){
+	    	    	 return logincacheRS;
+	    	  }
+	      }else{
+	    	  Result cacheRS =  CecheResult.getCacheRS(); 
+	    	  if(cacheRS!=null){
+	    	    	 return cacheRS;
+	    	  } 
+	      }
+	  }
+	   
       //结果集赋值
       Result rs = new Result(); 
-      String rsCount="";
-      Map<String,Object> rsMap = new HashMap();
-      if(countList.size()>0){
-    	  rsCount = ""+ countList.get(0).get("count");
-      }
-      rsMap.put("signIn", bool);
-      rsMap.put("Count", rsCount);
-      rsMap.put("dataList", Rslist); 
-      
-      rs.setMapRs(rsMap); 
-    //缓存
+      rs.setMapRs(search.indexSearch(limit, offset, getCount)); 
+      //缓存
       if(bool && "1".equals(getCount )){
-    	  CecheResult.setSignIncacheRS(rs);
+    	  CecheResult.setLogincacheRS(rs);
       }else if(!bool && "1".equals(getCount)){ 
     	  CecheResult.setCacheRS(rs);
       }
@@ -147,7 +111,15 @@ public class CleanBlogPageController {
         return list.get(0);
     }
 	
-	//private文章
+	/**
+	 * 不公开文章
+	 * @param request
+	 * @param response
+	 * @param id
+	 * @return
+	 * @throws ServletException
+	 * @throws IOException
+	 */
 		@RequestMapping(value="/hiddenContent/{id}",method = RequestMethod.GET)
 		@ResponseBody 
 		public Result  hiddenContact(HttpServletRequest request, HttpServletResponse response,@PathVariable("id") String id) throws ServletException, IOException{
@@ -160,7 +132,15 @@ public class CleanBlogPageController {
 			
 			return rs;
 	    }
-	//public文章
+		/**
+		 * 公开文章
+		 * @param request
+		 * @param response
+		 * @param id
+		 * @return
+		 * @throws ServletException
+		 * @throws IOException
+		 */
 		@RequestMapping(value="/publicContent/{id}",method = RequestMethod.GET)
 		@ResponseBody 
 		public Result  publicContact(HttpServletRequest request, HttpServletResponse response,@PathVariable("id") String id) throws ServletException, IOException{

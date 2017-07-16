@@ -23,6 +23,7 @@
                <input type="hidden" id="textLength" name="textLength">
                <input type="hidden" id="content" name="content">
                <input type="hidden" id="showContent"  name="showContent" value="false"><!-- 公开私有 -->
+                <input type="hidden" id="istop"  name="istop" value="false"><!-- 是否置顶 -->
 			   <input id="publishTitle"  autofocus name="title" type="text" style=" border: 0px;width: 100%;"  placeholder="标题:" required data-validation-required-message="必填"  aria-describedby="sizing-addon1"> 
                <textarea id="editorPublish" placeholder="Balabala" ></textarea>
                <div  id="tag" class="editPageTag tagtext">
@@ -33,6 +34,9 @@
            		
            		<div class="switch" >
 				    是否公开: <input type="checkbox"   name="publishPagecheckbox"/>
+				</div>
+				<div class="switch" >
+				    是否置顶: <input type="checkbox"   name="top"/>
 				</div>
             </form>
           </div>
@@ -50,19 +54,7 @@
 <script src="/lib/bootstrap_switch/js/bootstrap-switch.js "></script>  
 <script>
 	$(function(){
-		$('input[name="publishPagecheckbox"]').bootstrapSwitch({
-				state:false,  //input的checked可以控制这个状态
-				onText:"Public",
-				offText:"Private",
-				labelText:"State",
-				offColor:"warning",
-				/* onInit:function(event, state) {
-					this.state=false
-				}, */
-			    onSwitchChange:function(event, state) {
-					 $("#showContent").val(state)
-			   }		
-		});
+		
 		 
 	})
 </script>

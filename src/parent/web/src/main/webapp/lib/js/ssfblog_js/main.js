@@ -1,5 +1,5 @@
 var ssfblog  = new Object()
-
+ssfblog.showcount=2;
 
 //sessionStroage
 ssfblog.isSignIn=function()
@@ -52,10 +52,11 @@ function cl(thiz){
 	$.cookie('postContent', rel, { expires: 1 }); 
 }
 
+//搜索相同标题的内容在首页显示
 ssfblog.tagSearch=function(tag){
 	
 	tag = tag.substring(1,tag.length); 
-	var url = "/pageTitle/tagSearch/"+tag;
+	var url = "/search/tagSearch/"+tag;
 	$.get(url,function(data){  
 		//console.log(data)
 		$("#pageTitleContainer").html("");
@@ -101,7 +102,14 @@ ssfblog.initIndex=function(datas,callback){ //date是查询到的博客标题信
 		//解析数据,给页面赋值
 		for(i=0;i<datalen;i++){  
 			a.eq(i).attr("href","article/"+$(data)[i].id)
-			post_title.eq(i).text($(data)[i].post_title)
+			var titlestr ="<b>" +$(data)[i].post_title+"</b>"
+			
+			var top = $(data)[i].top
+			if(0==top){
+				titlestr= "<span class='blogtop'>[置顶]</span>"+titlestr;
+			}
+			post_title.eq(i).append(titlestr)
+//			post_title.eq(i).text($(data)[i].post_title)
 			//post_subtitle.eq(i).text($(data)[i].post_subtitle)
 			
 			//副标题
@@ -194,7 +202,7 @@ ssfblog.refreshHtml=function(){
 //隐藏博文
 ssfblog.hiddenBlog=function(id){
 	var del = function(){  
-		$.get("/pageTitle/hiddenContent/"+id,function(data){
+		$.get("/article/hiddenContent/"+id,function(data){
     		if(!data.error){
     			ssfblog.alert("information","ok~")
 //    			setTimeout(function(){location.href="/"},1000) 
@@ -228,7 +236,7 @@ ssfblog.deleteBlog=function(id){
 //public博文
 ssfblog.publicBlog=function(id){
 	var del = function(){
-		$.get("/pageTitle/publicContent/"+id,function(data){
+		$.get("/article/publicContent/"+id,function(data){
     		if(!data.error){
     			ssfblog.alert("information","ok~")
     			//setTimeout(function(){location.href="/"},1000) 
@@ -245,12 +253,12 @@ ssfblog.publicBlog=function(id){
 
 
 //登入登出按钮事件
-ssfblog.sigIn=function(){
+ssfblog.login=function(){
 	//登出按钮事件
 	$("#signOutBtn").click(function(){
 		ssfblog.navSignChange() 
 		//后台删除session,前端也要删除sessionStorage
-		$.post("/sigOut",function(data){
+		$.post("/logout",function(data){
 			if(data.msg){
 				ssfblog.toastr("info",data.msg)
 				if(window.sessionStorage){
@@ -268,7 +276,7 @@ $("#signInBtn").click(function(){
 		 if($("#exampleModal").length>0){
 			 $("#exampleModal").modal('show')
 		 }else{
-			 $.get("/signInPage.html",function(htmldata){  
+			 $.get("/loginPage.html",function(htmldata){  
 					$("body").append(htmldata);
 					//定义在焦点失去的时候触发的函数;
 				    $("#signInForm").validate({
@@ -287,7 +295,7 @@ $("#signInBtn").click(function(){
 							 return
 						 }
 						 if(!tf)return
-						$.post("/sigIn",$("#signInForm").serialize(),function(data){  
+						$.post("/login",$("#signInForm").serialize(),function(data){  
 							//console.log(data)
 							if(!data.error){ //登入成功 : 关闭界面, 提示成功,在浏览器session中保存登入过, 隐藏登入按钮,现实登出按钮
 								 ssfblog.offkey13("#submitSignIndata");
@@ -398,6 +406,8 @@ ssfblog.editPage=function(id){
 							 
 							var stateTf = data.mapRs.show_content==1?true:false;
 							$("#editshowContent").val(stateTf) 
+							var istop = data.mapRs.top==0?true:false;
+							$("#editisTop").val(istop) 
 //							$("#editpublishPagecheckbox").attr("checked",false)
 							//标签赋值
 							for(var i=0;i<data.data.length;i++){
@@ -407,12 +417,12 @@ ssfblog.editPage=function(id){
 											)
 							}
 							
-							//开关组件设置
+							//开关组件设置 
 							$('input[name="editpublishPagecheckbox"]').bootstrapSwitch({
 								state:stateTf,
-								onText:"Public",
-								offText:"Private",
-								labelText:"State",
+								onText:"Yes",
+								offText:"No",
+							//	labelText:"State",
 								offColor:"warning",
 								/* onInit:function(event, state) {
 									this.state=false
@@ -420,7 +430,23 @@ ssfblog.editPage=function(id){
 							    onSwitchChange:function(event, state) {
 									 $("#editshowContent").val(state)
 							   }		
-						});
+							});
+							
+							$('input[name="editTop"]').bootstrapSwitch({
+								state:istop,
+								onText:"Yes",
+								offText:"No",
+							//	labelText:"State",
+								offColor:"warning",
+								/* onInit:function(event, state) {
+									this.state=false
+								}, */
+							    onSwitchChange:function(event, state) {
+									 $("#editisTop").val(state)
+							   }		
+							});
+							
+							
 						//	$('#edittag')
 						 
 					});  
@@ -524,7 +550,7 @@ ssfblog.navPage=function(){
 	$.get("/nav.html",function(htmldata){  //获取展示的html样式 
 		$("nav").append(htmldata);
 		ssfblog.nav_Html();
-		ssfblog.sigIn();
+		ssfblog.login();
 		ssfblog.publishPage();
 		//如果登入过就隐藏登入按钮
 		if(window.sessionStorage){ 
@@ -978,6 +1004,11 @@ ssfblog.nav_Html=function(){
 	} 
 	//附加菜单使用鼠标悬浮出发
 	$("#a_dropdown").hover( function(){ $(this).click() },function(){} );
+	
+	//给页面添加搜索框
+
+	var searchHtml ='<div class="modal fade" tabindex="-1" role="dialog" id="searchModal">   <div class="modal-dialog modal-lg" role="document" style="max-width: 700px;" > <div class="modal-content" style=" box-shadow: -3px 10px 20px #f5f5f5; top: 200px;  "> <button  type="button" class="hidden" data-dismiss="modal" id="searchModalClose">Close</button> <div class="input-group input-group-lg">  <span class="input-group-addon " id="searchbtn" style="border: 0px;background-color:white;"><a  id="search_a" href="javascript:"><i class="fa fa-search" aria-hidden="true"></i></a></span>  <input id="searchInput"  type="text" class="form-control search" placeholder="标题搜索..." > </div>  </div> </div> </div>'
+	$('body').append(searchHtml);
 }
 
 //publishPage.html 页面初始化函数
@@ -1005,6 +1036,36 @@ ssfblog.publishPage_html=function(){
 			tagIn()  
     	}   
 	})  
+	//2个按钮初始化
+	$('input[name="publishPagecheckbox"]').bootstrapSwitch({
+				state:false,  //input的checked可以控制这个状态
+				onText:"Yes",
+				offText:"No",
+				//labelText:"State",
+				offColor:"warning",
+				/* onInit:function(event, state) {
+					this.state=false
+				}, */
+			    onSwitchChange:function(event, state) {
+					 $("#showContent").val(state)
+			   }		
+		});
+		
+		$('input[name="top"]').bootstrapSwitch({
+			state:false,  //input的checked可以控制这个状态
+			onText:"Yes",
+			offText:"No",
+			//labelText:"State",
+			offColor:"warning",
+			/* onInit:function(event, state) {
+				this.state=false
+			}, */
+		    onSwitchChange:function(event, state) {
+				 $("#istop").val(state)
+		   }		
+	});
+	
+	
 	//发布快捷键
 	ssfblog.ctlEnterToClick("#publishModal","#submitPublishdata")
 }
@@ -1048,20 +1109,130 @@ ssfblog.editPage_html=function(){
 
 	
 }
- 
+ssfblog.comment_html;
+//评论点赞
+ssfblog.commentLike=function(id,thiz){
+	$.get("commentLikePlus/"+id,function(data){
+		if(!data.error){
+			 $(thiz).parent().find(".commentLikelength").text(data.msg)
+		}
+	})	
+	 
+}  
+//表单提交:评论
+ssfblog.bindEvenToPostComment=function(id){ 
+	if($("#coment_form").valid()){  
+		$.post("comment/"+id,$("#coment_form").serialize(),function(){
+			location.reload();
+		})
+	} 
+}
+
+ssfblog.reply=function(thiz,id,name){
+		function cleanCommentDiv(){
+		 $(".reply_area").empty();//评论区先清空 
+	        $.each( $(".sub-comment-list"),function(i,n){
+	        	if($(n).find('div').length<2){
+	        		$(n).addClass("hidden")
+	        	}
+	        })
+	     $("#cancel_reply").addClass("hidden")
+		}
+	  
+     var $div = $("#comment_form_div"); 
+     $div.empty()
+     //找到评论的区
+    var $comment =  $(thiz).closest(".comment")
+    var $reply_area =  $comment.find(".reply_area");
+    
+    cleanCommentDiv();
+    
+     $reply_area.append(ssfblog.comment_html)
+     if(name){
+     	$("#comment").append("@"+name+" ")
+     }
+     $("#comment").focus()
+     $reply_area.parent().removeClass("hidden")   
+      $("#cancel_reply").removeClass("hidden")
+      //取消
+     $("#cancel_reply").one("click",function(){  
+    	//主评论区, 添加评论form, 取消按钮隐藏, 主评论区的提交重新帮定事件的清空子评论区的form
+    	//$reply_area.empty(); 
+     	$div.append(ssfblog.comment_html)	
+     	//$("#cancel_reply").addClass("hidden")
+     	cleanCommentDiv();
+ 		$("#post_comment").click(function(){
+			 ssfblog.bindEvenToPostComment("-1");
+		})
+     })
+     	//提交按钮绑定新的事件
+	 $("#post_comment").on("click",function(){ssfblog.bindEvenToPostComment(id)})
+}
+
+//搜索
+ssfblog.showSearch=function(show){
+	 if(show){
+		 $('#searchModal').modal({backdrop:true,show:true});  
+	 }
+	
+	 
+	 $("#search_a").one('click',function(){  
+		 var val = $("#searchInput").val(); 
+		 $.cookie('searchVal', val, { expires: 1 }); 
+		 /**
+		    $("#searchInput").val($.cookie('searchVal')); 
+		    ssfblog.showSearch()
+		  */
+		 ssfblog.search(val);
+		 ssfblog.offkey13("#searchInput")
+	 })
+	 ssfblog.key_enter("#search_a","#searchInput") 
+	 
+}
+
 $(function(){
 	//$("head").append("<script></script>")
 	ssfblog.initPage()  
 	ssfblog.backToTop()   
 	//index.html
-	var search = location.search;
-	var query  = search.substring(1,7);
-	var queryVals = search.split("=");
-	if("?search"==query){
+	var searchstr = location.search;
+ 
+	//
+	if($("body").hasClass("postpage")){//文章阅读代码
+		$(".image").viewer({url:"data-original",title:false,toolbar:false,tooltip:false});  //查看图片插件
+		ssfblog.comment_html =  $("#comment_form_div").html();
+		$("#post_comment").click(function(){
+		    ssfblog.bindEvenToPostComment("-1") 
+		})
 		
-	}else if($("body").hasClass("index_page")){
+		//喜欢按钮事件
+		$("#likebtn").click(function(){
+			$.get("likeplus/"+$("#postId").val(),function(data){
+				if(!data.error){
+					$("#likecount").text(data.msg)
+					$("#postLike").text(data.msg)
+				}
+			})	
+		});
+		
+	}else if($("body").hasClass("index_page")){//首页代码
+		//搜索时
+		
+	 	if(searchstr=='?search'){ 
+	 		setTimeout(function(){
+	 			val = $.cookie('searchVal') 
+		 		$("#searchInput").val( $.cookie('searchVal') );  
+			    ssfblog.showSearch(false);
+			    $("#search_a").click()
+			   
+	 		},50)
+	 		
+	 		return;
+	 	}
+		
+		
 		//分页初始化; 设置每页显示的行数, 上一页和下一页的按钮
-		pageSplit = ssfblog.paging(2,"#previous","#next");  
+		pageSplit = ssfblog.paging(ssfblog.showcount,"#previous","#next");  
 		//获取第一页
 		obj = pageSplit() 
 		//页面内容初始化
@@ -1107,7 +1278,13 @@ $(function(){
 })
 
 ssfblog.search=function(val){
-	var url = "/search/"+val;
+	if(!$("body").hasClass("index_page")){
+		location.href="/index.html?search"
+		return
+	}
+	$("#searchInput").val("");
+	var valstr = "val_"+val;
+	var url = "/search/"+valstr;
 	$.get(url,function(data){  
 		//console.log(data)
 		$("#pageTitleContainer").html("");
@@ -1115,10 +1292,11 @@ ssfblog.search=function(val){
 		$("#loading").removeClass("hidden");
 		$("#previous").hide();
 		$("#next").hide();
+		//回调函数
 		var callback = function(){
 		 var htmltext = "<span class='tagSearch'>"+val+"</span>"
-		 var length = 	$(".post-title").length
-			$.each($(".post-title"),function(i,n){
+		 var length = 	$(".post-title b").length
+			$.each($(".post-title b"),function(i,n){
 				var el = $(n);
 				var text = el.text();   
 				text = text.replace(new RegExp(val, 'g'), htmltext); 
@@ -1126,7 +1304,7 @@ ssfblog.search=function(val){
 				 el.append(text)  
 			}) 
 			$("#searchModalClose").click();
-		 	$("#searchInput").val("");
+		 	
 //		 	 $("#search_a").off("click")
 		  
 		    if(data.mapRs.dataList.length== 0){

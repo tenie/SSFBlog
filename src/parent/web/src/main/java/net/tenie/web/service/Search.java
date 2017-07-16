@@ -9,4 +9,6 @@ public interface Search {
 	List<Map<String, Object>> pageSearch(String val);
 	List<Map<String, Object>> tagSearch(String tag);
 	
+	Map<String, Object> indexSearch(Integer limit,Integer offset,String getCount);
+	
 }
