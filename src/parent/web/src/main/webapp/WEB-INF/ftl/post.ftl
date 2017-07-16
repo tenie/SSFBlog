@@ -47,7 +47,9 @@
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                     <div class="post-heading">
                     	<p>
+                    		<#if data.top == 0>
                     		<span class='blogtop' style="font-size: 16px;">[置顶]</span>
+                    		</#if>
                     		<h1  id="post-title" style="display: inline;">${data.post_title} </h1>
                     		<input type="hidden" id='postId' value='${data.id}'>
                     	</p>
