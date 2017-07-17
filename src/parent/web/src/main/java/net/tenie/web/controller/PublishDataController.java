@@ -39,15 +39,12 @@ public class PublishDataController {
 	@RequestMapping(value="/submitPublishdata",method = RequestMethod.POST)
 	@ResponseBody
 	public Result savePublishData(HttpServletRequest request, HttpServletResponse response,@RequestParam Map<String, Object> queryParam) throws ServletException, IOException{
-      System.out.println("PublishDataController.savePublishData");
-       
-      String showContent = (String) queryParam.get("showContent"); 
-
+      
+      String showContent = (String) queryParam.get("showContent");  
       String istop = (String) queryParam.get("istop"); 
       String title = (String) queryParam.get("title"); 
       Integer textLength =Integer.valueOf( (String) queryParam.get("textLength")); 
-      String tags[] = request.getParameterValues("tag");
-       
+      String tags[] = request.getParameterValues("tag"); 
       String data = (String) queryParam.get("content");  
       Blog blog = new Blog();
       blog.setString("post_title", title); 
@@ -56,11 +53,9 @@ public class PublishDataController {
       blog.setInteger("text_length", textLength);
       int tf =  "true".equals(showContent)?1:0;
       blog.setInteger("show_content", tf);
-      blog.setInteger("top", "true".equals(istop)?0:1);
-      
+      blog.setInteger("top", "true".equals(istop)?0:1); 
       blog.saveIt();
       Integer id = Integer.valueOf( blog.getId().toString()) ; 
-      
       //标签加到子表中
       if(tags !=null){ 
     	 for(String str : tags){

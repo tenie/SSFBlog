@@ -1,7 +1,7 @@
 // Contact Form Scripts
 
 $(function() {
-
+	 
     $("#contactForm input,#contactForm textarea").jqBootstrapValidation({
         preventSubmit: true,
         submitError: function($form, event, errors) {
@@ -41,6 +41,7 @@ $(function() {
 
                     //clear all fields
                     $('#contactForm').trigger("reset");
+                    $("#submitBTN_ico").addClass("hidden")
                 },
                 error: function() {
                     // Fail message

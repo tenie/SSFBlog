@@ -11,6 +11,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
+import javax.validation.Valid;
 
 import org.apache.commons.dbcp.BasicDataSource;
 import org.javalite.activejdbc.Base;
@@ -52,6 +53,15 @@ public class ArticleController {
 		@Value("${who.am.i}")
 		private String myname;
 		
+		/**
+		 * 文章阅读页面
+		 * @param request
+		 * @param response
+		 * @param id
+		 * @return
+		 * @throws ServletException
+		 * @throws IOException
+		 */
 		@RequestMapping(value="/{id}",method = RequestMethod.GET) 
 		public String htmlContent2(HttpServletRequest request, HttpServletResponse response,@PathVariable("id") String id) throws ServletException, IOException{
 		   //判断是否登入
@@ -68,20 +78,15 @@ public class ArticleController {
 	    	    return  "/error-page/404";
 	       }else{
 	    	   //标签搜索
-	    	   LazyList<BlogTag> taglist =	BlogTag.where("blog_id=?", id).load();
-	    	    
+	    	   LazyList<BlogTag> taglist =	BlogTag.where("blog_id=?", id).load(); 
 	    	   Integer index = blog.getInteger("read_quantity");
 	    	   index++;
 	    	   blog.setInteger("read_quantity",index );
-	    	   blog.saveIt();
-	    	 
-		       
-		       
+	    	   blog.saveIt(); 
 		       //评论数据
 		      List<BlogComment>  BlogCommentlist=BlogComment.where("post_id= ? and parent_id is null or parent_id = '' ",id).load();
 		      List<Map> rs = new ArrayList();
-		      for(BlogComment bc:BlogCommentlist){
-//		    	  System.out.println(bc.getInteger("myselft"));
+		      for(BlogComment bc:BlogCommentlist){ 
 		    	  Map<String,Object> rmap = bc.toMap();
 		    	  rmap.put("subcomment", BlogComment.where("post_id=? and parent_id=?", id,bc.getId()).load()); 
 		    	  rs.add(rmap);
@@ -91,12 +96,11 @@ public class ArticleController {
 	    	  request.setAttribute("tags", taglist);
 		      request.setAttribute("isLog",islog); 
 		      request.setAttribute("commentLength",BlogCommentlist.size()); 
-		      request.setAttribute("comments",rs); 
-		       
+		      request.setAttribute("comments",rs);  
 	       }
 	       return  "/post";
 	    }
-		
+	
 		/**
 		 * 编辑页面获取数据
 		 * @param id
@@ -120,7 +124,7 @@ public class ArticleController {
 	       rs.setData(rsl);
 	       return rs;
 	    }
-		 
+	 
 		/**
 		 * 删除博文
 		 * @param request
@@ -132,8 +136,7 @@ public class ArticleController {
 		@RequestMapping(value="/delete/{id}",method = RequestMethod.POST) 
 		@ResponseBody
 		public Result deleteContent(HttpServletRequest request,@PathVariable("id") String id) throws ServletException, IOException{ 
-		  	LoginSession loginInfo = ApplicationContextHelper.getBeanByType(LoginSession.class);
-			//CecheResult.setNullSignIncacheRS();
+		  	LoginSession loginInfo = ApplicationContextHelper.getBeanByType(LoginSession.class); 
 			Result rs = new Result();
 			if(loginInfo.getIsLog()!=null && loginInfo.getIsLog()){ 
 				Blog.findById(id).delete();
@@ -143,7 +146,7 @@ public class ArticleController {
 				return rs;
 			} 
 	    } 
-		
+	
 		/**
 		 * 保存评论
 		 * @param request
@@ -154,7 +157,7 @@ public class ArticleController {
 		 */
 		@RequestMapping(value="/comment/{parentId}",method = RequestMethod.POST) 
 		@ResponseBody
-		public Result saveComment(HttpServletRequest request,@PathVariable("parentId") String parentId,VisitorPO visitor) throws ServletException, IOException{ 
+		public Result saveComment(HttpServletRequest request,@PathVariable("parentId") String parentId,@Valid VisitorPO visitor) throws ServletException, IOException{ 
 			
 			boolean isLogin = SessionUtil.islogin();
 			BlogComment comment = new BlogComment();
@@ -162,9 +165,7 @@ public class ArticleController {
 				visitor.setName(myname);
 				comment.setInteger("myselft",1);
 							 
-			}
-			
-			
+			} 
 			comment.setString("post_id",visitor.getPostId());
 			comment.setString("name",visitor.getName());
 			comment.setString("comment",visitor.getComment());
@@ -177,7 +178,7 @@ public class ArticleController {
 		  	Result rs = new Result(); 
 			return rs; 
 	    } 
-		
+	
 		/**
 		 * 喜欢按钮触发 加1并返回
 		 * @param id
@@ -196,7 +197,7 @@ public class ArticleController {
 	       rs.setMsg(likecount+"");
 	       return rs;
 	    }
-		
+	
 		/**
 		 * 评论里的赞 加1后返回
 		 * @param id
@@ -215,34 +216,49 @@ public class ArticleController {
 		       rs.setMsg(likecount+"");
 		       return rs;
 	    }
+	
+	
+	
+		/**
+		 * 隐藏文章
+		 * @param request
+		 * @param response
+		 * @param id
+		 * @return
+		 * @throws ServletException
+		 * @throws IOException
+		 */
+		@RequestMapping(value="/hiddenContent/{id}",method = RequestMethod.GET)
+		@ResponseBody 
+		public Result  hiddenContact(HttpServletRequest request, HttpServletResponse response,@PathVariable("id") String id) throws ServletException, IOException{
 		
-		
-		
-		//private文章
-			@RequestMapping(value="/hiddenContent/{id}",method = RequestMethod.GET)
-			@ResponseBody 
-			public Result  hiddenContact(HttpServletRequest request, HttpServletResponse response,@PathVariable("id") String id) throws ServletException, IOException{
+			int i = Blog.update("show_content = ?","id=?", 	0,id);
+			Result rs = new Result();
+			if(i!=1){
+				rs.setError(true);
+			} 
 			
-				int i = Blog.update("show_content = ?","id=?", 	0,id);
-				Result rs = new Result();
-				if(i!=1){
-					rs.setError(true);
-				} 
-				
-				return rs;
-		    }
-		//public文章
-			@RequestMapping(value="/publicContent/{id}",method = RequestMethod.GET)
-			@ResponseBody 
-			public Result  publicContact(HttpServletRequest request, HttpServletResponse response,@PathVariable("id") String id) throws ServletException, IOException{
-				int i = Blog.update("show_content = ?","id=?", 	1,id);
-				Result rs = new Result();
-				if(i!=1){
-					rs.setError(true);
-				} 
-				
-				return rs;
-		    }
+			return rs;
+	    }
+		/**
+		 * 公开文章
+		 * @param request
+		 * @param response
+		 * @param id
+		 * @return
+		 * @throws ServletException
+		 * @throws IOException
+		 */
+		@RequestMapping(value="/publicContent/{id}",method = RequestMethod.GET)
+		@ResponseBody 
+		public Result  publicContact(HttpServletRequest request, HttpServletResponse response,@PathVariable("id") String id) throws ServletException, IOException{
+			int i = Blog.update("show_content = ?","id=?", 	1,id);
+			Result rs = new Result();
+			if(i!=1){
+				rs.setError(true);
+			}
+			return rs;
+	    }
 		
 		 
 }

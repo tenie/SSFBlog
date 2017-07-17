@@ -131,8 +131,14 @@
         <value>.ftl</value>  
     </property>  
     <property name="contentType" value="text/html;charset=UTF-8"></property>  
-</bean>  
-    
+</bean>
+
+<!-- 获得验证框架 -->
+	<!-- 获得验证框架 -->
+		<bean id="validationFactory" class="javax.validation.Validation" factory-method="buildDefaultValidatorFactory"/>
+		<bean id="Validator" factory-bean="validationFactory" factory-method="getValidator" />    
+  	
+  	
 	</beans>
 
 </beans>

@@ -27,9 +27,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
         //获取请求的URL
         String path = httpServletRequest.getRequestURI();
         LoginSession loginInfo = SessionUtil.getSession();//ApplicationContextHelper.getBeanByType(LoginSession.class);
-        loginInfo.setUrl(path);
-        System.out.println(loginInfo);
-        ///
+        loginInfo.setUrl(path); 
 		if(   path.indexOf("/submitPublishdata") >=0
 		   || path.indexOf("/updatePublishdata") >=0
 		   || path.indexOf("/article/delete") >=0

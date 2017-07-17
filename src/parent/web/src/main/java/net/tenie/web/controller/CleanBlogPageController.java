@@ -33,11 +33,7 @@ import net.tenie.web.session.SessionUtil;
 @RequestMapping("/pageTitle")
 public class CleanBlogPageController {
 	 
-//	private Result SignIncacheRS;
-//	private Result cacheRS; 
-	@Autowired 
-	private JdbcTemplate jdbc;
-	
+	 
 	@Autowired 
 	private Search search;
 	 
@@ -57,7 +53,9 @@ public class CleanBlogPageController {
 	public Result htmlView( @PathVariable(value="limit") Integer limit ,
 							@PathVariable(value="offset") Integer offset ,
 							@PathVariable(value="getCount") String getCount ) throws ServletException{
-	  //判断是否登入 
+//	String str = null;
+//	Integer i = Integer.valueOf(str);
+		//判断是否登入 
 	  boolean bool =SessionUtil.islogin(); 
 	  //获取缓存 
 	  if(offset == 0){
@@ -85,76 +83,6 @@ public class CleanBlogPageController {
       }
       return rs;
     }
-	
-	
-	//获取tag查询结果
-	@RequestMapping(value="/tagSearch/{tag}",method = RequestMethod.GET)
-	@ResponseBody
-	public Result tagSearchhtmlView(  @PathVariable(value="tag") String tag  ) throws ServletException{
 	 
-      //结果集赋值
-      Result rs = new Result();  
-      Map<String,Object> rsMap = new HashMap(); 
-      rsMap.put("signIn", SessionUtil.islogin());  //是否登入
-      rsMap.put("dataList", search.tagSearch(tag)); 
-      rs.setMapRs(rsMap); 
-      return rs;
-    }
-	
-	
-	//获取某片文章的所以内容
-	@RequestMapping(value="/postContent/{id}",method = RequestMethod.GET)
-	@ResponseBody
-	@Deprecated
-	public Map<String,Object> htmlContent(HttpServletRequest request, HttpServletResponse response,@PathVariable("id") String id) throws ServletException, IOException{
-        List<Map<String, Object>> list=jdbc.queryForList("select * from blog where id=? ",id); 
-        return list.get(0);
-    }
-	
-	/**
-	 * 不公开文章
-	 * @param request
-	 * @param response
-	 * @param id
-	 * @return
-	 * @throws ServletException
-	 * @throws IOException
-	 */
-		@RequestMapping(value="/hiddenContent/{id}",method = RequestMethod.GET)
-		@ResponseBody 
-		public Result  hiddenContact(HttpServletRequest request, HttpServletResponse response,@PathVariable("id") String id) throws ServletException, IOException{
-		
-			int i = Blog.update("show_content = ?","id=?", 	0,id);
-			Result rs = new Result();
-			if(i!=1){
-				rs.setError(true);
-			} 
-			
-			return rs;
-	    }
-		/**
-		 * 公开文章
-		 * @param request
-		 * @param response
-		 * @param id
-		 * @return
-		 * @throws ServletException
-		 * @throws IOException
-		 */
-		@RequestMapping(value="/publicContent/{id}",method = RequestMethod.GET)
-		@ResponseBody 
-		public Result  publicContact(HttpServletRequest request, HttpServletResponse response,@PathVariable("id") String id) throws ServletException, IOException{
-			int i = Blog.update("show_content = ?","id=?", 	1,id);
-			Result rs = new Result();
-			if(i!=1){
-				rs.setError(true);
-			} 
-			
-			return rs;
-	    }
-		
-		
-	 
-	
 
 }
