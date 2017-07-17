@@ -33,8 +33,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import net.tenie.pojo.Blog;
 import net.tenie.pojo.BlogComment;
 import net.tenie.pojo.BlogTag;
-import net.tenie.web.pojo.Result;
-import net.tenie.web.pojo.VisitorPO;
+import net.tenie.web.entity.Result;
+import net.tenie.web.entity.VisitorDTO;
 import net.tenie.web.service.CecheResult;
 import net.tenie.web.session.LoginSession;
 import net.tenie.web.session.SessionUtil;
@@ -157,7 +157,7 @@ public class ArticleController {
 		 */
 		@RequestMapping(value="/comment/{parentId}",method = RequestMethod.POST) 
 		@ResponseBody
-		public Result saveComment(HttpServletRequest request,@PathVariable("parentId") String parentId,@Valid VisitorPO visitor) throws ServletException, IOException{ 
+		public Result saveComment(HttpServletRequest request,@PathVariable("parentId") String parentId,@Valid VisitorDTO visitor) throws ServletException, IOException{ 
 			
 			boolean isLogin = SessionUtil.islogin();
 			BlogComment comment = new BlogComment();

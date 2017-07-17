@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 
 import net.tenie.pojo.Blog;
 import net.tenie.pojo.BlogTag;
-import net.tenie.web.pojo.Result;
+import net.tenie.web.entity.Result;
 import net.tenie.web.session.LoginSession;
 import net.tenie.web.session.SessionUtil;
 

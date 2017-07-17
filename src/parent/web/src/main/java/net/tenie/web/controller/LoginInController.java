@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import net.tenie.web.pojo.Result;
+import net.tenie.web.entity.Result;
 import net.tenie.web.service.VerificationCode;
 import net.tenie.web.session.LoginSession;
 import net.tenie.web.session.SessionUtil;

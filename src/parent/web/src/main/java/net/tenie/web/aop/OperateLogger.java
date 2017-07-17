@@ -62,12 +62,18 @@ public class OperateLogger{
 		 db.commitTransaction(); 
 	     return obj;
 		}catch(Exception e){
-			db.rollbackTransaction(); 
 			e.printStackTrace(); 
+			if(db!=null){
+				db.rollbackTransaction();  
+			}
+			
 			throw e;
 		}
 		finally { 	
-			db.close(); 
+			if(db!=null){
+				db.close(); 
+			}
+			
 		} 
 	
 }

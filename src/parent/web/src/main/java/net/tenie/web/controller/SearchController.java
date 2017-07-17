@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
- 
-import net.tenie.web.pojo.Result;
+
+import net.tenie.web.entity.Result;
 import net.tenie.web.service.Search;
 import net.tenie.web.session.SessionUtil;
 

@@ -28,7 +28,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import net.tenie.pojo.Blog;
 import net.tenie.pojo.BlogTag;
-import net.tenie.web.pojo.Result;
+import net.tenie.web.entity.Result;
 import net.tenie.web.service.CecheResult;
 import net.tenie.web.service.Search;
 import net.tenie.web.session.LoginSession;
