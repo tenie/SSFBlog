@@ -1,22 +1,17 @@
 package net.tenie.web.interceptor;
-
-import java.io.Writer;
-
-import javax.servlet.ServletOutputStream;
+ 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.codehaus.jackson.JsonEncoding;
 import org.codehaus.jackson.JsonGenerator;
 import org.codehaus.jackson.map.ObjectMapper;
-//
-//import org.springframework.web.method.HandlerMethod;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import net.tenie.web.pojo.Result;
 import net.tenie.web.session.LoginSession;
-import net.tenie.web.session.SessionUtil;
-import net.tenie.web.tools.ApplicationContextHelper;
+import net.tenie.web.session.SessionUtil; 
 
 public class LoginInterceptor extends HandlerInterceptorAdapter {
 	@Override
@@ -50,4 +45,23 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 		return true; 
 		
 	}
+	/**
+	 * 可以修改视图
+	 */
+	@Override	
+	public void postHandle(    
+            HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView)    
+            throws Exception {    
+    } 
+	/**
+	 * 可以根据ex做log
+	 */
+	@Override
+    public void afterCompletion(    
+            HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)    
+            throws Exception {
+		 
+		 
+		
+    }    
 }
