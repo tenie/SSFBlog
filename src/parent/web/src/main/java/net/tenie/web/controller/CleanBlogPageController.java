@@ -13,13 +13,18 @@ import javax.websocket.server.PathParam;
 
 import org.javalite.activejdbc.LazyList;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import net.tenie.pojo.Blog;
 import net.tenie.pojo.BlogTag;
@@ -50,11 +55,12 @@ public class CleanBlogPageController {
 	 */
 	@RequestMapping(value="/{getCount}/{limit}/{offset}",method = RequestMethod.GET)
 	@ResponseBody
-	public Result htmlView( @PathVariable(value="limit") Integer limit ,
+	public ResponseEntity<Result>   htmlView( @PathVariable(value="limit") Integer limit ,
 							@PathVariable(value="offset") Integer offset ,
-							@PathVariable(value="getCount") String getCount ) throws ServletException{
+							@PathVariable(value="getCount") String getCount ,UriComponentsBuilder uriCB) throws ServletException{
 //	String str = null;
 //	Integer i = Integer.valueOf(str);
+		  Result rs = null;
 		//判断是否登入 
 	  boolean bool =SessionUtil.islogin(); 
 	  //获取缓存 
@@ -62,26 +68,32 @@ public class CleanBlogPageController {
 		 if(bool){
 	    	  Result logincacheRS  = CecheResult.getSignIncacheRS();
 	    	  if(logincacheRS!=null){
-	    	    	 return logincacheRS;
+	    		  rs =  logincacheRS;
 	    	  }
 	      }else{
 	    	  Result cacheRS =  CecheResult.getCacheRS(); 
 	    	  if(cacheRS!=null){
-	    	    	 return cacheRS;
+	    		  rs =    cacheRS;
 	    	  } 
 	      }
-	  }
-	   
-      //结果集赋值
-      Result rs = new Result(); 
-      rs.setMapRs(search.indexSearch(limit, offset, getCount)); 
-      //缓存
-      if(bool && "1".equals(getCount )){
-    	  CecheResult.setLogincacheRS(rs);
-      }else if(!bool && "1".equals(getCount)){ 
-    	  CecheResult.setCacheRS(rs);
-      }
-      return rs;
+	  } 
+		  //结果集赋值
+	     if(rs==null){
+	    	  rs = new Result();
+	    	  rs.setMapRs(search.indexSearch(limit, offset, getCount)); 
+		      //缓存
+		      if(bool && "1".equals(getCount )){
+		    	  CecheResult.setLogincacheRS(rs);
+		      }else if(!bool && "1".equals(getCount)){ 
+		    	  CecheResult.setCacheRS(rs);
+		      }  
+	     }
+	      
+	  
+	  
+	  MultiValueMap<String, String> headers = new HttpHeaders(); 
+	  headers.set("Location", uriCB.path("/"+getCount+"/"+limit+"/{offset}").buildAndExpand(offset).toUriString());
+      return new ResponseEntity<Result>(rs, headers, HttpStatus.OK);
     }
 	 
 

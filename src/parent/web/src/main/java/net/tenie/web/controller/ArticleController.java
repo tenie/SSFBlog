@@ -176,6 +176,7 @@ public class ArticleController {
 			}
 			comment.insert();
 		  	Result rs = new Result(); 
+		  	 
 			return rs; 
 	    } 
 	
