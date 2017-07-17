@@ -1,5 +1,5 @@
 var ssfblog  = new Object()
-ssfblog.showcount=2;
+ssfblog.showcount=10;
 
 //sessionStroage
 ssfblog.isSignIn=function()
@@ -1007,7 +1007,7 @@ ssfblog.nav_Html=function(){
 	
 	//给页面添加搜索框
 
-	var searchHtml ='<div class="modal fade" tabindex="-1" role="dialog" id="searchModal">   <div class="modal-dialog modal-lg" role="document" style="max-width: 700px;" > <div class="modal-content" style=" box-shadow: -3px 10px 20px #f5f5f5; top: 200px;  "> <button  type="button" class="hidden" data-dismiss="modal" id="searchModalClose">Close</button> <div class="input-group input-group-lg">  <span class="input-group-addon " id="searchbtn" style="border: 0px;background-color:white;"><a  id="search_a" href="javascript:"><i class="fa fa-search" aria-hidden="true"></i></a></span>  <input id="searchInput"  type="text" class="form-control search" placeholder="标题搜索..." > </div>  </div> </div> </div>'
+	var searchHtml ='<div class="modal fade" tabindex="-1" role="dialog" id="searchModal">   <div class="modal-dialog modal-lg" role="document" style="max-width: 700px;" > <div class="modal-content" style=" box-shadow: -3px 10px 20px #f5f5f5; top: 200px;  "> <button  type="button" class="hidden" data-dismiss="modal" id="searchModalClose">Close</button> <div class="input-group input-group-lg">  <span class="input-group-addon " id="searchbtn" style="border: 0px;background-color:white;"><a  id="search_a" href="javascript:"><i class="fa fa-search" aria-hidden="true"></i></a></span>  <input id="searchInput" autofocus  type="text" class="form-control search" placeholder="标题搜索..." > </div>  </div> </div> </div>'
 	$('body').append(searchHtml);
 }
 
@@ -1173,6 +1173,10 @@ ssfblog.reply=function(thiz,id,name){
 ssfblog.showSearch=function(show){
 	 if(show){
 		 $('#searchModal').modal({backdrop:true,show:true});  
+		 $('#searchModal').one('shown.bs.modal', function (e) {
+			 document.getElementById('searchInput').focus();
+		 })
+
 	 }
 	
 	 
@@ -1191,9 +1195,15 @@ ssfblog.showSearch=function(show){
 }
 
 $(function(){
+	
 	//$("head").append("<script></script>")
 	ssfblog.initPage()  
-	ssfblog.backToTop()   
+	ssfblog.backToTop() 
+	setTimeout(function(){
+		$(document).ajaxError(function(event,request, settings){
+			ssfblog.alert("error","服务器出错了~") 
+	});
+	},50)
 	//index.html
 	var searchstr = location.search;
  
@@ -1215,7 +1225,17 @@ $(function(){
 			})	
 		});
 		
-	}else if($("body").hasClass("index_page")){//首页代码
+	}else if($("body").hasClass("contact_html")){ 
+		$("#submitBTN").on("mouseup",function(){
+			 setTimeout(function(){ 
+				if($(".error").length == 0){
+					$("#submitBTN").attr("disabled","disabled")
+					$("#submitBTN_ico").removeClass("hidden")
+				}
+				 },100) 
+		})
+	}
+	else if($("body").hasClass("index_page")){//首页代码
 		//搜索时
 		
 	 	if(searchstr=='?search'){ 

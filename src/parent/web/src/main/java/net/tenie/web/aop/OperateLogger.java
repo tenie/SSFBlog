@@ -63,7 +63,13 @@ public class OperateLogger{
 		 
 		 
 	     return obj;
-		} finally {
+		}catch(Exception e){
+			System.out.println("**************************");
+			e.printStackTrace();
+			System.out.println("**************************");
+			throw e;
+		}
+		finally {
 			new DB().close();
 		} 
 	

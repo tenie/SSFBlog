@@ -1,23 +1,54 @@
 package net.tenie.web.pojo;
 
+import org.hibernate.validator.constraints.Length;
+
+import net.tenie.web.validate.Email;
+import net.tenie.web.validate.Phone;
+import net.tenie.web.validate.Required;
+
 public class VisitorPO {
 	
 	private Integer id;
-	
+	@Required
+	@Length(max=30)
 	private String name;
-	
-	private String email;
+	@Required 
+	@Email
+	private String email; 
 	
 	private String url;
 	
+	@Length(max=300)
 	private String comment;
 	
 	private Integer parentId;
 	
 	private Integer postId;
 	
+	@Length(max=300)
+	private String message;
+	@Phone
+	private String phone;
 	
 	
+	
+	
+	
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
 
 	public Integer getPostId() {
 		return postId;

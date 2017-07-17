@@ -41,8 +41,7 @@ public class LoginInController {
      
       String name = queryParam.get("name");
       String password = queryParam.get("password");
-      String code = queryParam.get("code");
-   
+      String code = queryParam.get("code"); 
       //为空返回失败
       if(name ==null &&   "".equals(name)){
     	  return new Result(true,"登入失败");

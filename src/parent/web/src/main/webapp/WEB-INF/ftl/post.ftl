@@ -52,13 +52,14 @@
                     		</#if>
                     		<h1  id="post-title" style="display: inline;">${data.post_title} </h1>
                     		<input type="hidden" id='postId' value='${data.id}'>
+                    		<#if data.show_content == 0>
+						    <span class="badge"  id="post_badge" style="margin-bottom: 25px;">private</span>
+							<#else>  
+							 <span class="badge hidden" id="post_badge" style="margin-bottom: 25px;">private</span>
+							</#if> 
                     	</p>
                         
-                        <#if data.show_content == 0>
-						    <span class="badge"  id="post_badge" style="margin-bottom: 25px;">private</span>
-						<#else>  
-							 <span class="badge hidden" id="post_badge" style="margin-bottom: 25px;">private</span>
-						</#if> 
+                       
 						<p>
 						<#list tags as tag>
 							<span style ='color: #888b94;'	>${tag.tag}</span>  &nbsp;
@@ -357,10 +358,7 @@
 <script src="../lib/js/jquery.cookie.js" type="text/javascript"></script> 
 <!--  my js-->
 <script src="../lib/js/ssfblog_js/main.js"></script> 
-<script src="../lib/vendor/bootstrap/js/bootstrap.min.js"></script> 
-<!-- Contact Form JavaScript -->
-<script src="../lib/js/jqBootstrapValidation.js"></script>
-<script src="../lib/js/contact_me.js"></script> 
+<script src="../lib/vendor/bootstrap/js/bootstrap.min.js"></script>  
 <!-- Theme JavaScript -->
 <script src="../lib/js/clean-blog.min.js"></script> 
 <script src="../lib/js/bootstrap-toastr/toastr.min.js"></script>
@@ -376,5 +374,5 @@
 <script src="/lib/js/jquery-validation/js/jquery.validate.min.js"></script>  
 <script src="/lib/js/jquery-validation/js/additional-methods.js"></script>
 <script src="/lib/viewer/viewer.min.js"></script>  
-</body>
+</body> 
 </html>
