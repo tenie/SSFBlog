@@ -1,4 +1,4 @@
-package net.tenie.web.pojo;
+package net.tenie.web.entity;
 
 import java.util.List;
 import java.util.Map;

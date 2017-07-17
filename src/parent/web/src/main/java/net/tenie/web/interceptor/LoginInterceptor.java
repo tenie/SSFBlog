@@ -9,7 +9,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-import net.tenie.web.pojo.Result;
+import net.tenie.web.entity.Result;
 import net.tenie.web.session.LoginSession;
 import net.tenie.web.session.SessionUtil; 
 
@@ -18,7 +18,8 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response,
                              Object handler) throws Exception { 
 		ObjectMapper objectMapper =new ObjectMapper(); 
-		HttpServletRequest httpServletRequest =   request;
+		HttpServletRequest httpServletRequest =   request; 
+		
         //获取请求的URL
         String path = httpServletRequest.getRequestURI();
         LoginSession loginInfo = SessionUtil.getSession();//ApplicationContextHelper.getBeanByType(LoginSession.class);

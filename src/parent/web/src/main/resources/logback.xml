@@ -26,7 +26,7 @@
        </triggeringPolicy>  
     </appender> 
     
-	<logger name="com.yonyou.dms" additivity="false">  
+	<logger name="net.tenie" additivity="false">  
 	    <level value="debug" />  
 	    <appender-ref ref="file" />  
 	    <appender-ref ref="console" />  

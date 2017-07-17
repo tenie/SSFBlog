@@ -19,8 +19,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import net.tenie.pojo.ContactData;
-import net.tenie.web.pojo.Result;
-import net.tenie.web.pojo.VisitorPO;
+import net.tenie.web.entity.Result;
+import net.tenie.web.entity.VisitorDTO;
 import net.tenie.web.service.MailSender;
 import net.tenie.web.tools.SendEMail;
 import net.tenie.web.tools.StringUtils;
@@ -55,7 +55,7 @@ public class ContactPageController {
 	 */
 	@RequestMapping(value="/postContactData",method = RequestMethod.POST)
 	@ResponseBody
-	public Result postContactData(@Valid VisitorPO visitor) throws ServletException, IOException, UtilException, MessagingException{
+	public Result postContactData(@Valid VisitorDTO visitor) throws ServletException, IOException, UtilException, MessagingException{
      
       String name = visitor.getName();
       String phone = visitor.getPhone();

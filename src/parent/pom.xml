@@ -273,11 +273,7 @@
 		      <scope>compile</scope>
 		    </dependency>
 		
-		<!-- <dependency> <groupId>com.yonyou.f4</groupId> <artifactId>activejdbc</artifactId> 
-			<version>[1.4.11,)</version> </dependency> <dependency> <groupId>com.yonyou.f4</groupId> 
-			<artifactId>activejdbcTool</artifactId> <version>[1.4.11,)</version> </dependency> 
-			<dependency> <groupId>com.yonyou.f4</groupId> <artifactId>common</artifactId> 
-			<version>[1.0,)</version> <version>[0.0.1-SNAPSHOT,)</version> </dependency> -->
+	 
 	
 	  <!-- 从bbs中copy的依赖 -->
 		<!--redis插件依赖lib-->

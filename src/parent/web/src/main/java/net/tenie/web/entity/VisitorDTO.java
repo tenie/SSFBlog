@@ -1,4 +1,4 @@
-package net.tenie.web.pojo;
+package net.tenie.web.entity;
 
 import org.hibernate.validator.constraints.Length;
 
@@ -6,16 +6,16 @@ import net.tenie.web.validate.Email;
 import net.tenie.web.validate.Phone;
 import net.tenie.web.validate.Required;
 
-public class VisitorPO {
+public class VisitorDTO {
 	
 	private Integer id;
-	@Required
+	 
 	@Length(max=30)
 	private String name;
-	@Required 
+	  
 	@Email
 	private String email; 
-	
+	@Length(max=100)
 	private String url;
 	
 	@Length(max=300)

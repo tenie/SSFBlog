@@ -1,6 +1,6 @@
 package net.tenie.web.service;
  
-import net.tenie.web.pojo.Result;
+import net.tenie.web.entity.Result;
 
 
 public class CecheResult {
