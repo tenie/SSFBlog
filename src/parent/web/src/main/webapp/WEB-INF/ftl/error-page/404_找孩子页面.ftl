@@ -14,7 +14,7 @@
 </head>
 
 <body>
-  <div class="wrapper">
+  <div class="wrapper"> 
     <small>Error 404</small>
     <h1>Page not found</h1>
     <p><a href="/">&larr; Go home</a></p>
