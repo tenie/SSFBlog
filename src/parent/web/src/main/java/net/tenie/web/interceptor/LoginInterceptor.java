@@ -17,11 +17,15 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 	@Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response,
                              Object handler) throws Exception { 
-		ObjectMapper objectMapper =new ObjectMapper(); 
-		HttpServletRequest httpServletRequest =   request; 
+//		System.out.println("request.getContextPath() = "+request.getSession().getServletContext().getRealPath("/")  );
 		
+		
+		ObjectMapper objectMapper =new ObjectMapper(); 
+//		HttpServletRequest httpServletRequest =   request; 
+//		查看session过期时间单位为妙
+//		System.out.println("session="+request.getSession().getMaxInactiveInterval());
         //获取请求的URL
-        String path = httpServletRequest.getRequestURI();
+        String path = request.getRequestURI();
         LoginSession loginInfo = SessionUtil.getSession();//ApplicationContextHelper.getBeanByType(LoginSession.class);
         loginInfo.setUrl(path); 
 		if(   path.indexOf("/submitPublishdata") >=0
