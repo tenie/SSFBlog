@@ -73,7 +73,7 @@
 			                   
 						<div class="info">
 							<a class="avatar" href="javascript:" style="width: 48px;height: 48px; vertical-align: middle; display: inline-block;">
-				           		 <img class="image" style="width: 100%;height: 100%; border: 1px solid #ddd;border-radius: 50%;" src="../lib/assets/img/codeMonkey.ico" alt="144">
+				           		 <img class="image" style="width: 100%;height: 100%; border: 1px solid #ddd;border-radius: 50%;" src="../lib/assets/img/codeMonkey.ico" alt="">
 							</a>
 				            <span class="tag" style="    padding: 1px 2px;   font-size: 12px;   color: #ea6f5a;   border: 1px solid #ea6f5a;   border-radius: 3px;">作者</span>
 				            <span class="name" ><a href="/index.html">Tenie</a></span>
