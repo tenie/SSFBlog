@@ -52,6 +52,7 @@
                     		</#if>
                     		<h1  id="post-title" style="display: inline;">${data.post_title} </h1>
                     		<input type="hidden" id='postId' value='${data.id}'>
+                    	
                     		<#if data.show_content == 0>
 						    <span class="badge"  id="post_badge" style="margin-bottom: 25px;">private</span>
 							<#else>  
@@ -135,6 +136,7 @@
 										    <li role="separator" class="divider"></li>
 										     <#if isLog>
 												 <li >
+												 	<input type="hidden" id='islogin' value='true'>
 												   <a href="javascript:" onclick="ssfblog.deleteBlog(${data.id})"  >
 													    <i class="fa fa-trash-o" aria-hidden="true"></i>&nbsp;
 													    删除
@@ -142,6 +144,7 @@
 											    </li>
 											<#else>  
 												 <li class="disabled">
+												 	<input type="hidden" id='islogin' value='false'>
 												    <a href="javascript:"    >
 													    <i class="fa fa-trash-o" aria-hidden="true"></i>&nbsp;
 													    删除
