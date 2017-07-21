@@ -137,8 +137,13 @@ ssfblog.initIndex=function(datas,callback){ //date是查询到的博客标题信
 		} 
 		//编辑按钮事件
 		$(".editbtn").click(function(){  
-			var id =$(this).parent().siblings().find(".deletebtn").attr("rel") 
-			ssfblog.editPage(id)
+			if(signIn){
+				var id =$(this).parent().siblings().find(".deletebtn").attr("rel") 
+				ssfblog.editPage(id)
+			}else{
+				ssfblog.alert("warning","需要登入才可编辑~")
+			}
+			
 		})
 		
 		//登入状态下才可以删除....操作

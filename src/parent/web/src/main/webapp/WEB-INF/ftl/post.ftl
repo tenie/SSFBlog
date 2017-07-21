@@ -95,7 +95,11 @@
 								        </a>--> 
 								        <!-- Split button -->
 										<div class="btn-group" style="float: right; margin-top: -50px;border: 1px solid #dcdcdc;border-radius: 50px;" >
+										  <#if isLog>
 										  <button type="button" onclick="ssfblog.editPage(${data.id})" class="btn  " style="background-color: transparent;;border-radius: 50px 0px 0px 50px;"> &nbsp; &nbsp; 编 辑 &nbsp; &nbsp; </button>
+										  <#else> 
+										  <button type="button"  class="btn  disabled" style="background-color: transparent;;border-radius: 50px 0px 0px 50px;"> &nbsp; &nbsp; 编 辑 &nbsp; &nbsp; </button>
+										  </#if>  
 										  <button type="button"  style="border-radius: 0px 50px 50px 0px;    background-color: transparent;" class="btn  dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 										    <span class="caret"></span>
 										    <span class="sr-only">Toggle Dropdown</span>
