@@ -77,8 +77,10 @@ ssfblog.initIndex=function(datas,callback){ //date是查询到的博客标题信
 	//console.log(datas)
 	var data =  datas.mapRs.dataList
 	var signIn = datas.mapRs.signIn
-	var datalen = $(data).length
-	
+	var datalen = $(data).length 
+	if(!signIn){ 
+		window.sessionStorage.setItem("signIn","out");
+	}
 	$.get("/index_contentTitle.html",function(htmldata){  //获取展示的html样式 
 		$("#pageTitleContainer").hide("slow");
 		//console.log(date)  
@@ -1197,8 +1199,8 @@ ssfblog.showSearch=function(show){
 $(function(){
 	
 	//$("head").append("<script></script>")
-	ssfblog.initPage()  
-	ssfblog.backToTop() 
+//	ssfblog.initPage()  
+//	ssfblog.backToTop() 
 	setTimeout(function(){
 		$(document).ajaxError(function(event,request, settings){
 			ssfblog.alert("error","服务器出错了~") 
@@ -1209,21 +1211,7 @@ $(function(){
  
 	//
 	if($("body").hasClass("postpage")){//文章阅读代码
-		$(".image").viewer({url:"data-original",title:false,toolbar:false,tooltip:false});  //查看图片插件
-		ssfblog.comment_html =  $("#comment_form_div").html();
-		$("#post_comment").click(function(){
-		    ssfblog.bindEvenToPostComment("-1") 
-		})
-		
-		//喜欢按钮事件
-		$("#likebtn").click(function(){
-			$.get("likeplus/"+$("#postId").val(),function(data){
-				if(!data.error){
-					$("#likecount").text(data.msg)
-					$("#postLike").text(data.msg)
-				}
-			})	
-		});
+		ssfblog.postpageInitfunc()
 		
 	}else if($("body").hasClass("contact_html")){ 
 		$("#submitBTN").on("mouseup",function(){
@@ -1294,8 +1282,46 @@ $(function(){
 	 })
 	 
 	}
+	setTimeout(function(){
+		ssfblog.initPage()  
+		ssfblog.backToTop() 
+	},800)
 	
 })
+//阅读页面初始化方法
+ssfblog.postpageInitfunc=function(){
+	var islogin = $("#islogin").val();
+	if('false'==islogin){
+		window.sessionStorage.setItem("signIn","out");
+	}
+	$(".image").viewer({url:"data-original",title:false,toolbar:false,tooltip:false});  //查看图片插件
+	var $postContent = $("#postContent")
+	$postContent.find("img").viewer({url:"data-original",title:false,toolbar:false,tooltip:false}); 
+	var $postContent_a = $postContent.find("a");
+	$postContent_a.append('<i class="fa fa-external-link VisibilityHidden"  aria-hidden="true"></i>');
+	$postContent_a.hover(
+			  function () {
+				    $(this).find("i").removeClass("VisibilityHidden")
+				  },
+				  function () {
+					  $(this).find("i").addClass("VisibilityHidden")
+				  }
+				);
+	ssfblog.comment_html =  $("#comment_form_div").html();
+	$("#post_comment").click(function(){
+	    ssfblog.bindEvenToPostComment("-1") 
+	})
+	
+	//喜欢按钮事件
+	$("#likebtn").click(function(){
+		$.get("likeplus/"+$("#postId").val(),function(data){
+			if(!data.error){
+				$("#likecount").text(data.msg)
+				$("#postLike").text(data.msg)
+			}
+		})	
+	});
+}
 
 ssfblog.search=function(val){
 	if(!$("body").hasClass("index_page")){
