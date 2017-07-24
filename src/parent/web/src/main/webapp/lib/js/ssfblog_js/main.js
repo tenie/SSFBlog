@@ -41,8 +41,12 @@ ssfblog.navSignChange=function(){
 
 //加载导航,和脚
 ssfblog.initPage=function(){ 
+	$(document).ajaxError(function(event,request, settings){
+		ssfblog.alert("error","服务器出错了~") 
+	});
 	ssfblog.navPage()
 	ssfblog.footerPage() 
+	ssfblog.backToTop() 
 }
  
 
@@ -100,6 +104,7 @@ ssfblog.initIndex=function(datas,callback){ //date是查询到的博客标题信
 		var delBtn = pageTitleContainer.find("a[class*='deletebtn']") //删除按钮
 		var publicbtn =  pageTitleContainer.find("a[class*='publicbtn']")  //公布按钮
 		var hiddenbtn =  pageTitleContainer.find("a[class*='hiddenbtn']")  //私有按钮
+		var editbtn =  pageTitleContainer.find("a[class*='editbtn']") 
 		 
 		//解析数据,给页面赋值
 		for(i=0;i<datalen;i++){  
@@ -113,6 +118,8 @@ ssfblog.initIndex=function(datas,callback){ //date是查询到的博客标题信
 			post_title.eq(i).append(titlestr)
 //			post_title.eq(i).text($(data)[i].post_title)
 			//post_subtitle.eq(i).text($(data)[i].post_subtitle)
+			//编辑按钮
+			editbtn.eq(i).attr("href","/article/getEditPage/"+$(data)[i].id);
 			
 			//副标题
 			var tags = $(data)[i].tags;
@@ -136,15 +143,16 @@ ssfblog.initIndex=function(datas,callback){ //date是查询到的博客标题信
 			}  
 		} 
 		//编辑按钮事件
-		$(".editbtn").click(function(){  
-			if(signIn){
-				var id =$(this).parent().siblings().find(".deletebtn").attr("rel") 
-				ssfblog.editPage(id)
-			}else{
-				ssfblog.alert("warning","需要登入才可编辑~")
-			}
-			
-		})
+//		$(".editbtn").click(function(){  
+//			if(signIn){
+//				var id =$(this).parent().siblings().find(".deletebtn").attr("rel") 
+//				
+//				ssfblog.editPage(id)
+//			}else{
+//				ssfblog.alert("warning","需要登入才可编辑~")
+//			}
+//			
+//		})
 		
 		//登入状态下才可以删除....操作
 		if(signIn){
@@ -329,7 +337,64 @@ $("#signInBtn").click(function(){
 } 
 
 //begin 博文发布
-//发布博文页面   
+//发布博文页面  
+ssfblog.publishPage2=function(){
+	var publishPageEditor;
+	var val;
+	var $bodyChildren;
+	$("#publishBtn").click(function(){
+		//如果页面已经加载模态框就直接现实
+		if($("#publishModal").length>0){
+			$bodyChildren.addClass("hidden")
+			$("#publishModal").removeClass("hidden")
+//			val = publishPageEditor.getValue(); 
+//			 publishPageEditor = new Simditor({
+//				  textarea: $('#editorPublish')
+//				  //optional options
+//				});
+		 
+//			setTimeout(function(){
+//				 $("#PublishdataForm div[class='simditor-placeholder']").empty()
+//				 $("#PublishdataForm div[class='simditor-body']").empty().append(val) 
+//			},100)
+			
+			  
+		}else{
+			//获取页面
+			$.get("/publishPage2.html",function(htmldata){  
+				var container = $("div[class*='container']")
+				$bodyChildren = container.children();
+				$bodyChildren.addClass("hidden")
+				container.append(htmldata);
+				ssfblog.publishPage_html();
+				$("#publishModal").removeClass("hidden");
+				$("nav").addClass('navColor')
+				//模态框配置
+//				$("#publishModal").modal({backdrop:false,keyboard:false,show:true}); 
+				//文本编辑框
+//				publishPageEditor = new Simditor({
+//					  textarea: $('#editorPublish')
+//					  //optional options
+//					});
+//				ssfblog.publishPage_html();
+				 var editor = CKEDITOR.replace('Text');   
+				//保存按钮设置
+				$("#submitPublishdata").click(function(){
+					val = CKEDITOR.instances.Text.getData()
+//					val = publishPageEditor.getValue();  
+					ssfblog.saveBlogData(val) 
+				}) 
+			  //关闭按钮设置
+				$("#publishdataPageClose").click(function(){
+					$bodyChildren.removeClass("hidden")
+					$("#publishModal").addClass("hidden");
+				})
+			}) 
+			
+		}
+
+	})	
+}  
 ssfblog.publishPage=function(){
 	var publishPageEditor;
 	var val;
@@ -357,14 +422,17 @@ ssfblog.publishPage=function(){
 				ssfblog.publishPage_html();
 				//模态框配置
 				$("#publishModal").modal({backdrop:false,keyboard:false,show:true}); 
-				publishPageEditor = new Simditor({
-					  textarea: $('#editorPublish')
-					  //optional options
-					});
+				//文本编辑框
+//				publishPageEditor = new Simditor({
+//					  textarea: $('#editorPublish')
+//					  //optional options
+//					});
+				 var editor = CKEDITOR.replace('Text');   
 				//保存按钮设置
 				$("#submitPublishdata").click(function(){
-					val = publishPageEditor.getValue();  
-						ssfblog.saveBlogData(val) 
+					val = CKEDITOR.instances.Text.getData()
+//					val = publishPageEditor.getValue();  
+					ssfblog.saveBlogData(val) 
 				}) 
 			}) 
 			
@@ -466,7 +534,8 @@ ssfblog.editPage=function(id){
 ssfblog.updateBlogData=function(data,$modal){ 
 	 
 	//获取字符数
-	var text = $modal.find(".simditor-body").text();
+//	var text = $modal.find(".simditor-body").text();
+	var text =$(window.frames[0].document).find("body").text()
 		text=text.replace(/\s/gi,""); // "\s" :匹配空白符
 		textLength = text.length
 		//console.log(textLength)
@@ -503,9 +572,13 @@ ssfblog.updateBlogData=function(data,$modal){
 ssfblog.saveBlogData=function(data){ 
 	
 	//获取字符数
-	var text = $(".simditor-body").text();
+//	var text = $(".simditor-body").text();
+	var text =$(window.frames[0].document).find("body").text()
 	text=text.replace(/\s/gi,""); // "\s" :匹配空白符
 	textLength = text.length 
+	console.log(data)
+		console.log(textLength)
+	 
 	$("#textLength").val(textLength)
     $("#content").val(data)  
 	var formval  = $("#PublishdataForm").serialize()
@@ -558,7 +631,7 @@ ssfblog.navPage=function(){
 		$("nav").append(htmldata);
 		ssfblog.nav_Html();
 		ssfblog.login();
-		ssfblog.publishPage();
+		ssfblog.publishPage2();
 		//如果登入过就隐藏登入按钮
 		if(window.sessionStorage){ 
 			 var si = window.sessionStorage.getItem("signIn") 
@@ -1003,7 +1076,7 @@ ssfblog.nav_Html=function(){
 	if(href == "/index.html" || href== "/"){
  		$("#logo").addClass("visible-xs")
 	} 
-	if($("body").hasClass("postpage")){
+	if($("body").hasClass("postpage")|| $("body").hasClass("publishPage") ||  $("body").hasClass("editPublishPage")){
 		$("#bs-example-navbar-collapse-1>ul>li> a").attr("style","color: #969696")
 		$("#a_dropdown").attr("style","color: black");
 		$("#logo").attr("style","color: #969696");
@@ -1070,9 +1143,7 @@ ssfblog.publishPage_html=function(){
 		    onSwitchChange:function(event, state) {
 				 $("#istop").val(state)
 		   }		
-	});
-	
-	
+	}); 
 	//发布快捷键
 	ssfblog.ctlEnterToClick("#publishModal","#submitPublishdata")
 }
@@ -1103,6 +1174,36 @@ ssfblog.editPage_html=function(){
 			tagIn()  
     	}   
 	}) 
+	
+	
+		//2个按钮初始化
+	$('input[name="publishPagecheckbox"]').bootstrapSwitch({
+//				state:false,  //input的checked可以控制这个状态
+				onText:"Yes",
+				offText:"No",
+				//labelText:"State",
+				offColor:"warning",
+				/* onInit:function(event, state) {
+					this.state=false
+				}, */
+			    onSwitchChange:function(event, state) {
+					 $("#showContent").val(state)
+			   }		
+		});
+		
+		$('input[name="top"]').bootstrapSwitch({
+//			state:false,  //input的checked可以控制这个状态
+			onText:"Yes",
+			offText:"No",
+			//labelText:"State",
+			offColor:"warning",
+			/* onInit:function(event, state) {
+				this.state=false
+			}, */
+		    onSwitchChange:function(event, state) {
+				 $("#istop").val(state)
+		   }		
+	}); 
 	//发布快捷键
 	ssfblog.ctlEnterToClick("#editpublishModal","#submitPublishdataBtn")
 //	$("#").on("keyup",function(e){  
@@ -1176,7 +1277,7 @@ ssfblog.reply=function(thiz,id,name){
 	 $("#post_comment").on("click",function(){ssfblog.bindEvenToPostComment(id)})
 }
 
-//搜索
+//显示搜索框
 ssfblog.showSearch=function(show){
 	 if(show){
 		 $('#searchModal').modal({backdrop:true,show:true});  
@@ -1201,45 +1302,35 @@ ssfblog.showSearch=function(show){
 	 
 }
 
+
 $(function(){
-	
-	//$("head").append("<script></script>")
-//	ssfblog.initPage()  
-//	ssfblog.backToTop() 
+	 
 	setTimeout(function(){
-		$(document).ajaxError(function(event,request, settings){
-			ssfblog.alert("error","服务器出错了~") 
-	});
-	},50)
-	//index.html
-	var searchstr = location.search;
+		ssfblog.initPage()   
+	},50) 
  
 	//
 	if($("body").hasClass("postpage")){//文章阅读代码
 		ssfblog.postpageInitfunc()
 		
-	}else if($("body").hasClass("contact_html")){ 
-		$("#submitBTN").on("mouseup",function(){
-			 setTimeout(function(){ 
-				if($(".error").length == 0){
-					$("#submitBTN").attr("disabled","disabled")
-					$("#submitBTN_ico").removeClass("hidden")
-				}
-				 },100) 
-		})
+	}else if($("body").hasClass("contact_html")){ //联系
+		ssfblog.contactInitfunc()
+	}else if($("body").hasClass("publishPage")){ //发布页面 
+		ssfblog.initPublishPage_html()
+	}else if($("body").hasClass("editPublishPage")){ //编辑页面 
+		ssfblog.initEditPublishPage_html()
 	}
 	else if($("body").hasClass("index_page")){//首页代码
-		//搜索时
-		
-	 	if(searchstr=='?search'){ 
-	 		setTimeout(function(){
-	 			val = $.cookie('searchVal') 
+		//搜索时 
+	 
+		var searchstr = location.search;
+	 	if(searchstr=='?search'){  
+			setTimeout(function(){
+		 		val = $.cookie('searchVal') 
 		 		$("#searchInput").val( $.cookie('searchVal') );  
 			    ssfblog.showSearch(false);
-			    $("#search_a").click()
-			   
-	 		},50)
-	 		
+			    $("#search_a").click()//触发搜索按钮 
+		 	 },300) 
 	 		return;
 	 	}
 		
@@ -1287,12 +1378,20 @@ $(function(){
 	 })
 	 
 	}
-	setTimeout(function(){
-		ssfblog.initPage()  
-		ssfblog.backToTop() 
-	},800)
+	
 	
 })
+//联系页面初始化
+ssfblog.contactInitfunc=function(){
+	$("#submitBTN").on("mouseup",function(){
+		 setTimeout(function(){ 
+			if($(".error").length == 0){
+				$("#submitBTN").attr("disabled","disabled")
+				$("#submitBTN_ico").removeClass("hidden")
+			}
+			 },100) 
+	})
+}
 //阅读页面初始化方法
 ssfblog.postpageInitfunc=function(){
 	var islogin = $("#islogin").val();
@@ -1327,12 +1426,14 @@ ssfblog.postpageInitfunc=function(){
 		})	
 	});
 }
-
+//搜索main
 ssfblog.search=function(val){
+	//不再首页就跳转到首页然后返回
 	if(!$("body").hasClass("index_page")){
 		location.href="/index.html?search"
 		return
 	}
+	
 	$("#searchInput").val("");
 	var valstr = "val_"+val;
 	var url = "/search/"+valstr;
@@ -1367,6 +1468,42 @@ ssfblog.search=function(val){
 		   
 		})
 }
+//发布页面初始化
+ssfblog.initPublishPage_html=function(){
+	ssfblog.publishPage_html();
+	 var editor = CKEDITOR.replace('Text');   
+	//保存按钮设置
+	$("#submitPublishdata").click(function(){
+		val = CKEDITOR.instances.Text.getData()
+		 
+//		val = publishPageEditor.getValue();  
+		ssfblog.saveBlogData(val) 
+	}) 
+ //关闭按钮设置
+	$("#publishdataPageClose").click(function(){
+		 
+		history.back();
+	})
+}
+
+//编辑页面初始化
+ssfblog.initEditPublishPage_html=function(){ 
+	ssfblog.editPage_html();
+	 var editor = CKEDITOR.replace('Text');   
+	//保存按钮设置
+	$("#submitPublishdataBtn").click(function(){
+		val = CKEDITOR.instances.Text.getData()
+		 
+//		val = publishPageEditor.getValue();  
+		ssfblog.updateBlogData(val,$("#publishModal")) 
+	}) 
+//关闭按钮设置
+	$("#publishdataPageClose").click(function(){
+		 
+		history.back();
+	})
+}
+
 
 //bolg内容加载
 //@Deprecated  //页面有后端渲染了
@@ -1407,3 +1544,7 @@ ssfblog.search=function(val){
 });
  * 
  */
+
+function foo(){
+		alert(CKEDITOR.getData())
+	}

@@ -25,6 +25,8 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -154,11 +156,14 @@ public class ArticleController {
 		 * @return
 		 * @throws ServletException
 		 * @throws IOException
+		 * @throws InterruptedException 
 		 */
 		@RequestMapping(value="/comment/{parentId}",method = RequestMethod.POST) 
 		@ResponseBody
-		public Result saveComment(HttpServletRequest request,@PathVariable("parentId") String parentId,@Valid VisitorDTO visitor) throws ServletException, IOException{ 
-			
+//		@TransactionConfiguration(transactionManager = "txManager", defaultRollback = true)  
+//		@Transactional(propagation=Propagation.REQUIRED,readOnly=true,timeout=1000,rollbackFor=Exception.class)
+		public Result saveComment(HttpServletRequest request,@PathVariable("parentId") String parentId,@Valid VisitorDTO visitor) throws ServletException, IOException, InterruptedException{ 
+		 
 			boolean isLogin = SessionUtil.islogin();
 			BlogComment comment = new BlogComment();
 			if(isLogin){
@@ -166,6 +171,7 @@ public class ArticleController {
 				comment.setInteger("myselft",1);
 							 
 			} 
+			
 			comment.setString("post_id",visitor.getPostId());
 			comment.setString("name",visitor.getName());
 			comment.setString("comment",visitor.getComment());
@@ -174,9 +180,8 @@ public class ArticleController {
 			if(parentId !=null && !"".equals(parentId) &&  !"-1".equals(parentId)){
 				comment.setString("parent_id", parentId);
 			}
-			comment.insert();
-		  	Result rs = new Result(); 
-		  	 
+			comment.insert(); 
+		  	Result rs = new Result();  
 			return rs; 
 	    } 
 	
@@ -259,6 +264,31 @@ public class ArticleController {
 				rs.setError(true);
 			}
 			return rs;
+	    }
+		
+		/**
+		 * 获取编辑文章页面
+		 * @param id
+		 * @return
+		 * @throws ServletException
+		 * @throws IOException
+		 */
+		@RequestMapping(value="/getEditPage/{id}",method = RequestMethod.GET)  
+		public String getPageContent(HttpServletRequest request,@PathVariable("id") String id) throws ServletException, IOException{ 
+	       Blog blog = new Blog().findById(id); 
+//	       Result rs = new Result();
+	       Map<String, Object> map = blog.toMap();
+	       LazyList<BlogTag> taglist =	BlogTag.where("blog_id=?", id);
+	       List<Map<String,Object>> rsl = new ArrayList<>();
+	       for(BlogTag tag:taglist ){
+	    	   rsl.add(tag.toMap());
+	       } 
+	       
+//	       rs.setMapRs(map);
+//	       rs.setData(rsl);
+	       request.setAttribute("blogContent",map);
+	       request.setAttribute("tags", rsl);
+	       return "/publishPage";
 	    }
 		
 		 

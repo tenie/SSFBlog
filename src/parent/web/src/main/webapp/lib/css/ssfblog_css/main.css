@@ -44,7 +44,25 @@
 /*# sourceMappingURL=noty.css.map */
  
 
-
+/* 编辑页面标题 */
+.contentTitle:focus{
+	border: 0px  !important;
+}
+.contentTitle{
+	 border: 0px;
+	 width: 60%;
+}
+/*编辑页面标签*/
+.editTag{
+	padding: 1px 2px;
+    font-size: 12px;
+    color: #ea6f5a;
+    border: 1px solid #ea6f5a;
+    border-radius: 3px;
+    float: left;
+    margin-top: 5px;
+    margin-right: 5px;
+}
 /*noty,js 提示框css拓展 ; 使用上面的theme了*/
 /* .noty_theme__mint.noty_bar {
 	top:40px;
@@ -59,6 +77,10 @@
   .noty_theme__mint.noty_bar .noty_buttons {
     padding: 10px; } */
     
+ /*  nav 字体颜色*/
+   .navColor a{
+   	color: #969696 !important;
+   }
     /*不显示*/
     .VisibilityHidden{
        visibility: hidden
@@ -84,7 +106,7 @@
 	}
 /* 输入框获取焦点后的样式 */
 input[type="text"]:focus, input[type="email"]:focus, input[type="url"]:focus, input[type="password"]:focus, input[type="search"]:focus, textarea:focus {
-    border: 1px solid #000000 !important;
+    border: 1px solid #000000  ;
     outline:#000 !important;
 }
 a:focus{

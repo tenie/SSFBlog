@@ -85,7 +85,7 @@ public class PublishDataController {
       System.out.println("PublishDataController.updatePublishData");
       String id = (String) queryParam.get("id"); 
       String showContent = (String) queryParam.get("showContent"); 
-      String isTop = (String) queryParam.get("editisTop"); 
+      String isTop = (String) queryParam.get("isTop"); 
       String title = (String) queryParam.get("title"); 
       Integer textLength =Integer.valueOf( (String) queryParam.get("textLength")); 
       String tags[] = request.getParameterValues("tag");
