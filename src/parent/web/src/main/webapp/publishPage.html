@@ -25,17 +25,19 @@
                <input type="hidden" id="showContent"  name="showContent" value="false"><!-- 公开私有 -->
                 <input type="hidden" id="istop"  name="istop" value="false"><!-- 是否置顶 -->
 			   <input id="publishTitle"  autofocus name="title" type="text" style=" border: 0px;width: 100%;"  placeholder="标题:" required data-validation-required-message="必填"  aria-describedby="sizing-addon1"> 
-               <textarea id="editorPublish" placeholder="Balabala" ></textarea>
+               <!-- <textarea id="editorPublish" placeholder="Balabala" ></textarea> -->
+               <textarea cols="80" id="Text" name="Text" rows="20">balabala</textarea>   
+  
                <div  id="tag" class="editPageTag tagtext">
                标签: 
                </div>
                 
                 <input id="tagInput" type="text" style=" border: 0px;width: 100%;"  placeholder="添加相关标签，用逗号或回车分隔 " aria-describedby="sizing-addon1">  
            		
-           		<div class="switch" >
+           		<div class="switch" style="display: inline;" >
 				    是否公开: <input type="checkbox"   name="publishPagecheckbox"/>
 				</div>
-				<div class="switch" >
+				<div class="switch"  style="display: inline;">
 				    是否置顶: <input type="checkbox"   name="top"/>
 				</div>
             </form>
@@ -44,6 +46,7 @@
           	 
             <button type="button" class="btn btn-default" data-dismiss="modal" id="publishdataPageClose">Close</button>
             <button type="button" class="btn btn-primary" id="submitPublishdata">Publish</button>  
+            	 <button onclick="foo()">btn</button>
           </div>
         </div>
       </div>
@@ -52,9 +55,25 @@
 <script src="/lib/js/jquery-validation/js/jquery.validate.min.js"></script>  
 <script src="/lib/js/jquery-validation/js/additional-methods.js"></script> 
 <script src="/lib/bootstrap_switch/js/bootstrap-switch.js "></script>  
-<script>
-	$(function(){
-		
-		 
-	})
-</script>
+<script src="/lib/ckeditor/ckeditor.js"></script>  
+<!-- 
+<script type="text/javascript">   
+ var editor = CKEDITOR.replace('Text');   
+   
+function OnSave(){  
+        if(CKEDITOR.instances.Text.getData()==""){  
+        alert("内容不能为空！");  
+        return false;  
+        }else {  
+        alert (CKEDITOR.instances.Text.getData());  
+        }  
+    }  
+ 
+
+ 
+function foo() {
+	val = $("iframe html body").eq(0).text()
+	OnSave()
+}
+	//initSample();
+</script> -->

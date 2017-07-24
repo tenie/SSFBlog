@@ -42,22 +42,76 @@
 		</bean>
 		 
 		 		<!-- 数据库配置 -->
-	<bean id="ds" class="org.apache.commons.dbcp.BasicDataSource"><!-- 数据库的配置 -->
+	<!-- <bean id="ds" class="org.apache.commons.dbcp.BasicDataSource">
 			<property name="url" value="${net.tenie.url}"></property>
 			<property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
 			<property name="username" value="${net.tenie.username}"></property>
 			<property name="password" value="${net.tenie.password}"></property>
-		</bean>
+		</bean> -->
 		
+		 <bean id="ds"   class="org.apache.commons.dbcp.BasicDataSource"    destroy-method="close">  
+	     <!--    <property name="driverClassName" value="com.mysql.jdbc.Driver"/>  
+	        <property name="url" value="jdbc:mysql://192.168.0.109:3306/test?useUnicode=true&characterEncoding=UTF-8"/>  
+	        <property name="username" value="root"/>  
+	        <property name="password" value="root"/>   -->
+	        <property name="url" value="${net.tenie.url}"></property>
+			<property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
+			<property name="username" value="${net.tenie.username}"></property>
+			<property name="password" value="${net.tenie.password}"></property>
+	        <!--maxActive: 最大连接数量-->    
+	        <property name="maxActive" value="150"/>  
+	        <!--minIdle: 最小空闲连接-->    
+	        <property name="minIdle" value="5"/>  
+	        <!--maxIdle: 最大空闲连接-->    
+	        <property name="maxIdle" value="20"/>  
+	        <!--initialSize: 初始化连接-->    
+	        <property name="initialSize" value="30"/>  
+	        <!-- 连接被泄露时是否打印 -->  
+	        <property name="logAbandoned" value="true"/>  
+	        <!--removeAbandoned: 是否自动回收超时连接-->    
+	        <property name="removeAbandoned"  value="true"/>  
+	        <!--removeAbandonedTimeout: 超时时间(以秒数为单位)-->    
+	        <property name="removeAbandonedTimeout" value="10"/>  
+	        <!--maxWait: 超时等待时间以毫秒为单位 -->  
+	        <property name="maxWait" value="1000"/>  
+	        <!-- 在空闲连接回收器线程运行期间休眠的时间值,以毫秒为单位. -->  
+	        <property name="timeBetweenEvictionRunsMillis" value="10000"/>  
+	        <!--  在每次空闲连接回收器线程(如果有)运行时检查的连接数量 -->  
+	        <property name="numTestsPerEvictionRun" value="10"/>  
+	        <!-- 1000 * 60 * 30  连接在池中保持空闲而不被空闲连接回收器线程-->  
+	        <property name="minEvictableIdleTimeMillis" value="10000"/>  
+	        <property name="validationQuery" value="SELECT NOW() FROM DUAL"/>  
+    </bean> 
+		<!-- jdbcTemplate -->
 	  <bean id="dev1JdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">  
      	   <property name="dataSource" ref="ds" />  
 	    </bean> 
-	    
-	    
-	    
+	   <!--  Springs事务管理器
+	   <bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		   <property name="dataSource" ref="ds" /> 
+		   <property name="defaultTimeout" value="2"/> 
+	  </bean> -->
+	  <!-- 注解型事务
+	  <tx:annotation-driven transaction-manager="txManager"/> -->
+	  
+	   <!--  <tx:annotation-driven transaction-manager="txManager" proxy-target-class="true"/>
+	     <tx:advice id="txAdvice" transaction-manager="txManager">
+			<tx:attributes>
+				<tx:method name="find*" read-only="true"/>
+				<tx:method name="add*" propagation="REQUIRED" rollback-for="java.lang.Exception"/>propagation:事务传播属性
+				<tx:method name="update*" propagation="REQUIRED" rollback-for="java.lang.Exception"/>
+				<tx:method name="delete*" propagation="REQUIRED" rollback-for="java.lang.Exception"/>
+				<tx:method name="add*" propagation="REQUIRED" rollback-for="java.lang.ClassNotFoundException"/> 对于非runtimeException,需要特别制定异常类型
+			</tx:attributes>
+		</tx:advice>
+		<aop:config proxy-target-class="true">
+			<aop:advisor advice-ref="txAdvice" pointcut="within(net.tenie.controller..*)"/>  事务管理用了aop技术
+		</aop:config> -->
+		
+		
+		
 	    <!--  系统拦截器 -->
-	<bean id="logInterceptor" class="net.tenie.web.interceptor.LoginInterceptor"/>
-	
+	<bean id="logInterceptor" class="net.tenie.web.interceptor.LoginInterceptor"/> 
 	<!-- mvc 配置 -->
     <mvc:interceptors>
         <mvc:interceptor>

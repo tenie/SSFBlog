@@ -1,0 +1,92 @@
+<!-- <!DOCTYPE html>
+
+Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
+
+<html>
+<head>
+	<meta charset="utf-8">
+	 
+</head>
+<body id="main">  -->
+<div id="publishModal" class="hidden">
+		<!-- <div class="modal-header title" >
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            	<span aria-hidden="true" style="    padding-right: 15px;padding-left: 15px;">
+            		 &nbsp;× &nbsp;
+            	</span>
+            </button>
+            <h4 class="modal-title" id="publishModalLabel">
+            	<div class="container">
+		            <div class="row">
+		                <div class=" col-md-6"> 
+							   <span >编辑</span>   
+		                </div>
+		            </div>
+		        </div>
+            	
+            </h4> 
+          </div>-->
+          <div   style=" margin-top: 20px;   ">
+            <form id="PublishdataForm"> 
+               <input type="hidden" id="textLength" name="textLength">
+               <input type="hidden" id="content" name="content">
+               <input type="hidden" id="showContent"  name="showContent" value="false"><!-- 公开私有 -->
+                <input type="hidden" id="istop"  name="istop" value="false"><!-- 是否置顶 -->
+			   <input id="publishTitle" value="无标题文章"  autofocus name="title" type="text" style=" border: 0px;width: 100%;"  placeholder="标题:" required data-validation-required-message="必填"  aria-describedby="sizing-addon1"> 
+               <!-- <textarea id="editorPublish" placeholder="Balabala" ></textarea> -->
+               <textarea cols="80" id="Text" name="Text" rows="20">balabala</textarea>   
+  
+               <div  id="tag" class="editPageTag tagtext">
+               标签: 
+               </div>
+                
+                <input id="tagInput" type="text" style=" border: 0px;width: 100%;"  placeholder="添加相关标签，用逗号或回车分隔 " aria-describedby="sizing-addon1">  
+           		
+           		<div class="switch" style="display: inline;" >
+				    是否公开: <input type="checkbox"   name="publishPagecheckbox"/>
+				</div>
+				<div class="switch"  style="display: inline;">
+				    是否置顶: <input type="checkbox"   name="top"/>
+				</div>
+            </form>
+          </div>
+          <div >
+          	 
+            <button type="button" class="btn btn-default" data-dismiss="modal" id="publishdataPageClose">Close</button>
+            <button type="button" class="btn btn-primary" id="submitPublishdata">Publish</button>  
+            	 <button onclick="foo()">btn</button>
+          </div>
+
+</div>
+          
+       
+    
+<script src="/lib/js/jquery-validation/js/jquery.validate.min.js"></script>  
+<script src="/lib/js/jquery-validation/js/additional-methods.js"></script> 
+<script src="/lib/bootstrap_switch/js/bootstrap-switch.js "></script>  
+<script src="/lib/ckeditor/ckeditor.js"></script>  
+<!-- 
+<script type="text/javascript">   
+ var editor = CKEDITOR.replace('Text');   
+   
+function OnSave(){  
+        if(CKEDITOR.instances.Text.getData()==""){  
+        alert("内容不能为空！");  
+        return false;  
+        }else {  
+        alert (CKEDITOR.instances.Text.getData());  
+        }  
+    }  
+ 
+
+ 
+function foo() {
+	val = $("iframe html body").eq(0).text()
+	OnSave()
+}
+	//initSample();
+</script> -->
+<!-- 
+</body>
+</html> -->

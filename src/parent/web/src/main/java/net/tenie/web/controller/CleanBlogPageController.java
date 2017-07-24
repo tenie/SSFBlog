@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.websocket.server.PathParam;
 
 import org.javalite.activejdbc.LazyList;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -38,7 +40,7 @@ import net.tenie.web.session.SessionUtil;
 @RequestMapping("/pageTitle")
 public class CleanBlogPageController {
 	 
-	 
+	Logger logger = LoggerFactory.getLogger(CleanBlogPageController.class); 
 	@Autowired 
 	private Search search;
 	 
@@ -60,6 +62,7 @@ public class CleanBlogPageController {
 							@PathVariable(value="getCount") String getCount ,UriComponentsBuilder uriCB) throws ServletException{
 //	String str = null;
 //	Integer i = Integer.valueOf(str);
+		logger.info("index_page data begin ");
 		  Result rs = null;
 		//判断是否登入 
 	  boolean bool =SessionUtil.islogin(); 
