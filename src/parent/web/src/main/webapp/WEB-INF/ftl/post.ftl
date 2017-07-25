@@ -20,11 +20,8 @@
     <link href="../lib/css/clean-blog.min.css" rel="stylesheet"> 
     <!-- Custom Fonts --> 
     <link href="../lib/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    <link href="../lib/css/font.css" rel="stylesheet" type="text/css"> 
-	<link rel="stylesheet" type="text/css" href="../lib/simditor/styles/simditor.css" /> 
-	<!--  提示alert样式 -->
-	<link rel="stylesheet" type="text/css" href="../lib/js/bootstrap-toastr/toastr.min.css" />  
-	<link rel="stylesheet" type="text/css" href="../lib/js/jQuery-FlexSlider/flexslider.css" />  
+    <link href="../lib/css/font.css" rel="stylesheet" type="text/css">   
+	<!--  提示alert样式 --> 
 	<link rel="stylesheet" type="text/css" href="../lib/noty-master/lib/noty.css" />  
 	<link rel="stylesheet" type="text/css" href="../lib/bootstrap_switch/css/bootstrap3/bootstrap-switch.css" /> 
 	<link rel="stylesheet" type="text/css" href="../lib/viewer/viewer.min.css " /> 
@@ -99,7 +96,7 @@
 										   -->
 										  <button type="button" onclick="ssfblog.editPage2(${data.id})" class="btn ssfblog-editbtn-subleft "  > &nbsp; &nbsp; 编 辑 &nbsp; &nbsp; </button>
 										  <#else> 
-										  <button type="button"  class="btn  disabled ssfblog-editbtn-subleft "  > &nbsp; &nbsp; 编 辑 &nbsp; &nbsp; </button>
+										  <button type="button"   class="btn  disabled ssfblog-editbtn-subleft "  > &nbsp; &nbsp; 编 辑 &nbsp; &nbsp; </button>
 										  </#if>  
 										  <button type="button"   class="btn  dropdown-toggle ssfblog-editbtn-subright" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 										    <span class="caret"></span>
@@ -358,29 +355,8 @@
     <footer id="footer"> 
     </footer>
     
-    
-    
-	 
-<!-- jQuery -->
-<script src="../lib/vendor/jquery/jquery.min.js"></script>   
-<script src="../lib/js/jquery.cookie.js" type="text/javascript"></script> 
-<!--  my js-->
-<script src="../lib/js/ssfblog_js/main.js"></script> 
-<script src="../lib/vendor/bootstrap/js/bootstrap.min.js"></script>  
-<!-- Theme JavaScript -->
-<script src="../lib/js/clean-blog.min.js"></script> 
-<script src="../lib/js/bootstrap-toastr/toastr.min.js"></script>
-     <!-- 富文本编辑框 -->
-<script type="text/javascript" src="../lib/simditor/scripts/module.js"></script>
-<script type="text/javascript" src="../lib/simditor/scripts/hotkeys.js"></script> 
-<script type="text/javascript" src="../lib/simditor/scripts/simditor.js"></script> 
-<script type="text/javascript" src="../lib/js/jQuery-FlexSlider/jquery.flexslider-min.js"></script>
-<script type="text/javascript" src="../lib/noty-master/lib/noty.js"></script> 
-<script type="text/javascript" src="../lib/noty-master/lib/mo.min.js"></script>
-
-
-<script src="/lib/js/jquery-validation/js/jquery.validate.min.js"></script>  
-<script src="/lib/js/jquery-validation/js/additional-methods.js"></script>
-<script src="/lib/viewer/viewer.min.js"></script>  
+   
+	    <script src="/lib/js/ssfblog_js/app.js"></script> 
+	    <script src="/lib/js/ssfblog_js/main.js"></script> 
 </body> 
 </html>
