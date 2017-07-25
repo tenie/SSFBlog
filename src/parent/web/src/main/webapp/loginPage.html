@@ -29,8 +29,8 @@
       	</span> 
   
       	<span  id="imageCodeSpan"  style="   border-radius: 3px; padding-right: 3px; margin-top: 1px;float: left;margin-left: 3px;;border: 1px solid; ">
-      	 <img id="image" onload="loadimage()"src="/getImageCode?"    onclick="changeImage()">
-      	 <a   onclick="changeImage()"><i id="refresh_i" class="fa fa-refresh " aria-hidden="true"></i></a>
+      	 <img id="image" onload="ssfblog.loadimage()"src="/getImageCode?"    onclick="ssfblog.changeImage()">
+      	 <a   onclick="ssfblog.changeImage()"><i id="refresh_i" class="fa fa-refresh " aria-hidden="true"></i></a>
       	 <i id="spinner_i" class="fa fa-spinner fa-spin animated"></i>
       	</span>
       	<div class="row">
@@ -45,32 +45,5 @@
   </div>
 </div>
 </form>   
-   
-<script src="/lib/js/jquery-validation/js/jquery.validate.min.js"></script>  
-<script src="/lib/js/jquery-validation/js/additional-methods.js"></script>  
-<script>
-	
-	function loadimage(){ 
-	  $("#refresh_i").show();
-	  $("#spinner_i").hide();  
-	}
-	$(function(){ 
-		$("#imageCodeSpan").hide();  
-		//点击输入框
-		$("#imageCode").click(function(){
-			//changeImage();
-			$("#imageCodeSpan").show();
-		    $("#refresh_i").show();
-		})
-	})
-	function changeImage(){ 
-		$("#refresh_i").hide();
-		$("#spinner_i").show();  
-		var date =  new Date(); 
-		setTimeout(function(){
-			$("#image").attr("src","/getImageCode?"+date);
-		},20)
-	
-		 
-	}
-</script>
+    
+ 

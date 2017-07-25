@@ -290,14 +290,40 @@ ssfblog.login=function(){
 			
 		})
 	})
+//登入页面 相关方法
+ssfblog.loadimage = function(){ 
+	  $("#refresh_i").show();
+	  $("#spinner_i").hide();  
+	}
+ 
+ssfblog.changeImage = function(){ 
+		$("#refresh_i").hide();
+		$("#spinner_i").show();  
+		var date =  new Date(); 
+		setTimeout(function(){
+			$("#image").attr("src","/getImageCode?"+date);
+		},20)  
+	}
+//登入页面初始化方法
+ssfblog.longinPage_html = function(){ 
+	$("#imageCodeSpan").hide();  
+	//点击输入框
+	$("#imageCode").click(function(){
+		//changeImage();
+		$("#imageCodeSpan").show();
+	    $("#refresh_i").show();
+	})
+}
 	
 //登入按钮事件
 $("#signInBtn").click(function(){
 		 if($("#exampleModal").length>0){
 			 $("#exampleModal").modal('show')
 		 }else{
+			 //获取登入页面
 			 $.get("/loginPage.html",function(htmldata){  
 					$("body").append(htmldata);
+					ssfblog.longinPage_html()
 					//定义在焦点失去的时候触发的函数;
 				    $("#signInForm").validate({
 				        onfocusout: function(element) { $(element).valid(); }
@@ -315,6 +341,7 @@ $("#signInBtn").click(function(){
 							 return
 						 }
 						 if(!tf)return
+						 //提交登入表单
 						$.post("/login",$("#signInForm").serialize(),function(data){  
 							//console.log(data)
 							if(!data.error){ //登入成功 : 关闭界面, 提示成功,在浏览器session中保存登入过, 隐藏登入按钮,现实登出按钮
@@ -328,8 +355,11 @@ $("#signInBtn").click(function(){
 								ssfblog.navSignChange() 
 								//刷新首页
 								ssfblog.refreshHtml()
-							}else{ 
+							}else{  
 								ssfblog.toastr("warning",data.msg)
+								$('#imageCode').focus();
+								$('#imageCode').select();
+								//ssfblog.changeImage()
 								ssfblog.stroageAdd("signIn","fail");
 								
 							}
