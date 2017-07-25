@@ -57,7 +57,8 @@
         页面中的置顶按钮是从[极客标签](http://www.gbtags.com/)学来的,其他不一一列举了(如有版权,联系我删除~)
         1. 页面模板 : [cleanblog](https://startbootstrap.com/template-overviews/clean-blog/)
         1. alert组件 :  [noty.js](http://ned.im/noty) 
-        1. 富文本编辑组件 :  [simditor.js](http://simditor.tower.im/) 
+        1. ~~富文本编辑组件 :  [simditor.js](http://simditor.tower.im/)~~ 
+        1. 富文本编辑组件 :  [ckeditor.js](http://ckeditor.com/)
         1. 图标组件 :  [Font Awesome](http://fontawesome.io/)
 	1. 图片查看组件: [fengyuanchen/viewer](https://fengyuanchen.github.io/viewer)
         1. 其他知名框架: Bootstrap;

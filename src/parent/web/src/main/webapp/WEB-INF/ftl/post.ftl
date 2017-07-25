@@ -94,7 +94,10 @@
 								        <!-- Split button -->
 										<div class="btn-group ssfblog-editbtn" >
 										  <#if isLog>
-										  <button type="button" onclick="ssfblog.editPage(${data.id})" class="btn ssfblog-editbtn-subleft "  > &nbsp; &nbsp; 编 辑 &nbsp; &nbsp; </button>
+										  <!-- 
+										   <button type="button" onclick="ssfblog.editPage(${data.id})" class="btn ssfblog-editbtn-subleft "  > &nbsp; &nbsp; 编 辑 &nbsp; &nbsp; </button>
+										   -->
+										  <button type="button" onclick="ssfblog.editPage2(${data.id})" class="btn ssfblog-editbtn-subleft "  > &nbsp; &nbsp; 编 辑 &nbsp; &nbsp; </button>
 										  <#else> 
 										  <button type="button"  class="btn  disabled ssfblog-editbtn-subleft "  > &nbsp; &nbsp; 编 辑 &nbsp; &nbsp; </button>
 										  </#if>  
