@@ -66,22 +66,20 @@
 							<span style ='color: #888b94;'	>${tag.tag}</span>  &nbsp;
 						</#list>
 						</p>	
-                        <!-- <p  style = "color:#777"  id="post-subtitle">   
-                       	 	<span class="meta" id="time">  </span>
-                        </p> -->
+                        
                     </div>
-                    <div class="author" style="    margin: 20px 0 40px;">
+                    <div  style=" margin: 20px 0 40px;">
 			                   
 						<div class="info">
-							<a class="avatar" href="javascript:" style="width: 48px;height: 48px; vertical-align: middle; display: inline-block;">
-				           		 <img class="image" style="width: 100%;height: 100%; border: 1px solid #ddd;border-radius: 50%;" src="../lib/assets/img/codeMonkey.ico" alt="">
+							<a class=" head-image-parent" href="javascript:">
+				           		 <img class="image head-image"  src="../lib/assets/img/codeMonkey.ico" alt="">
 							</a>
-				            <span class="tag" style=" padding: 1px 2px;   font-size: 12px;   color: #ea6f5a;   border: 1px solid #ea6f5a;   border-radius: 3px;">作者</span>
+				            <span class="author" >作者</span>
 				            <span class="name" ><a href="/index.html">Tenie</a></span>
 				            <!-- 关注用户按钮 -->
 				             
 				            <!-- 文章数据信息 -->
-				            <div class="meta" style="margin-top: 5px;font-size: 12px;color: #969696;border-bottom: 1px solid #eee;padding-bottom: 5px;">
+				            <div class="master-mate" >
 				              	<!-- 如果文章更新时间大于发布时间，那么使用 tooltip 显示更新时间 -->
 				                <span class="publish-time" id="time">${data.time}  </span>
 					            <span class="wordage">字数 ${data.text_length} </span>  
@@ -94,13 +92,13 @@
 								      	  编辑文章.
 								        </a>--> 
 								        <!-- Split button -->
-										<div class="btn-group" style="float: right; margin-top: -50px;border: 1px solid #dcdcdc;border-radius: 50px;" >
+										<div class="btn-group ssfblog-editbtn" >
 										  <#if isLog>
-										  <button type="button" onclick="ssfblog.editPage(${data.id})" class="btn  " style="background-color: transparent;;border-radius: 50px 0px 0px 50px;"> &nbsp; &nbsp; 编 辑 &nbsp; &nbsp; </button>
+										  <button type="button" onclick="ssfblog.editPage(${data.id})" class="btn ssfblog-editbtn-subleft "  > &nbsp; &nbsp; 编 辑 &nbsp; &nbsp; </button>
 										  <#else> 
-										  <button type="button"  class="btn  disabled" style="background-color: transparent;;border-radius: 50px 0px 0px 50px;"> &nbsp; &nbsp; 编 辑 &nbsp; &nbsp; </button>
+										  <button type="button"  class="btn  disabled ssfblog-editbtn-subleft "  > &nbsp; &nbsp; 编 辑 &nbsp; &nbsp; </button>
 										  </#if>  
-										  <button type="button"  style="border-radius: 0px 50px 50px 0px;    background-color: transparent;" class="btn  dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+										  <button type="button"   class="btn  dropdown-toggle ssfblog-editbtn-subright" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 										    <span class="caret"></span>
 										    <span class="sr-only">Toggle Dropdown</span>
 										  </button>
@@ -212,7 +210,7 @@
                    			 <!-- 评论模块, 包含主评论和子评论 -->
 								<div    class="comment" style="padding: 20px 0 30px;border-bottom: 1px solid #f0f0f0;">
 									<div class="master_comment">
-										<div class="author" style=" margin-bottom: 15px;">
+										<div  style=" margin-bottom: 15px;">
 										 <#if  commentObj.myselft=1 >
 											<a href="javascript:" style= "margin-right: 5px; width: 38px; height: 38px;  vertical-align: middle;  display: inline-block;" target="_blank" class="avatar">
 												<img  class="image" style="width: 100%; height: 100%;  border: 1px solid #ddd;  border-radius: 50%;" src="/lib/assets/img/codeMonkey.ico">
