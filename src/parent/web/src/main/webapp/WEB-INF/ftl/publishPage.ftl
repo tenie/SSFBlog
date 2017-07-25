@@ -47,9 +47,9 @@
 			               <input type="hidden" id="editcontent" name="content">
 			                 <input type="hidden" id="id" name="id" value="${blogContent.id}">
 			               <#if blogContent.show_content == 1>
-			                    <input type="hidden" id="showContent"  name="showContent" value="false"><!-- 公开私有 -->
+			                    <input type="hidden" id="showContent"  name="showContent" value="true"><!-- 公开私有 -->
 			               <#else>
-			               	    <input type="hidden" id="showContent"  name="showContent" value="true"><!-- 公开私有 -->
+			               	    <input type="hidden" id="showContent"  name="showContent" value="false"><!-- 公开私有 -->
 			               </#if>
 			          		
 			          	   <#if blogContent.top == 0>

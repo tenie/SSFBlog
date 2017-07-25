@@ -119,7 +119,12 @@ ssfblog.initIndex=function(datas,callback){ //date是查询到的博客标题信
 //			post_title.eq(i).text($(data)[i].post_title)
 			//post_subtitle.eq(i).text($(data)[i].post_subtitle)
 			//编辑按钮
-			editbtn.eq(i).attr("href","/article/getEditPage/"+$(data)[i].id);
+				if(signIn){
+					editbtn.eq(i).attr("href","/article/getEditPage/"+$(data)[i].id);
+				}else{
+					editbtn.eq(i).attr("onclick",'ssfblog.alert("warning","需要登入才可编辑~")');
+				}
+			
 			
 			//副标题
 			var tags = $(data)[i].tags;
@@ -441,6 +446,11 @@ ssfblog.publishPage=function(){
 	})	
 }  
 //编辑博客页面
+ssfblog.editPage2=function(id){ 
+	location.href="/article/getEditPage/"+id
+}
+
+//编辑博客页面(废弃)
 ssfblog.editPage=function(id){ 
 	var publishPageEditor ;
 	//如果已经加载模态框就删除,再加载一个新的
@@ -549,7 +559,8 @@ ssfblog.updateBlogData=function(data,$modal){
 		ssfblog.openSignInWindow("#enditpublishdataPageCloseBtn",null)//关闭窗口 
 		//在首页发布博文,就刷新页面
 		setTimeout(function(){
-			location.reload();
+			 history.back();
+			//location.reload();
 		},2000) 
 		}else {
 			ssfblog.toastr("warning",returndata.msg)	
@@ -1482,7 +1493,8 @@ ssfblog.initPublishPage_html=function(){
  //关闭按钮设置
 	$("#publishdataPageClose").click(function(){
 		 
-		history.back();
+		//history.back();
+		location.href="/"
 	})
 }
 
