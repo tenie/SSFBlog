@@ -1371,6 +1371,8 @@ $(function(){
 		 		$("#searchInput").val( $.cookie('searchVal') );  
 			    ssfblog.showSearch(false);
 			    $("#search_a").click()//触发搜索按钮 
+			    $.removeCookie("searchVal")
+			   
 		 	 },300) 
 	 		return;
 	 	}
