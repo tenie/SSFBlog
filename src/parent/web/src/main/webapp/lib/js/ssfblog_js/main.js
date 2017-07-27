@@ -1522,11 +1522,11 @@ ssfblog.initPublishPage_html=function(){
 	 var editor = CKEDITOR.replace('Text');   
 	//保存按钮设置
 	$("#submitPublishdata").click(function(){
-		 
-		val = CKEDITOR.instances.Text.getData()
-		 
+		ssfblog.addDisabled(this)
+		val = CKEDITOR.instances.Text.getData()  
 //		val = publishPageEditor.getValue();  
 		ssfblog.saveBlogData(val) 
+		ssfblog.rmDisabled(this)
 	}) 
  //关闭按钮设置
 	$("#publishdataPageClose").click(function(){
@@ -1542,10 +1542,11 @@ ssfblog.initEditPublishPage_html=function(){
 	 var editor = CKEDITOR.replace('Text');   
 	//保存按钮设置
 	$("#submitPublishdataBtn").click(function(){
-		val = CKEDITOR.instances.Text.getData()
-		 
+		ssfblog.addDisabled(this)
+		val = CKEDITOR.instances.Text.getData() 
 //		val = publishPageEditor.getValue();  
 		ssfblog.updateBlogData(val,$("#publishModal")) 
+		ssfblog.addDisabled(this)
 	}) 
 //关闭按钮设置
 	$("#publishdataPageClose").click(function(){
