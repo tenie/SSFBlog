@@ -55,7 +55,8 @@
 			          	   <#else>
 			          	         <input type="hidden" id="istop"  name="isTop" value="false"><!-- 是否置顶 -->
 			          	   </#if>
-			              
+			             <!-- 标题 -->
+			             <i class="fa fa-align-justify" aria-hidden="true"></i>
 						   <input id="publishTitle" class="contentTitle" value="${blogContent.post_title}"   autofocus name="title" type="text"   placeholder="标题:" required data-validation-required-message="必填"  aria-describedby="sizing-addon1"> 
 			               <!-- <textarea id="editorPublish" placeholder="Balabala" ></textarea> -->
 			               <div   id="Text"  >
@@ -65,7 +66,7 @@
 			  	          <!-- 标签组件-->
 			  			  <div>
 				  			   <div  id="edittag" class="editPageTag  " style=" display: inline; background-color: #f8f8f8;">
-				                <span class='editTag'  >标签: </span>
+				                <span class='editTag'  ><i class="fa fa-tags" aria-hidden="true"></i>标签: </span>
 				               	<#list tags as tag>
 				               			<span class=""> 
 				               				${tag.tag}
@@ -76,14 +77,15 @@
 				               		   </span>
 				               </#list>
 				               </div> 
+				               <span style="font-size: 16px;"><i class="fa fa-tag" aria-hidden="true"></i>:</span>
 				               <input id="edittagInput" type="text" style=" border: 0px;width: 40%; display: inline;" placeholder="添加相关标签，用逗号或回车分隔 " aria-describedby="sizing-addon1">  
 				           		
 			  			  
 			  			  </div>
 			              
-			           		<div class="switch" style="display: inline;" >
-							    是否公开: 
-							    
+			           		<div class="switch"   >
+							 <i class="fa fa-toggle-on" aria-hidden="true"></i> 
+							   是否公开:  
 							     <#if blogContent.show_content == 1>
 							 		    <input type="checkbox"  checked name="publishPagecheckbox"/>
 							     <#else>
@@ -92,8 +94,8 @@
 							    
 							    
 							</div>
-							<div class="switch"  style="display: inline;">
-								
+							<div class="switch"   >
+							<i class="fa fa-toggle-on" aria-hidden="true"></i>	
 							    是否置顶: 
 							     <#if blogContent.top == 0>
 									 <input type="checkbox"  checked  name="top"/>

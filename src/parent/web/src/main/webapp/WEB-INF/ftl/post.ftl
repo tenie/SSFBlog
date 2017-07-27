@@ -27,7 +27,7 @@
 	<link rel="stylesheet" type="text/css" href="../lib/bootstrap_switch/css/bootstrap3/bootstrap-switch.css" /> 
 	<link rel="stylesheet" type="text/css" href="../lib/viewer/viewer.min.css " /> 
 	<link href="../lib/vendor/font-awesome/css/font-awesome-animation .css" rel="stylesheet" type="text/css">
-
+	 
 </head>
 
 <body class="fadeIn postpage">
@@ -60,6 +60,7 @@
                         
                        
 						<p>
+						<i class="fa fa-tags" aria-hidden="true"></i>
 						<#list tags as tag>
 							<span style ='color: #888b94;'	>${tag.tag}</span>  &nbsp;
 						</#list>
@@ -79,11 +80,12 @@
 				            <!-- 文章数据信息 -->
 				            <div class="master-mate" >
 				              	<!-- 如果文章更新时间大于发布时间，那么使用 tooltip 显示更新时间 -->
-				                <span class="publish-time" id="time">${data.time}  </span>
-					            <span class="wordage">字数 ${data.text_length} </span>  
-					            <span class="views-count">阅读 ${data.read_quantity}</span>
-					            <span class="comments-count">评论 ${commentLength}</span>
-					            <span class="likes-count" >喜欢 <span id="postLike">${data.post_like}</span></span>
+				              	<i class="fa fa-calendar" aria-hidden="true"></i>
+				                <span class="publish-time" id="time" style="  padding-right: 5px;">${data.time}  </span>
+					            <span class="wordage"  style="  padding-right: 5px;">字数: ${data.text_length} </span>  
+					            <span class="views-count"  style="  padding-right: 5px;">阅读: ${data.read_quantity}</span>
+					            <span class="comments-count"  style="  padding-right: 5px;">评论: ${commentLength}</span>
+					            <span class="likes-count" >喜欢: <span id="postLike">${data.post_like}</span></span>
 					            <span >
 					            	   <!-- 如果是当前作者，加入编辑按钮 
 								        <a href="javascript:" onclick="ssfblog.editPage(${data.id})" style="    margin-top: -20px;float: right;padding: 0 12px;font-size: 14px;border: 1px solid #dcdcdc;color: #9b9b9b;line-height: 30px;border-radius: 50px;" target="_blank" class="edit">

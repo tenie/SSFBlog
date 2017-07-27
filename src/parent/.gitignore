@@ -4,3 +4,8 @@ parent/.settings
 .settings
 parent/web/src/main/webapp/resumepage.html
 parent/web/src/main/webapp/resumepage_files/
+
+/Servers/
+
+/RemoteSystemsTempFiles/
+/.metadata/

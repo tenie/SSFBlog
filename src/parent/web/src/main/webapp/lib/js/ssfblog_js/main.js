@@ -78,7 +78,7 @@ ssfblog.tagSearch=function(tag){
 //首页
 //主页标题信息渲染
 ssfblog.initIndex=function(datas,callback){ //date是查询到的博客标题信息集 
-	//console.log(datas)
+	 console.log(datas)
 	var data =  datas.mapRs.dataList
 	var signIn = datas.mapRs.signIn
 	var datalen = $(data).length 
@@ -98,7 +98,7 @@ ssfblog.initIndex=function(datas,callback){ //date是查询到的博客标题信
 		var post_title = pageTitleContainer.find(".post-title")	//主题
 		var badge = pageTitleContainer.find("span[class*=badge]")	//徽章 
 		var post_subtitle = pageTitleContainer.find(".post-subtitle") //标签
-		var time = pageTitleContainer.find(".time")					//时间
+		var time = pageTitleContainer.find(".post_time")					//时间
 		//var src_page = pageTitleContainer.find(".src_page")			//文章链接<a>	
 		var a =pageTitleContainer.find("a[class*='src_page']")		 //文章链接<a>	
 		var delBtn = pageTitleContainer.find("a[class*='deletebtn']") //删除按钮
@@ -355,7 +355,9 @@ $("#signInBtn").click(function(){
 								ssfblog.navSignChange() 
 								//刷新首页
 								ssfblog.refreshHtml()
-							}else{  
+							}else{
+								//刷新图片
+								ssfblog.changeImage();
 								ssfblog.toastr("warning",data.msg)
 								$('#imageCode').focus();
 								$('#imageCode').select();
@@ -415,6 +417,8 @@ ssfblog.publishPage2=function(){
 				 var editor = CKEDITOR.replace('Text');   
 				//保存按钮设置
 				$("#submitPublishdata").click(function(){
+				
+					
 					val = CKEDITOR.instances.Text.getData()
 //					val = publishPageEditor.getValue();  
 					ssfblog.saveBlogData(val) 
@@ -632,6 +636,7 @@ ssfblog.saveBlogData=function(data){
 		return
 	} 
 	$.post("/submitPublishdata",formval ,function(returndata){
+		console.log(returndata)
 		if(!returndata.error){
 		//$("#publishdataPageClose").click()
 			ssfblog.alert("success",returndata.msg);
@@ -646,7 +651,7 @@ ssfblog.saveBlogData=function(data){
 		},2000) 
 		}else {
 			ssfblog.toastr("warning",returndata.msg)	
-		 	ssfblog.openSignInWindow("#publishdataPageClose","#signInBtn");	 
+		 	//ssfblog.openSignInWindow("#publishdataPageClose","#signInBtn");	 
 		}
 	})
 }
@@ -1517,6 +1522,7 @@ ssfblog.initPublishPage_html=function(){
 	 var editor = CKEDITOR.replace('Text');   
 	//保存按钮设置
 	$("#submitPublishdata").click(function(){
+		 
 		val = CKEDITOR.instances.Text.getData()
 		 
 //		val = publishPageEditor.getValue();  
