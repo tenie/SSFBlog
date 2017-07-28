@@ -1611,5 +1611,5 @@ ssfblog.initEditPublishPage_html=function(){
  */
 
 function foo(){
-		alert(CKEDITOR.getData())
+		alert(213212313)
 	}

@@ -339,7 +339,7 @@
 								<input type="hidden" name="postId" value="${data.id}"> 
 							</form>
 							 <p>
-								<button class="btn btn-info" id="post_comment">
+								<button class="btn btn-info btn-4" id="post_comment">
 									提交
 								</button>
                             </p>
