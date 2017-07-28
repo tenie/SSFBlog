@@ -20,10 +20,34 @@ ssfblog.isSignIn=function()
 
 //登入按钮隐藏,登出按钮现实
 ssfblog.navSignChange=function(){
+	
 	 
 	var sin  = $("#signInBtn")
 	var sout = $("#signOutBtn")
-	if(sin.hasClass("hidden")){
+	
+	 $.get("/islogin",function(data){
+		console.log(data); 
+		if("true" == data.msg){ 
+			$.cookie("islogin","true", { expires: 1 });
+			if( sout.hasClass("hidden")){
+				sout.removeClass("hidden")
+			}
+			if(! sin.hasClass("hidden")){
+				sin.addClass("hidden")
+			}
+		}else{
+			$.cookie("islogin","false", { expires: 1 }); 
+			if( sin.hasClass("hidden")){
+				sin.removeClass("hidden")
+			}
+			if(! sout.hasClass("hidden")){
+				sout.addClass("hidden")
+			}
+		}  
+	})
+	
+	
+	if(sout.hasClass("hidden")){
 		sin.removeClass("hidden")
 		sout.addClass("hidden")
 	}else{
@@ -42,7 +66,8 @@ ssfblog.navSignChange=function(){
 //加载导航,和脚
 ssfblog.initPage=function(){ 
 	$(document).ajaxError(function(event,request, settings){
-		ssfblog.alert("error","服务器出错了~") 
+		ssfblog.alert("error","服务器出错了~");
+		setTimeout(function(){location.reload();},1000)
 	});
 	ssfblog.navPage()
 	ssfblog.footerPage() 
@@ -204,19 +229,7 @@ ssfblog.initIndex=function(datas,callback){ //date是查询到的博客标题信
 }
 //对文章信息修改页面内容的刷新
 ssfblog.refreshHtml=function(){
-	setTimeout(function(){location.reload();},500) 
-//	//如果在index.html 页面刷新地址栏
-//	if($("body").hasClass("index_page")){
-//		setTimeout(function(){location.href="/"},500) 
-//	}//在post.ftl时的页面修改
-//	else if($("body").hasClass("postpage")){
-//			var postBadge = $("#post_badge");
-//			if(postBadge.hasClass("hidden")){
-//				postBadge.removeClass("hidden")
-//			}else{
-//					postBadge.addClass("hidden")
-//			} 
-//	}
+	setTimeout(function(){location.reload();},500)  
 }
 
 //隐藏博文
@@ -224,8 +237,7 @@ ssfblog.hiddenBlog=function(id){
 	var del = function(){  
 		$.get("/article/hiddenContent/"+id,function(data){
     		if(!data.error){
-    			ssfblog.alert("information","ok~")
-//    			setTimeout(function(){location.href="/"},1000) 
+    			ssfblog.alert("information","ok~") 
     			ssfblog.refreshHtml();
     		}else{
     			ssfblog.alert("error","登入后才有权限操作~") 
@@ -258,8 +270,7 @@ ssfblog.publicBlog=function(id){
 	var del = function(){
 		$.get("/article/publicContent/"+id,function(data){
     		if(!data.error){
-    			ssfblog.alert("information","ok~")
-    			//setTimeout(function(){location.href="/"},1000) 
+    			ssfblog.alert("information","ok~") 
     			ssfblog.refreshHtml()
     		}else{
     			ssfblog.alert("error","没有权限") 
@@ -276,14 +287,14 @@ ssfblog.publicBlog=function(id){
 ssfblog.login=function(){
 	//登出按钮事件
 	$("#signOutBtn").click(function(){
-		ssfblog.navSignChange() 
+		//ssfblog.navSignChange() 
 		//后台删除session,前端也要删除sessionStorage
 		$.post("/logout",function(data){
 			if(data.msg){
 				ssfblog.toastr("info",data.msg)
-				if(window.sessionStorage){
-					window.sessionStorage.setItem("signIn","out");
-				}
+//				if(window.sessionStorage){
+//					window.sessionStorage.setItem("signIn","out");
+//				}
 				//刷新首页
 				ssfblog.refreshHtml()
 			}
@@ -308,8 +319,7 @@ ssfblog.changeImage = function(){
 ssfblog.longinPage_html = function(){ 
 	$("#imageCodeSpan").hide();  
 	//点击输入框
-	$("#imageCode").click(function(){
-		//changeImage();
+	$("#imageCode").click(function(){ 
 		$("#imageCodeSpan").show();
 	    $("#refresh_i").show();
 	})
@@ -352,7 +362,7 @@ $("#signInBtn").click(function(){
 									window.sessionStorage.setItem("signIn","success");
 								}
 								ssfblog.toastr("success",data.msg)
-								ssfblog.navSignChange() 
+								//ssfblog.navSignChange() 
 								//刷新首页
 								ssfblog.refreshHtml()
 							}else{
@@ -594,6 +604,7 @@ ssfblog.updateBlogData=function(data,$modal){
 		//在首页发布博文,就刷新页面
 		setTimeout(function(){
 			 history.back();
+			// location.href=history. 
 			//location.reload();
 		},2000) 
 		}else {
@@ -601,16 +612,7 @@ ssfblog.updateBlogData=function(data,$modal){
 		 	ssfblog.openSignInWindow("#enditpublishdataPageCloseBtn","#signInBtn");	 
 		}
 	})
-//	$.post("/updatePublishdata",formval ,function(returndata){  
-//		if(returndata =="ok"){
-//		//$("#publishdataPageClose").click()
-//		var	closeBtn =  $modal.find("#publishdataPageClose");
-//		ssfblog.openSignInWindow(closeBtn,null)//关闭窗口,
-//		}else if(returndata.error ='nologin') {
-//			ssfblog.toastr("warning",'未登入不可发布!,请先登入~')	
-//		 	ssfblog.openSignInWindow(closeBtn,"#signInBtn");	 
-//		}
-//	})
+ 
 }
 
 //提交博文保存
@@ -679,12 +681,28 @@ ssfblog.navPage=function(){
 		ssfblog.login();
 		ssfblog.publishPage2();
 		//如果登入过就隐藏登入按钮
-		if(window.sessionStorage){ 
-			 var si = window.sessionStorage.getItem("signIn") 
-			 if("success" == si){
-				 ssfblog.navSignChange() 
-			 }
-		}
+		ssfblog.navSignChange() 
+//		var islogin = $.cookie("islogin")  
+//		if(islogin){
+//			if("true"==islogin){
+//				ssfblog.navSignChange() 
+//			}
+//		}else{
+//			 $.get("/islogin",function(data){
+//				 console.log(data);
+//				 
+//				if("true"==	 data.message){
+//					//	$.cookie('postContent', rel, { expires: 1 }); 
+//					$.cookie("islogin","true", { expires: 1 }); 
+//					 ssfblog.navSignChange() 
+//				}else{
+//					$.cookie("islogin","false", { expires: 1 }); 
+//				} 
+//				
+//			 })
+//		}
+		 
+		
 	})
 }
 //加载footer
@@ -885,16 +903,7 @@ var mojsShow = function (promise) {
     duration: 1.2 * 500,
     isShowStart: true
   })
-  /**
-   * var parent=new mojs.Shape({
-   * parent:n.barDom,
-   * width:200,
-   * height:n.barDom.getBoundingClientRect().height,
-   * radius:0,
-   * x:_defineProperty({},150,-150),
-   * duration:1.2*500,
-   * isShowStart:true});
-   */
+ 
   
 
   n.barDom.style['overflow'] = 'visible'
@@ -1033,18 +1042,10 @@ ssfblog.addDisabled=function(obj){
 	var theObj = $(obj)
 	theObj.attr("disabled","Disabled"); 
 	//遍历style元素没有禁用样式就添加一个
-	if(!ssfblog.hasDisabledStyle){ 
-//		var styleObj = $("style");
-//		$.each(styleObj,function(i,n){
-//			var text = $(n).text(); 
-//			if(text.indexOf(".cursor_not_allowed")>=0){
-//				ssfblog.hasDisabledStyle = true;
-//				 return false;
-//			}
-//		}) 
-		ssfblog.hasDisabledStyle = true;
-		$("head").append("<style>.cursor_not_allowed{cursor: not-allowed; color:#ccc;}</style>")  
-	}
+//	if(!ssfblog.hasDisabledStyle){  
+//		ssfblog.hasDisabledStyle = true;
+//		$("head").append("<style>.cursor_not_allowed{cursor: not-allowed; color:#ccc;}</style>")  
+//	}
 	
 	if(! theObj.hasClass("cursor_not_allowed")){  
 		theObj.addClass("cursor_not_allowed");  
@@ -1131,8 +1132,7 @@ ssfblog.nav_Html=function(){
 	//附加菜单使用鼠标悬浮出发
 	$("#a_dropdown").hover( function(){ $(this).click() },function(){} );
 	
-	//给页面添加搜索框
-
+	//给页面添加搜索框 
 	var searchHtml ='<div class="modal fade" tabindex="-1" role="dialog" id="searchModal">   <div class="modal-dialog modal-lg" role="document" style="max-width: 700px;" > <div class="modal-content" style=" box-shadow: -3px 10px 20px #f5f5f5; top: 200px;  "> <button  type="button" class="hidden" data-dismiss="modal" id="searchModalClose">Close</button> <div class="input-group input-group-lg">  <span class="input-group-addon " id="searchbtn" style="border: 0px;background-color:white;"><a  id="search_a" href="javascript:"><i class="fa fa-search" aria-hidden="true"></i></a></span>  <input id="searchInput" autofocus  type="text" class="form-control search" placeholder="标题搜索..." > </div>  </div> </div> </div>'
 	$('body').append(searchHtml);
 }
@@ -1277,9 +1277,11 @@ ssfblog.commentLike=function(id,thiz){
 ssfblog.bindEvenToPostComment=function(id){ 
 	if($("#coment_form").valid()){  
 		$.post("comment/"+id,$("#coment_form").serialize(),function(){
-			location.reload();
+			location.reload(); 
 		})
-	} 
+	}else{
+		ssfblog.rmDisabled("#post_comment")	
+	}
 }
 
 ssfblog.reply=function(thiz,id,name){
@@ -1316,11 +1318,20 @@ ssfblog.reply=function(thiz,id,name){
      	//$("#cancel_reply").addClass("hidden")
      	cleanCommentDiv();
  		$("#post_comment").click(function(){
-			 ssfblog.bindEvenToPostComment("-1");
+ 			ssfblog.addDisabled(this)
+ 		 
+ 		    ssfblog.bindEvenToPostComment("-1");
+ 		 
+			
+ 			
 		})
      })
      	//提交按钮绑定新的事件
-	 $("#post_comment").on("click",function(){ssfblog.bindEvenToPostComment(id)})
+	 $("#post_comment").on("click",function(){
+		 ssfblog.addDisabled(this)
+		 ssfblog.bindEvenToPostComment(id)
+		
+		 })
 }
 
 //显示搜索框
@@ -1461,7 +1472,10 @@ ssfblog.postpageInitfunc=function(){
 				);
 	ssfblog.comment_html =  $("#comment_form_div").html();
 	$("#post_comment").click(function(){
-	    ssfblog.bindEvenToPostComment("-1") 
+		ssfblog.addDisabled("#post_comment")
+	 
+	  ssfblog.bindEvenToPostComment("-1") 
+	 
 	})
 	
 	//喜欢按钮事件
