@@ -232,7 +232,7 @@ a{
 .error{color:red;}
 
 .cursor_not_allowed{
-		cursor: not-allowed;
+    cursor: not-allowed;
 	color: #ccc; 
 }
 

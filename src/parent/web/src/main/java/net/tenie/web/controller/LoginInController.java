@@ -2,7 +2,7 @@ package net.tenie.web.controller;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
+import java.util.Map;import java.util.Random;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -48,15 +48,18 @@ public class LoginInController {
       }
       LoginSession session=SessionUtil.getSession();
       String secode =  session.getImageCode();
-      if(code.equalsIgnoreCase(secode)){ 
+      session.setImageCode("");//清空验证码
+      if( !"".equals(secode)&&code.equalsIgnoreCase(secode)){ 
 	      if( userName.equals(name) && pwd.equals(password)){
 	 		 LoginSession loginInfo = ApplicationContextHelper.getBeanByType(LoginSession.class);  
 	 		 loginInfo.setIsLog(true);
+	 		 
 	 	 	 return new Result("登入成功~");
 	       }else{
 	    	 return new Result(true,"帐号或密码错误~");
 	       }
 	 }else{
+		    
 		    return new Result(true,"验证码错误~");
       }  
     }
@@ -74,7 +77,7 @@ public class LoginInController {
 	public Result signOut(HttpServletRequest request, HttpServletResponse response,@RequestParam Map<String, String> queryParam) throws ServletException, IOException{
 		 LoginSession loginInfo = ApplicationContextHelper.getBeanByType(LoginSession.class);  
  		 loginInfo.setIsLog(false);
-		return new Result("退出成功!");  
+		 return new Result("退出成功!");  
     }
 	
 	/**
@@ -87,8 +90,26 @@ public class LoginInController {
 	 * @throws IOException
 	 */
 	@RequestMapping(value="/getImageCode",method = RequestMethod.GET) 
-	public void getimage(HttpServletRequest request, HttpServletResponse response,@RequestParam Map<String, String> queryParam) throws ServletException, IOException{
-		 LoginSession loginInfo = ApplicationContextHelper.getBeanByType(LoginSession.class);
-		 VerificationCode.getImage(request, response); 
+	public void getimage(HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException{
+		  VerificationCode.getImage(request, response); 
+    }
+	
+	/**
+	 * 判断是否登入状态
+	 * @param request
+	 * @param response
+	 * @param queryParam
+	 * @return
+	 * @throws ServletException
+	 * @throws IOException
+	 */
+	@RequestMapping(value="/islogin",method = RequestMethod.GET) 
+	@ResponseBody
+	public Result islogin(HttpServletRequest request, HttpServletResponse response,@RequestParam Map<String, String> queryParam) throws ServletException, IOException{
+		LoginSession session=SessionUtil.getSession();
+		 Result rs = new Result();
+		 System.out.println(session.getIsLog()+"");
+		 rs.setMsg(""+session.getIsLog());
+		 return rs;
     }
 }
