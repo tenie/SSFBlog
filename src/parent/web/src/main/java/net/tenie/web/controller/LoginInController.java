@@ -107,8 +107,7 @@ public class LoginInController {
 	@ResponseBody
 	public Result islogin(HttpServletRequest request, HttpServletResponse response,@RequestParam Map<String, String> queryParam) throws ServletException, IOException{
 		LoginSession session=SessionUtil.getSession();
-		 Result rs = new Result();
-		 System.out.println(session.getIsLog()+"");
+		 Result rs = new Result(); 
 		 rs.setMsg(""+session.getIsLog());
 		 return rs;
     }
