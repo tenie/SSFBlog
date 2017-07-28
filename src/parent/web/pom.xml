@@ -20,6 +20,32 @@
   <build>
   	<finalName>ROOT</finalName>
   	<plugins>
+  	
+  	 <plugin>  
+	            <artifactId>maven-assembly-plugin</artifactId>
+			       <version>2.4.1</version>
+			  	   <configuration>
+			           <finalName>mylib</finalName>
+			           <appendAssemblyId>false</appendAssemblyId>
+			           <encoding>utf-8</encoding>
+			           <descriptors>
+			               <descriptor>src/main/assembly/src.xml</descriptor>
+			           </descriptors>
+			           <descriptorRefs>
+			               <descriptorRef>jar-with-dependencies</descriptorRef>
+			           </descriptorRefs>
+			       </configuration>
+			       <executions>
+			           <execution>
+			               <id>make-assembly</id>
+			               <phase>package</phase>
+			               <goals>
+			                   <goal>single</goal>
+			               </goals>
+			           </execution>
+			       </executions>
+	        </plugin>  
+  	
 			<!-- <plugin>
 				<groupId>org.javalite</groupId>
 				<artifactId>activejdbc-instrumentation</artifactId>
