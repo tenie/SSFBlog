@@ -92,7 +92,7 @@
 								      	  编辑文章.
 								        </a>--> 
 								        <!-- Split button -->
-										<div class="btn-group ssfblog-editbtn" >
+										<div class="btn-group ssfblog-editbtn hidden-xs" >
 										  <#if isLog>
 										  <!-- 
 										   <button type="button" onclick="ssfblog.editPage(${data.id})" class="btn ssfblog-editbtn-subleft "  > &nbsp; &nbsp; 编 辑 &nbsp; &nbsp; </button>
