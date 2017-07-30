@@ -190,7 +190,7 @@
 						    <div class="like">
 						    	<div class="btn like-group" style=" padding: 13px 0 15px;  font-size: 0;  border: 1px solid #ea6f5a;  border-radius: 40px;">
 						    		<div class="btn-like" style="font-size: 19px;  display: inline-block;">
-						    		<a id="likebtn"style="color: #ea6f5a; padding: 18px 15px 18px 30px;"><i style=" margin-right: 5px;font-size: 21px;" class="iconfont ic-like"></i>喜欢</a>
+						    		<a id="likebtn"style="color: #ea6f5a; padding: 18px 15px 18px 30px;"><i style=" margin-right: 5px;font-size: 21px;"  class="fa fa-heart-o"  id="faHeart"></i>喜欢</a>
 						    	</div> 
 						   	<div class="modal-wrap" style="font-size: 18px;  border-left: 1px solid rgba(236,97,73,.4);  display: inline-block;">
 						   		<a style="color: #ea6f5a; padding: 18px 30px 18px 17px;" id="likecount">${data.post_like}</a></div>

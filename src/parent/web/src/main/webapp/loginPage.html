@@ -2,14 +2,22 @@
 <form id="signInForm">
 <div class="modal fade in" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="display: block;">
   <div class="modal-dialog" role="document">
-    <div class="modal-content" >
-     <!--  <div class="modal-header">
+    <div class="modal-content">
+      <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
         <h4 class="modal-title" id="exampleModalLabel">Sign in </h4>
-      </div> -->
-      <div class="modal-body" style='padding: 0px;'>
+      </div>
+      <div class="modal-body">
         
-         <iframe frameborder="0" scrolling="no" src="/loginform.html" width="100%" height="500px"></iframe>
+          <div class="form-group">
+            <label for="recipient-name" class="control-label">Username or email address:</label>
+            <input type="text" class="form-control required" id="recipient-name" name="name" minlength="5"  maxlength="40">
+          </div>
+          <div class="form-group">
+            <label for="message-text" class="control-label">Password:</label>
+            <input type="password" class="form-control required" id="message-text" name="password" minlength="5"  maxlength="30">
+            
+          </div>
        
       </div>
       <div class="modal-footer">

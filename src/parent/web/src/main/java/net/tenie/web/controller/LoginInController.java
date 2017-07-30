@@ -91,7 +91,7 @@ public class LoginInController {
 	 */
 	@RequestMapping(value="/getImageCode",method = RequestMethod.GET) 
 	public void getimage(HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException{
-		  VerificationCode.getImage(request, response); 
+		  VerificationCode.getImage2(request, response); 
     }
 	
 	/**

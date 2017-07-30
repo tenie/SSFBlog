@@ -107,9 +107,9 @@ ssfblog.initIndex=function(datas,callback){ //date是查询到的博客标题信
 	var data =  datas.mapRs.dataList
 	var signIn = datas.mapRs.signIn
 	var datalen = $(data).length 
-	if(!signIn){ 
-		window.sessionStorage.setItem("signIn","out");
-	}
+//	if(!signIn){ 
+//		window.sessionStorage.setItem("signIn","out");
+//	}
 	$.get("/index_contentTitle.html",function(htmldata){  //获取展示的html样式 
 		$("#pageTitleContainer").hide("slow");
 		//console.log(date)  
@@ -358,9 +358,9 @@ $("#signInBtn").click(function(){
 								 ssfblog.offkey13("#submitSignIndata");
 								$("#siginPageClose").click()
 								//ssfblog.stroageAdd("signIn","success");
-								if(window.sessionStorage){
-									window.sessionStorage.setItem("signIn","success");
-								}
+//								if(window.sessionStorage){
+//									window.sessionStorage.setItem("signIn","success");
+//								}
 								ssfblog.toastr("success",data.msg)
 								//ssfblog.navSignChange() 
 								//刷新首页
@@ -1453,10 +1453,10 @@ ssfblog.contactInitfunc=function(){
 }
 //阅读页面初始化方法
 ssfblog.postpageInitfunc=function(){
-	var islogin = $("#islogin").val();
-	if('false'==islogin){
-		window.sessionStorage.setItem("signIn","out");
-	}
+//	var islogin = $("#islogin").val();
+//	if('false'==islogin){
+//		window.sessionStorage.setItem("signIn","out");
+//	}
 	$(".image").viewer({url:"data-original",title:false,toolbar:false,tooltip:false});  //查看图片插件
 	var $postContent = $("#postContent")
 	$postContent.find("img").viewer({url:"data-original",title:false,toolbar:false,tooltip:false}); 
@@ -1484,6 +1484,8 @@ ssfblog.postpageInitfunc=function(){
 			if(!data.error){
 				$("#likecount").text(data.msg)
 				$("#postLike").text(data.msg)
+				$("#faHeart").removeClass("fa-heart-o").addClass("fa-heart")
+				$("#likebtn").off("click")
 			}
 		})	
 	});
