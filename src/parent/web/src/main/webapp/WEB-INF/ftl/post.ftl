@@ -92,14 +92,20 @@
 								      	  编辑文章.
 								        </a>--> 
 								        <!-- Split button -->
-										<div class="btn-group ssfblog-editbtn hidden-xs" >
+										<div class="btn-group ssfblog-editbtn hidden-xs" > 
 										  <#if isLog>
 										  <!-- 
-										   <button type="button" onclick="ssfblog.editPage(${data.id})" class="btn ssfblog-editbtn-subleft "  > &nbsp; &nbsp; 编 辑 &nbsp; &nbsp; </button>
+										   <button type="button" onclick="ssfblog.editPage(${data.id})" class="btn ssfblog-editbtn-subleft "  > 
+										     <i class="fa fa-pencil-square-o" aria-hidden="true"></i>&nbsp;编 辑 &nbsp; &nbsp; 
+										   </button>
 										   -->
-										  <button type="button" onclick="ssfblog.editPage2(${data.id})" class="btn ssfblog-editbtn-subleft "  > &nbsp; &nbsp; 编 辑 &nbsp; &nbsp; </button>
+										  <button type="button" onclick="ssfblog.editPage2(${data.id})" class="btn ssfblog-editbtn-subleft "  >
+										     <i class="fa fa-pencil-square-o" aria-hidden="true"></i>&nbsp;编 辑 &nbsp; &nbsp; 
+										  </button>
 										  <#else> 
-										  <button type="button"   class="btn  disabled ssfblog-editbtn-subleft "  > &nbsp; &nbsp; 编 辑 &nbsp; &nbsp; </button>
+										  <button type="button"   class="btn  disabled ssfblog-editbtn-subleft "  >
+										    <i class="fa fa-pencil-square-o" aria-hidden="true"></i> &nbsp;编 辑 &nbsp; &nbsp;
+										  </button>
 										  </#if>  
 										  <button type="button"   class="btn  dropdown-toggle ssfblog-editbtn-subright" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 										    <span class="caret"></span>
@@ -304,7 +310,8 @@
 							<form id="coment_form">
 	                            <p class="comment-form-comment">
 	                                <label for="comment">
-	                                    Comment <a href="javascript:" id="cancel_reply" class='hidden' style="font-weight: lighter;padding-left:10px;text-decoration: underline !important;">Cancel</a>
+	                                                                                                               发表评论
+	                                     <a href="javascript:" id="cancel_reply" class='hidden' style="font-weight: lighter;padding-left:10px;text-decoration: underline !important;">取消</a>
 	                                </label>
 	                                <textarea id="comment" name="comment"   cols="45" rows="8" maxlength="65525" aria-required="true" required="required" style="width: 100%;"></textarea>
 	                            </p>
@@ -312,7 +319,7 @@
 	                            <div class="commenter_info">
 	                            	<p class="comment-form-author">
 		                                <label for="author" style="width: 55px;">
-		                                    Name
+		                                   	 名称
 		                                    <span class="required">
 		                                        *
 		                                    </span>
@@ -321,7 +328,7 @@
 		                            </p>
 		                            <p class="comment-form-email">
 		                                <label for="email" style="width: 55px;">
-		                                    Email
+		                             	           邮件
 		                                    <span class="required">
 		                                        *
 		                                    </span>
@@ -330,7 +337,7 @@
 		                            </p>
 		                            <p class="comment-form-url">
 		                                <label for="url" style="width: 55px;">
-		                                    Website
+		                               	      网址
 		                                </label>
 		                                <input id="url" name="url" type="url" value="" size="30" maxlength="200">
 		                            </p>
