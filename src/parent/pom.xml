@@ -25,7 +25,7 @@
         <quartz.version>2.2.1</quartz.version>
         <!-- Test -->
         <junit.version>4.11</junit.version>
-        <okHttp.version>3.4.2</okHttp.version>
+        <okHttp.version>3.8.1</okHttp.version>
 	</properties>
 	 
         
@@ -34,6 +34,17 @@
 	
 	<!-- 直接在父POM中添加依赖-->
 	<dependencies>
+	
+	
+	<dependency>
+	  <!-- jsoup HTML parser library @ https://jsoup.org/ -->
+	  <groupId>org.jsoup</groupId>
+	  <artifactId>jsoup</artifactId>
+	  <version>1.10.3</version>
+	  <scope>test</scope>
+	</dependency>
+	
+	
 	 <dependency>
         <groupId>org.apache.poi</groupId>
         <artifactId>poi</artifactId>
@@ -78,11 +89,12 @@
 	        <version>5.2.4.Final</version>
 	      </dependency>
       
-	<!-- 	<dependency>
+	 	<dependency>
 				<groupId>com.squareup.okhttp3</groupId>
 				<artifactId>okhttp</artifactId>
 				<version>${okHttp.version}</version>
-		</dependency>  -->
+				<scope>test</scope>
+		</dependency>  
         <dependency>
 		    <groupId>org.springframework</groupId>
 		    <artifactId>spring-context-support</artifactId>
