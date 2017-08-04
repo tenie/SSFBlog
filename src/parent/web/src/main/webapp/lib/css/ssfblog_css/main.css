@@ -276,8 +276,20 @@ a{
   outline-offset: 15px;
   text-shadow: 1px 1px 2px #800080;
 }
+/*字体  */
+.gf-Neucha{
+	font-family: 'Neucha', "PingFang SC", "Microsoft YaHei", sans-serif !important;
+}
 
-
+/*首页样式*/
+/*标签  */
+.post-subtitle a{
+	padding: 1px 5px;
+    background: #f5f5f5;
+    border-bottom: none;
+    border-top-width: 10px;
+    margin-top: 10px;	
+}
 /*徽章字体颜色*/
 .badge{
 	 color: #f2dede;;
