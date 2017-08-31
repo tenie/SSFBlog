@@ -60,10 +60,12 @@ public class CleanBlogPageController {
 	public ResponseEntity<Result>   htmlView( @PathVariable(value="limit") Integer limit ,
 							@PathVariable(value="offset") Integer offset ,
 							@PathVariable(value="getCount") String getCount ,UriComponentsBuilder uriCB) throws ServletException{
-//	String str = null;
-//	Integer i = Integer.valueOf(str);
-		logger.info("index_page data begin ");
-		  Result rs = null;
+		
+	  logger.info("index_page data begin ");
+//	  CecheResult.ge
+	  
+	  
+	  Result rs = null;
 		//判断是否登入 
 	  boolean bool =SessionUtil.islogin(); 
 	  //获取缓存 
@@ -81,16 +83,16 @@ public class CleanBlogPageController {
 	      }
 	  } 
 		  //结果集赋值
-	     if(rs==null){
-	    	  rs = new Result();
-	    	  rs.setMapRs(search.indexSearch(limit, offset, getCount)); 
-		      //缓存
-		      if(bool && "1".equals(getCount )){
-		    	  CecheResult.setLogincacheRS(rs);
-		      }else if(!bool && "1".equals(getCount)){ 
-		    	  CecheResult.setCacheRS(rs);
-		      }  
-	     }
+	  if(rs==null){
+    	  rs = new Result();
+    	  rs.setMapRs(search.indexSearch(limit, offset, getCount)); 
+	      //缓存
+	      if(bool && "1".equals(getCount )){
+	    	  CecheResult.setLogincacheRS(rs);
+	      }else if(!bool && "1".equals(getCount)){ 
+	    	  CecheResult.setCacheRS(rs);
+	      }  
+	  }
 	      
 	  
 	  

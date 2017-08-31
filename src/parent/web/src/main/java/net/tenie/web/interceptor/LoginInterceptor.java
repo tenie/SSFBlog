@@ -19,7 +19,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
                              Object handler) throws Exception { 
 //		System.out.println("request.getContextPath() = "+request.getSession().getServletContext().getRealPath("/")  );
 		
-		
+	
 		ObjectMapper objectMapper =new ObjectMapper(); 
 //		HttpServletRequest httpServletRequest =   request; 
 //		查看session过期时间单位为妙
