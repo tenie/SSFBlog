@@ -10,8 +10,36 @@ public class LoginSession {
 	private Boolean isLog = false;
 	private String url;
 	private String imageCode;
+	private String host;
+	private String sessioId;
+    private String userAgent;
+    
 	
 	
+
+	public String getUserAgent() {
+		return userAgent;
+	}
+
+	public void setUserAgent(String userAgent) {
+		this.userAgent = userAgent;
+	}
+
+	public String getSessioId() {
+		return sessioId;
+	}
+
+	public void setSessioId(String sessioId) {
+		this.sessioId = sessioId;
+	}
+
+	public String getHost() {
+		return host;
+	}
+
+	public void setHost(String host) {
+		this.host = host;
+	}
 
 	public String getImageCode() {
 		return imageCode;
