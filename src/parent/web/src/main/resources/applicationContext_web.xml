@@ -34,7 +34,7 @@
 			class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer" id="f4config">
 			<property name="locations">
 				<list>
-					<value>classpath:webconfig.properties</value>
+					<value>classpath:webconfigs.properties</value>
 					<!-- <value>classpath:dmsFramework.properties</value>
 					<value>classpath*:*_sql.properties</value> -->
 				</list>
