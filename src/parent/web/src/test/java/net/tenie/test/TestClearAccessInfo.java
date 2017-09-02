@@ -3,6 +3,9 @@ package net.tenie.test;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Map;
+import java.util.Set;
+import java.util.Map.Entry;
 
 import org.junit.Test;
 
@@ -26,6 +29,12 @@ public class TestClearAccessInfo {
 		CecheResult.rmSeeion(calendar);
 		
 		System.out.println(CecheResult.getSessionMap());
+		
+		 Set<Entry<String, AccessInfo>> sets  =CecheResult.getSessionMap().entrySet();
+		 for(Entry entry: sets ) { 
+			 System.out.println(entry.getKey());
+			 System.out.println(entry.getValue());
+		 }
 		
 	}
 

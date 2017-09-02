@@ -24,10 +24,19 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 //		HttpServletRequest httpServletRequest =   request; 
 //		查看session过期时间单位为妙
 //		System.out.println("session="+request.getSession().getMaxInactiveInterval());
+		
         //获取请求的URL
         String path = request.getRequestURI();
         LoginSession loginInfo = SessionUtil.getSession();//ApplicationContextHelper.getBeanByType(LoginSession.class);
-        loginInfo.setUrl(path); 
+        String host = request.getHeader("host"); 
+        loginInfo.setHost(host); 
+        loginInfo.setSessioId(request.getRequestedSessionId());  
+        String client =  request.getHeader("user-agent");
+        loginInfo.setUserAgent(client);
+        
+        loginInfo.setUrl(path);
+        
+        
 		if(   path.indexOf("/submitPublishdata") >=0  //updatePublishdata
 		   || path.indexOf("/updatePublishdata") >=0
 		   || path.indexOf("/article/delete") >=0

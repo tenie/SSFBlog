@@ -1,6 +1,7 @@
 package net.tenie.web.aop;
  
 import java.sql.Connection;
+import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,10 +19,10 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import net.tenie.web.entity.AccessInfo;
 import net.tenie.web.service.CecheResult;
 import net.tenie.web.session.LoginSession;
-import net.tenie.web.session.SessionUtil;
-import net.tenie.web.tools.ApplicationContextHelper;
+import net.tenie.web.session.SessionUtil; 
 
 @Component   //将其纳入SpringIOC
 @Aspect       //声明是一个方面组件类
@@ -31,7 +32,12 @@ public class OperateLogger{
 	//前置,后置,最终通知写法
 @Before("within(net.tenie.web.controller.*)")  //表达式表示要作用在哪些目标的上,这里作用到了所以的Controller类上了
  public void log1(){ 
-  
+	LoginSession loginInfo = SessionUtil.getSession();
+	AccessInfo info = new AccessInfo();
+	info.setDate(new Date());
+	info.setHost(loginInfo.getHost()); 
+	info.setUserAgent(loginInfo.getUserAgent());
+	CecheResult.addSession(loginInfo.getSessioId(), info);
 }
  //环绕  
  @Transactional(timeout=2)

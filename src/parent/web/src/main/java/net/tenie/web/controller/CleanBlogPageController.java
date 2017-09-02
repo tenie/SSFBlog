@@ -61,9 +61,7 @@ public class CleanBlogPageController {
 							@PathVariable(value="offset") Integer offset ,
 							@PathVariable(value="getCount") String getCount ,UriComponentsBuilder uriCB) throws ServletException{
 		
-	  logger.info("index_page data begin ");
-//	  CecheResult.ge
-	  
+	  logger.info("index_page data begin ");  
 	  
 	  Result rs = null;
 		//判断是否登入 

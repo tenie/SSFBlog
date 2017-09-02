@@ -5,7 +5,15 @@ import java.util.Date;
 public class AccessInfo {
 	private String host;
 	private Date date;
+	private String userAgent;
 	
+	
+	public String getUserAgent() {
+		return userAgent;
+	}
+	public void setUserAgent(String userAgent) {
+		this.userAgent = userAgent;
+	}
 	public String getHost() {
 		return host;
 	}
