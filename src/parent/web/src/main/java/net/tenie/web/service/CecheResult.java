@@ -34,10 +34,11 @@ public class CecheResult {
 	public static String sessionMapToString(){
 		String rs ="";
 		Set<Entry<String, AccessInfo>> vals = sessionMap.entrySet();
+		int index = 0;
 		for(Entry entry: vals) { 
 			
 			AccessInfo info = (AccessInfo) entry.getValue();
-			rs +="sessionID:"+entry.getKey();
+			rs += "("+ ++index+") sessionID:"+entry.getKey();
 			rs +="; host:"+ info.getHost();
 			rs +="; userAgent:"+ info.getUserAgent();
 			rs +=": data:"+ new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(info.getDate()) + "<br/>\n";
