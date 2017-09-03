@@ -50,9 +50,9 @@ public class CecheResult {
 	
 	//sessionID 加入到Map
 	public static void addSession(String key,AccessInfo value) {
+		if(key ==null ) return;
 		//如果已经在里面了
-		if(sessionMap.containsKey(key)) {
-//			Map m = sessionMap.get(key); 
+		if(sessionMap.containsKey(key)) { 
 		}else {
 			sessionMap.put(key, value);
 			logger.info("add new sessionMap ==" + key);
