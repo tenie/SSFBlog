@@ -14,6 +14,13 @@ import javax.mail.internet.MimeMessage;
 public class SendEMail { 
 
 	public static void simpleSendMail(String to,String from,String password,String host,String Subject,String body) throws UtilException, MessagingException{
+		
+		System.out.println("email info : to="+to+
+				"\n from="+from+
+				"\n password="+password+
+				"\n host="+host+
+				"\n Subject="+Subject+
+				"\n body="+body);
 		if( StringUtils.isNullOrEmpty(to) &&
 				StringUtils.isNullOrEmpty(from) && 
 				StringUtils.isNullOrEmpty(host) &&
@@ -26,7 +33,8 @@ public class SendEMail {
 	      // 获取系统属性
 	      Properties properties = System.getProperties();   
 	      //授权者;发信的帐号密码 
-	      if(password.length()>0){  
+	      if(password.length()>0){
+	    	  System.out.println("use password send ....");
 		      // 设置邮件服务器
 		      properties.setProperty("mail.smtp.host", host);
 		      properties.put("mail.smtp.auth", "true"); 
@@ -39,14 +47,14 @@ public class SendEMail {
 	          message.setContent(body,  "text/html;charset=utf-8" );  
 	          Transport.send(message);  
 	      }else{
-	    	 
+	    	  System.out.println("not use password send ....");
 		      properties.setProperty("mail.smtp.host", "localhost"); 
 		      Session session = Session.getInstance(properties);//,authenticator);  
 		      MimeMessage message = new MimeMessage(session);   
 		      message.addRecipient(Message.RecipientType.TO,   new InternetAddress(to));  
 		      message.setSubject(Subject,"utf-8");   
 		      message.setContent(body,  "text/html;charset=utf-8" );  
-		         Transport.send(message);  
+		      Transport.send(message);  
 	      } 
   	  }catch (MessagingException mex) {
 	         mex.printStackTrace();

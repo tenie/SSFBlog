@@ -37,7 +37,9 @@ public class OperateLogger{
 	info.setDate(new Date());
 	info.setHost(loginInfo.getHost()); 
 	info.setUserAgent(loginInfo.getUserAgent());
-	CecheResult.addSession(loginInfo.getSessioId(), info);
+	String sessionid = loginInfo.getSessionId();
+	String key = loginInfo.getHost() + (sessionid!=null?sessionid:"");
+	CecheResult.addSession(key, info);
 }
  //环绕  
  @Transactional(timeout=2)
