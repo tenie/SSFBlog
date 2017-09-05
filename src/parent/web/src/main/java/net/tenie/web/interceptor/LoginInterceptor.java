@@ -30,7 +30,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
         LoginSession loginInfo = SessionUtil.getSession();//ApplicationContextHelper.getBeanByType(LoginSession.class);
         String host = request.getHeader("host"); 
         loginInfo.setHost(host); 
-        loginInfo.setSessioId(request.getRequestedSessionId());  
+        loginInfo.setSessionId(request.getRequestedSessionId());  
         String client =  request.getHeader("user-agent");
         loginInfo.setUserAgent(client);
         

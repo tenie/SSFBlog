@@ -11,7 +11,7 @@ public class LoginSession {
 	private String url;
 	private String imageCode;
 	private String host;
-	private String sessioId;
+	private String sessionId;
     private String userAgent;
     
 	
@@ -25,12 +25,12 @@ public class LoginSession {
 		this.userAgent = userAgent;
 	}
 
-	public String getSessioId() {
-		return sessioId;
+	public String getSessionId() {
+		return sessionId;
 	}
 
-	public void setSessioId(String sessioId) {
-		this.sessioId = sessioId;
+	public void setSessionId(String sessionId) {
+		this.sessionId = sessionId;
 	}
 
 	public String getHost() {
@@ -68,8 +68,11 @@ public class LoginSession {
 
 	@Override
 	public String toString() {
-		return "LoginSession [isLog=" + isLog + ", url=" + url + ", imageCode=" + imageCode + "]";
+		return "LoginSession [isLog=" + isLog + ", url=" + url + ", imageCode=" + imageCode + ", host=" + host
+				+ ", sessionId=" + sessionId + ", userAgent=" + userAgent + "]";
 	}
+
+	 
 
 	 
 
