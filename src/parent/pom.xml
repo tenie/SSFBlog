@@ -522,6 +522,19 @@
 						</lifecycleMappingMetadata>
 					</configuration>
 				</plugin>  
+				
+				<!--  排除包-->
+				<plugin> 
+					<artifactId>maven-war-plugin</artifactId> 
+					<version>3.0.0</version> 
+					<configuration> 
+					<!-- Exclude JCL and LOG4J since all logging should go through SLF4J. Note that we're excluding log4j-<version>.jar but keeping log4j-over-slf4j-<version>.jar -->
+					<packagingExcludes> 
+						 WEB-INF/lib/slf4j-log4j12-1.7.19.jar
+				   </packagingExcludes> 
+				   </configuration> 
+				</plugin>
+
 	    </plugins>  
 	</pluginManagement>
 	</build>  
