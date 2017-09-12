@@ -33,6 +33,6 @@
 	</logger> --> 
 	<root level="all">
 		  <appender-ref ref="console" /> 
-		<!-- <appender-ref ref="file" />   -->
+		 <appender-ref ref="file" />   
 	</root>
 </configuration> 
