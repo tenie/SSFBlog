@@ -89,7 +89,7 @@ ssfblog.tagSearch=function(tag){
 	$.get(url,function(data){  
 		//console.log(data)
 		$("#pageTitleContainer").html("");
-		$("#loading").removeClass("hidden");
+		$("#loader-wrapper").removeClass("hidden");
 		$("#previous").hide();
 		$("#next").hide();
 		var callback = function(){
@@ -215,9 +215,9 @@ ssfblog.initIndex=function(datas,callback){ //date是查询到的博客标题信
 //			publicbtn.parent().removeClass("disabled")
 			
 		}
-		//loading动画操作
+		//loader-wrapper动画操作
 		setTimeout(function(){
-			$("#loading").addClass("hidden")
+			$("#loader-wrapper").addClass("hidden")
 			$("#pageTitleContainer").show("slow");
 			if(callback){
 				callback();
@@ -836,7 +836,7 @@ ssfblog.offkey13=function(el){
 
 
 
-//ajax 调用的时候添加loading 效果
+//ajax 调用的时候添加loader-wrapper 效果
 ssfblog.ajax=function(method,url, data,successfunc){
 	if(method == "post"){
 		$.post(url,data,function(data){
@@ -1411,14 +1411,14 @@ $(function(){
 		 if((ssfblog.pageInfo.offset+ssfblog.pageInfo.limit) >=ssfblog.pageInfo.count){ 
 				 return
 			 }
-		 $("#loading").removeClass("hidden");
+		 $("#loader-wrapper").removeClass("hidden");
 			//$("#pageTitleContainer").show("slow");
 		 var p =  pageSplit();    
 		 
 		  $.get("/pageTitle/0/"+p.limit+"/"+p.offset,function(data){    
 			  $("#pageTitleContainer").html("");	
 			   ssfblog.initIndex(data)
-			  // $("#loading").hide("slow");
+			  // $("#loader-wrapper").hide("slow");
 			})    
 	 })
 	 //上一页
@@ -1427,7 +1427,7 @@ $(function(){
 		 if(ssfblog.pageInfo.index <=0){ 
 			 return
 		 }  
-		 $("#loading").removeClass("hidden");
+		 $("#loader-wrapper").removeClass("hidden");
 		  var p =  pageSplit({previous:true}); 
 		
 		  $.get("/pageTitle/0/"+p.limit+"/"+p.offset,function(data){ 
@@ -1438,7 +1438,9 @@ $(function(){
 	 
 	}
 	
-	
+//	setTimeout(function(){
+//		$("#loader-wrapper").removeClass("in")
+//	},100)
 })
 //联系页面初始化
 ssfblog.contactInitfunc=function(){
@@ -1490,7 +1492,7 @@ ssfblog.postpageInitfunc=function(){
 			}
 		})	
 	});
-	$("#loader-wrapper").removeClass("in")
+//	$("#loader-wrapper").removeClass("in")
 	
 }
 //搜索main
@@ -1508,7 +1510,7 @@ ssfblog.search=function(val){
 		//console.log(data)
 		$("#pageTitleContainer").html("");
 		
-		$("#loading").removeClass("hidden");
+		$("#loader-wrapper").removeClass("hidden");
 		$("#previous").hide();
 		$("#next").hide();
 		//回调函数
