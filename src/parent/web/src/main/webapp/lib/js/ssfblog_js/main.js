@@ -1453,6 +1453,7 @@ ssfblog.contactInitfunc=function(){
 }
 //阅读页面初始化方法
 ssfblog.postpageInitfunc=function(){
+	 
 //	var islogin = $("#islogin").val();
 //	if('false'==islogin){
 //		window.sessionStorage.setItem("signIn","out");
@@ -1485,10 +1486,12 @@ ssfblog.postpageInitfunc=function(){
 				$("#likecount").text(data.msg)
 				$("#postLike").text(data.msg)
 				$("#faHeart").removeClass("fa-heart-o").addClass("fa-heart")
-				$("#likebtn").off("click")
+				$("#likebtn").off("click") 
 			}
 		})	
 	});
+	$("#loader-wrapper").removeClass("in")
+	
 }
 //搜索main
 ssfblog.search=function(val){
