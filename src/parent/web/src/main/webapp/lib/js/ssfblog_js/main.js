@@ -1438,9 +1438,7 @@ $(function(){
 	 
 	}
 	
-//	setTimeout(function(){
-//		$("#loader-wrapper").removeClass("in")
-//	},100)
+	
 })
 //联系页面初始化
 ssfblog.contactInitfunc=function(){
@@ -1493,7 +1491,9 @@ ssfblog.postpageInitfunc=function(){
 		})	
 	});
 //	$("#loader-wrapper").removeClass("in")
-	
+	setTimeout(function(){
+		$("#loader-wrapper").removeClass("in")
+	},800)
 }
 //搜索main
 ssfblog.search=function(val){
