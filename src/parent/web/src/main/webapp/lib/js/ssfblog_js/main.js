@@ -231,38 +231,47 @@ ssfblog.initIndex=function(datas,callback){ //date是查询到的博客标题信
 			
 		},500) 
 		
-		//置顶按钮 
-		 $(".top_tag").click(function(){
-			 var thiz = $(this)  
-			 var top="1"; //1表示不置顶, 0表示置顶',
-			 function changetag(thiz){
-				 if(thiz.hasClass("blogtop_flag")){
-					 thiz.removeClass("blogtop_flag").addClass("unblogtop_flag")
-					 thiz.find("i").removeClass("fa-flag").addClass("fa-flag-o")
-					 top = "0"
-				 }else   if(thiz.hasClass("unblogtop_flag")){
-					 thiz.removeClass("unblogtop_flag").addClass("blogtop_flag")
-					 thiz.find("i").removeClass("fa-flag-o").addClass("fa-flag")
-					 top = "1"
-				 } 
-			 }
-			 changetag(thiz) 
-			 setTimeout(function(){ 
-				 if(  $.cookie("islogin") =="false"){
-					 ssfblog.alert("error","登入后才有权限操作~") 
-					 changetag(thiz)
-				 }else{
-					var a_href =  thiz.next().attr("href").split("/")[1]
-					 console.log(a_href)
-					 $.get("/article/setTop/"+a_href+"/"+top,function(date){
-						 console.log(date)
-					 })
-				 }
-			 },800)
-		 })
+		//置顶按钮  
+		ssfblog.setTop()
 		
 	})
 }
+//文章置顶设置
+ssfblog.setTop=function(id){
+	 $(".top_tag").click(function(){
+		 var thiz = $(this)  
+		 var top="1"; //1表示不置顶, 0表示置顶',
+		 function changetag(thiz){
+			 if(thiz.hasClass("blogtop_flag")){
+				 thiz.removeClass("blogtop_flag").addClass("unblogtop_flag")
+				 thiz.find("i").removeClass("fa-flag").addClass("fa-flag-o")
+				 top = "0"
+			 }else   if(thiz.hasClass("unblogtop_flag")){
+				 thiz.removeClass("unblogtop_flag").addClass("blogtop_flag")
+				 thiz.find("i").removeClass("fa-flag-o").addClass("fa-flag")
+				 top = "1"
+			 } 
+		 }
+		 changetag(thiz) 
+		 setTimeout(function(){ 
+			 if(  $.cookie("islogin") =="false"){
+				 ssfblog.alert("error","登入后才有权限操作~") 
+				 changetag(thiz)
+			 }else{ 
+				 console.log(id)
+				 if(!id){
+					 id =  thiz.next().attr("href").split("/")[1]
+				 }
+				
+				 $.get("/article/setTop/"+id+"/"+top,function(date){
+					 console.log(date)
+				 })
+			 }
+		 },800)
+	 })
+}
+
+
 //对文章信息修改页面内容的刷新
 ssfblog.refreshHtml=function(){
 	setTimeout(function(){location.reload();},500)  
@@ -1536,6 +1545,8 @@ ssfblog.postpageInitfunc=function(){
 	setTimeout(function(){
 		$("#loader-wrapper").removeClass("in")
 	},800)
+	console.log($("#postId").val())
+	ssfblog.setTop($("#postId").val())
 }
 //搜索main
 ssfblog.search=function(val){

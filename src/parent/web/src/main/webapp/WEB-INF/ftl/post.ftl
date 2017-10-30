@@ -271,8 +271,11 @@
                     <div class="post-heading">
                     	<p>
                     		<#if data.top == 0>
-                    		<span class='blogtop_flag'><i class='fa fa-flag' aria-hidden='true' style="float: left;margin-top: -5px;margin-right: 5px;"></i></span>
-                    		  <!-- <span class='blogtop' style="font-size: 16px;">[置顶]</span>-->
+                    		 
+                   			  <span class='blogtop_flag top_tag'><i class='fa fa-flag' aria-hidden='true' style="float: left;margin-top: -5px;margin-right: 5px;"></i></span>
+                     <!--	<span class='blogtop' style="font-size: 16px;">[置顶]</span>-->
+                     		<#else>
+                     		  <span class='unblogtop_flag top_tag'><i class='fa fa-flag-o' aria-hidden='true' style="float: left;margin-top: -5px;margin-right: 5px;"></i></span>
                     		</#if>
                     		<h1  id="post-title" style="display: inline;">${data.post_title} </h1>
                     		<input type="hidden" id='postId' value='${data.id}'>
