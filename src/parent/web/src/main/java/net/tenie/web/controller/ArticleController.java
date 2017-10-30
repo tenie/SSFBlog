@@ -290,6 +290,30 @@ public class ArticleController {
 	       request.setAttribute("tags", rsl);
 	       return "/publishPage";
 	    }
-		
+		/**
+		 * 首页置顶设置
+		 * @param request
+		 * @param response
+		 * @param id
+		 * @return
+		 * @throws ServletException
+		 * @throws IOException
+		 */
+		@RequestMapping(value="/setTop/{id}/{top}",method = RequestMethod.GET)
+		@ResponseBody 
+		public Result  setTop(HttpServletRequest request, HttpServletResponse response,@PathVariable("id") String id,@PathVariable("top") String top) throws ServletException, IOException{
+			int i = 0;
+			if("1".equals(top)) {
+				 i = Blog.update("top = ?","id=?", 0,id);
+			}else {
+				 i = Blog.update("top = ?","id=?", 1,id);
+			}
+			 
+			Result rs = new Result();
+			if(i!=1){
+				rs.setError(true);
+			}
+			return rs;
+	    }
 		 
 }

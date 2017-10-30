@@ -138,9 +138,15 @@ ssfblog.initIndex=function(datas,callback){ //date是查询到的博客标题信
 			
 			var top = $(data)[i].top
 			if(0==top){
-				titlestr= "<span class='blogtop'>[置顶]</span>"+titlestr;
+//				titlestr= "<span class='blogtop'>[置顶]</span>"+titlestr; 
+//				titlestr= "<span class='blogtop'><i class='fa fa-star' aria-hidden='true' style=' color: gold;'></i></span>"+titlestr;
+				titleTag= "<span class='blogtop_flag top_tag'><i class='fa fa-flag' aria-hidden='true'></i></span>";				
+			}else{
+				titleTag= "<span class='unblogtop_flag top_tag'><i class='fa fa-flag-o' aria-hidden='true'></i></span>";
 			}
+			post_title.eq(i).parent().before(titleTag)
 			post_title.eq(i).append(titlestr)
+//			post_title.eq(i).append(titlestr)
 //			post_title.eq(i).text($(data)[i].post_title)
 			//post_subtitle.eq(i).text($(data)[i].post_subtitle)
 			//编辑按钮
@@ -224,6 +230,36 @@ ssfblog.initIndex=function(datas,callback){ //date是查询到的博客标题信
 			}
 			
 		},500) 
+		
+		//置顶按钮 
+		 $(".top_tag").click(function(){
+			 var thiz = $(this)  
+			 var top="1"; //1表示不置顶, 0表示置顶',
+			 function changetag(thiz){
+				 if(thiz.hasClass("blogtop_flag")){
+					 thiz.removeClass("blogtop_flag").addClass("unblogtop_flag")
+					 thiz.find("i").removeClass("fa-flag").addClass("fa-flag-o")
+					 top = "0"
+				 }else   if(thiz.hasClass("unblogtop_flag")){
+					 thiz.removeClass("unblogtop_flag").addClass("blogtop_flag")
+					 thiz.find("i").removeClass("fa-flag-o").addClass("fa-flag")
+					 top = "1"
+				 } 
+			 }
+			 changetag(thiz) 
+			 setTimeout(function(){ 
+				 if(  $.cookie("islogin") =="false"){
+					 ssfblog.alert("error","登入后才有权限操作~") 
+					 changetag(thiz)
+				 }else{
+					var a_href =  thiz.next().attr("href").split("/")[1]
+					 console.log(a_href)
+					 $.get("/article/setTop/"+a_href+"/"+top,function(date){
+						 console.log(date)
+					 })
+				 }
+			 },800)
+		 })
 		
 	})
 }
@@ -1378,6 +1414,10 @@ $(function(){
 		ssfblog.initEditPublishPage_html()
 	}
 	else if($("body").hasClass("index_page")){//首页代码
+		
+		 
+		
+		
 		//搜索时 
 	 
 		var searchstr = location.search;
@@ -1435,6 +1475,8 @@ $(function(){
 			   ssfblog.initIndex(data	) 
 			})   
 	 })
+	 
+
 	 
 	}
 	
