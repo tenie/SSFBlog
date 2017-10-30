@@ -81,18 +81,26 @@ function cl(thiz){
 	$.cookie('postContent', rel, { expires: 1 }); 
 }
 
+//阅读页面的tagSearch
+ssfblog.tagSearch2=function(tag){
+
+	location.href="/index.html?tagsearch="+tag.substring(1,tag.length)
+	return
+}
+
 //搜索相同标题的内容在首页显示
 ssfblog.tagSearch=function(tag){
 	
 	tag = tag.substring(1,tag.length); 
 	var url = "/search/tagSearch/"+tag;
 	$.get(url,function(data){  
-		//console.log(data)
+		console.log(data)
 		$("#pageTitleContainer").html("");
 		$("#loader-wrapper").removeClass("hidden");
 		$("#previous").hide();
 		$("#next").hide();
 		var callback = function(){
+			 
 			$("a[rel='#"+tag+"']").addClass("tagSearch")
 		}
 		ssfblog.initIndex(data,callback);
@@ -1430,13 +1438,27 @@ $(function(){
 		//搜索时 
 	 
 		var searchstr = location.search;
-	 	if(searchstr=='?search'){  
+		//alert(searchstr+":"+searchstr.indexOf('1?search'))
+	 	if(searchstr.indexOf('?search')>-1){
+	 		//alert(searchstr)
 			setTimeout(function(){
 		 		val = $.cookie('searchVal') 
 		 		$("#searchInput").val( $.cookie('searchVal') );  
 			    ssfblog.showSearch(false);
 			    $("#search_a").click()//触发搜索按钮 
 			    $.removeCookie("searchVal")
+			   
+		 	 },300) 
+	 		return;
+	 	}else if(searchstr.indexOf('?tagsearch')>-1){
+	 		setTimeout(function(){
+		 		var val =  searchstr.split("=")[1]
+		 		if(val)
+		 		ssfblog.tagSearch("#"+val)
+//		 		$("#searchInput").val( $.cookie('searchVal') );  
+//			    ssfblog.showSearch(false);
+//			    $("#search_a").click()//触发搜索按钮 
+//			    $.removeCookie("searchVal")
 			   
 		 	 },300) 
 	 		return;
