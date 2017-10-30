@@ -291,7 +291,9 @@
 						<p style="    margin-top: 10px;">
 						<i class="fa fa-tags" aria-hidden="true"></i>
 						<#list tags as tag>
-							<span style ='color: #888b94;    padding: 1px 5px;    background: #f5f5f5;    border-bottom: none;    border-top-width: 10px;    margin-top: 10px;'	>${tag.tag}</span>  &nbsp;
+							<a href="#"> 
+							 <span style ='color: #888b94;    padding: 1px 5px;    background: #f5f5f5;    border-bottom: none;    border-top-width: 10px;    margin-top: 10px;' onclick='ssfblog.tagSearch2("${tag.tag}")'	>${tag.tag}</span>  &nbsp;
+						   </a>
 						</#list>
 						</p>	
                         
