@@ -36,12 +36,13 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
         
         loginInfo.setUrl(path);
         
-        
+        //权限控制
 		if(   path.indexOf("/submitPublishdata") >=0  //updatePublishdata
 		   || path.indexOf("/updatePublishdata") >=0
 		   || path.indexOf("/article/delete") >=0
 		   || path.indexOf("/article/publicContent") >=0
-		   || path.indexOf("/article/hiddenContent") >=0
+		   || path.indexOf("/article/hiddenContent") >=0  //
+		   || path.indexOf("/article/setTop") >=0 
 		   ){  
 			if(loginInfo.getIsLog()!=null && loginInfo.getIsLog()){ 
 				return true;

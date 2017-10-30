@@ -128,8 +128,21 @@ a:focus{
 	color: #a94442;
     font-size: 20px;
     padding-top: 5px;
-    float: left;
-    
+    float: left; 
+}
+.blogtop_flag{
+	color: red;
+    font-size: 15px;
+    padding-top: 16px;
+    padding-right: 6px;
+    float: left; 
+}
+.unblogtop_flag{
+	color: #b3b3b3;
+    font-size: 15px;
+    padding-top: 16px;
+    padding-right: 6px;
+    float: left; 
 }
 
 
