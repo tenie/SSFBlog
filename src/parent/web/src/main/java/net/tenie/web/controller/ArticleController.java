@@ -40,7 +40,8 @@ import net.tenie.web.entity.VisitorDTO;
 import net.tenie.web.service.CecheResult;
 import net.tenie.web.session.LoginSession;
 import net.tenie.web.session.SessionUtil;
-import net.tenie.web.tools.ApplicationContextHelper; 
+import net.tenie.web.tools.ApplicationContextHelper;
+import net.tenie.web.tools.ToolsLib; 
 /**
  * 获取文章正文
  * @author tenie
@@ -86,7 +87,8 @@ public class ArticleController {
 	    	   blog.setInteger("read_quantity",index );
 	    	   blog.saveIt(); 
 		       //评论数据
-		      List<BlogComment>  BlogCommentlist=BlogComment.where("post_id= ? and parent_id is null or parent_id = '' ",id).load();
+	    	   
+		      List<BlogComment>  BlogCommentlist=BlogComment.where("post_id= ?  and parent_id is null ",id).load();
 		      List<Map> rs = new ArrayList();
 		      for(BlogComment bc:BlogCommentlist){ 
 		    	  Map<String,Object> rmap = bc.toMap();
@@ -174,7 +176,9 @@ public class ArticleController {
 			
 			comment.setString("post_id",visitor.getPostId());
 			comment.setString("name",visitor.getName());
-			comment.setString("comment",visitor.getComment());
+			String commentStr = visitor.getComment();
+			commentStr = ToolsLib.deleteAllHTMLTag(commentStr);
+			comment.setString("comment",commentStr);
 			comment.setString("email", visitor.getEmail());
 			comment.setString("url", visitor.getUrl());
 			if(parentId !=null && !"".equals(parentId) &&  !"-1".equals(parentId)){

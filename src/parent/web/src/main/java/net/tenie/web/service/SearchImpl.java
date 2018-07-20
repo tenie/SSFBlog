@@ -31,12 +31,12 @@ public class SearchImpl implements Search {
 		 tag = "#"+tag;
 		 //登入过的查询
 		 if(bool ){ 
-			  list=jdbc.queryForList("select DISTINCT b.id,b.post_title,b.time,b.show_content,b.top from blog_tag a  "
+			  list=jdbc.queryForList("SELECT DISTINCT B.ID,B.POST_TITLE,B.TIME,B.SHOW_CONTENT,B.TOP from blog_tag a  "
 			  		+ " left JOIN blog b on b.id = a.blog_id  "
 			  		+ "   where  1=1  and a.tag =?  ORDER BY b.top,b.id  DESC ",tag);
 		        
 		 }else{
-			 list=jdbc.queryForList("select DISTINCT b.id,b.post_title,b.time,b.show_content,b.top from blog_tag a  "
+			 list=jdbc.queryForList("SELECT DISTINCT B.ID,B.POST_TITLE,B.TIME,B.SHOW_CONTENT,B.TOP from blog_tag a  "
 				  		+ " left JOIN blog b on b.id = a.blog_id  "
 				  		+ "   where  1=1  and b.show_content=1 and a.tag =?  ORDER BY b.top,b.id  DESC ",tag); 
 		 }
@@ -99,16 +99,16 @@ public class SearchImpl implements Search {
 		 boolean bool =SessionUtil.islogin(); 
 		 //登入过的查询
 		 if(bool ){
-			  list=jdbc.queryForList("select id,post_title,time,show_content,top from blog where  1=1 ORDER BY top,id  DESC limit ? offset ?",limit,offset);
+			  list=jdbc.queryForList("SELECT ID,POST_TITLE,TIME,SHOW_CONTENT,TOP FROM BLOG where  1=1 ORDER BY top,id  DESC limit ? offset ?",limit,offset);
 		      //获取总行数,对分页最后页做判断时需要
 		      if("1".equals(getCount)){
-		    	 countList =  jdbc.queryForList("select count(id) as count from blog");
+		    	 countList =  jdbc.queryForList("SELECT COUNT(ID) AS COUNT FROM BLOG");
 		      }     
 		 }else{
-			 list=jdbc.queryForList("select id,post_title,time,show_content,top from blog where show_content=1  ORDER BY top,id  DESC limit ? offset ?",limit,offset);
+			 list=jdbc.queryForList("SELECT ID,POST_TITLE,TIME,SHOW_CONTENT,TOP FROM BLOG where show_content=1  ORDER BY top,id  DESC limit ? offset ?",limit,offset);
 		      //获取总行数,对分页最后页做判断时需要
 		      if("1".equals(getCount)){
-		    	 countList =  jdbc.queryForList("select count(id) as count from blog where show_content=1");
+		    	 countList =  jdbc.queryForList("SELECT COUNT(ID) AS COUNT from blog where show_content=1");
 		      } 
 		 }
 		 List<Map<String, Object>> Rslist=new ArrayList<>();
