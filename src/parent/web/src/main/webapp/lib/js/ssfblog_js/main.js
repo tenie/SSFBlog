@@ -119,6 +119,7 @@ ssfblog.initIndex=function(datas,callback){ //date是查询到的博客标题信
 //		window.sessionStorage.setItem("signIn","out");
 //	}
 	$.get("/index_contentTitle.html",function(htmldata){  //获取展示的html样式 
+		
 		$("#pageTitleContainer").hide("slow");
 		//console.log(date)  
 		var f = ""
@@ -128,7 +129,7 @@ ssfblog.initIndex=function(datas,callback){ //date是查询到的博客标题信
 		}
 		//console.log(f)
 		pageTitleContainer.append(f) 
-		var post_title = pageTitleContainer.find(".post-title")	//主题
+		var POST_TITLE = pageTitleContainer.find(".post-title")	//主题
 		var badge = pageTitleContainer.find("span[class*=badge]")	//徽章 
 		var post_subtitle = pageTitleContainer.find(".post-subtitle") //标签
 		var time = pageTitleContainer.find(".post_time")					//时间
@@ -139,12 +140,12 @@ ssfblog.initIndex=function(datas,callback){ //date是查询到的博客标题信
 		var hiddenbtn =  pageTitleContainer.find("a[class*='hiddenbtn']")  //私有按钮
 		var editbtn =  pageTitleContainer.find("a[class*='editbtn']") 
 		 
-		//解析数据,给页面赋值
+		//解析数据,给页面赋值 POST_TITLE
 		for(i=0;i<datalen;i++){  
-			a.eq(i).attr("href","article/"+$(data)[i].id)
-			var titlestr ="<b>" +$(data)[i].post_title+"</b>"
-			
-			var top = $(data)[i].top
+			a.eq(i).attr("href","article/"+$(data)[i].ID)
+			var titlestr ="<b>" +$(data)[i].POST_TITLE+"</b>"
+			console.log(data)
+			var top = $(data)[i].TOP
 			if(0==top){
 //				titlestr= "<span class='blogtop'>[置顶]</span>"+titlestr; 
 //				titlestr= "<span class='blogtop'><i class='fa fa-star' aria-hidden='true' style=' color: gold;'></i></span>"+titlestr;
@@ -152,14 +153,14 @@ ssfblog.initIndex=function(datas,callback){ //date是查询到的博客标题信
 			}else{
 				titleTag= "<span class='unblogtop_flag top_tag'><i class='fa fa-flag-o' aria-hidden='true'></i></span>";
 			}
-			post_title.eq(i).parent().before(titleTag)
-			post_title.eq(i).append(titlestr)
-//			post_title.eq(i).append(titlestr)
-//			post_title.eq(i).text($(data)[i].post_title)
+			POST_TITLE.eq(i).parent().before(titleTag)
+			POST_TITLE.eq(i).append(titlestr)
+//			POST_TITLE.eq(i).append(titlestr)
+//			POST_TITLE.eq(i).text($(data)[i].POST_TITLE)
 			//post_subtitle.eq(i).text($(data)[i].post_subtitle)
 			//编辑按钮
 				if(signIn){
-					editbtn.eq(i).attr("href","/article/getEditPage/"+$(data)[i].id);
+					editbtn.eq(i).attr("href","/article/getEditPage/"+$(data)[i].ID);
 				}else{
 					editbtn.eq(i).attr("onclick",'ssfblog.alert("warning","需要登入才可编辑~")');
 				}
@@ -173,11 +174,11 @@ ssfblog.initIndex=function(datas,callback){ //date是查询到的博客标题信
 			}
 			
 			
-			time.eq(i).text($(data)[i].time)
-//		 	src_page.eq(i).attr("rel",$(data)[i].id)  //使用url来获取文章了, 不需要这个了
-			delBtn.eq(i).attr("rel",$(data)[i].id)
+			time.eq(i).text($(data)[i].TIME)
+//		 	src_page.eq(i).attr("rel",$(data)[i].ID)  //使用url来获取文章了, 不需要这个了
+			delBtn.eq(i).attr("rel",$(data)[i].ID)
 			
-			if($(data)[i].show_content == 0){  //显示徽章
+			if($(data)[i].SHOW_CONTENT == 0){  //显示徽章
 				badge.eq(i).removeClass("hidden")  
 				publicbtn.eq(i).parent().removeClass("disabled") //徽章显示(私有文章), 公布按钮点亮
 			}else{
@@ -583,10 +584,10 @@ ssfblog.editPage=function(id){
 					$.get("/article/get/"+id,function(data){    
 						$("#editPublishdataForm div[class='simditor-placeholder']").empty()
 							$("#editPublishdataForm div[class='simditor-body']").empty().append(data.mapRs.post_content)  
-							$('#editpublishTitle').val(data.mapRs.post_title)
+							$('#editpublishTitle').val(data.mapRs.POST_TITLE)
 							$("#editPageID").val(id) 
 							 
-							var stateTf = data.mapRs.show_content==1?true:false;
+							var stateTf = data.mapRs.SHOW_CONTENT==1?true:false;
 							$("#editshowContent").val(stateTf) 
 							var istop = data.mapRs.top==0?true:false;
 							$("#editisTop").val(istop) 
@@ -1661,7 +1662,7 @@ ssfblog.initEditPublishPage_html=function(){
 //	if(!postContent){return}
 //	$.get("/pageTitle/postContent/"+postContent,function(data){ 
 //		$(".post-heading").append('<span class="meta" id="time">Posted by <a href="#">Tenie Bolg</a> on '+$(data)[0].time+' </span>')
-//		$("#post-title").text($(data)[0].post_title)
+//		$("#post-title").text($(data)[0].POST_TITLE)
 //		$("#post-subtitle").text($(data)[0].post_subtitle)
 //		$("#postContent").html($(data)[0].post_content)
 //	}) 

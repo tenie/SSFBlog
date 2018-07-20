@@ -22,19 +22,17 @@
         
 	<beans profile="source,test">
 		 
-		<context:component-scan base-package="net.tenie.**" />
-		<context:annotation-config/>  
-		<mvc:annotation-driven></mvc:annotation-driven>
+		
 		 <!-- 支持RESTful配置:将拦截的静态资源js,css等放过去 -->
 		 <mvc:default-servlet-handler/>	 
 		 <!--  AOP 注解扫描-->
 		 <aop:aspectj-autoproxy proxy-target-class="true"/>
 		 <!-- 引入properties文件 -->
 		<bean
-			class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer" id="f4config">
+			class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer" id="kv">
 			<property name="locations">
-				<list>
-					<value>classpath:webconfigs.properties</value>
+				<list>				 
+					<value>classpath:webconfig.properties</value>
 					<!-- <value>classpath:dmsFramework.properties</value>
 					<value>classpath*:*_sql.properties</value> -->
 				</list>
@@ -50,12 +48,9 @@
 		</bean> -->
 		
 		 <bean id="ds"   class="org.apache.commons.dbcp.BasicDataSource"    destroy-method="close">  
-	     <!--    <property name="driverClassName" value="com.mysql.jdbc.Driver"/>  
-	        <property name="url" value="jdbc:mysql://192.168.0.109:3306/test?useUnicode=true&characterEncoding=UTF-8"/>  
-	        <property name="username" value="root"/>  
-	        <property name="password" value="root"/>   -->
+	     
 	        <property name="url" value="${net.tenie.url}"></property>
-			<property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
+			<property name="driverClassName" value="${net.tenie.driver}"></property>
 			<property name="username" value="${net.tenie.username}"></property>
 			<property name="password" value="${net.tenie.password}"></property>
 	        <!--maxActive: 最大连接数量-->    
@@ -179,19 +174,23 @@
         </property>
     </bean>
     <!--视图解释器 -->  
-<bean id="viewResolver"  
-      class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">  
-    <property name="suffix">  
-        <value>.ftl</value>  
-    </property>  
-    <property name="contentType" value="text/html;charset=UTF-8"></property>  
-</bean>
+	<bean id="viewResolver"  
+	      class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">  
+	    <property name="suffix">  
+	        <value>.ftl</value>  
+	    </property>  
+	    <property name="contentType" value="text/html;charset=UTF-8"></property>  
+	</bean>
 
-<!-- 获得验证框架 -->
+	<!-- 获得验证框架 -->
 	<!-- 获得验证框架 -->
 		<bean id="validationFactory" class="javax.validation.Validation" factory-method="buildDefaultValidatorFactory"/>
 		<bean id="Validator" factory-bean="validationFactory" factory-method="getValidator" />    
-  	
+		
+	<!-- 扫描注解bean -->	
+  	<context:component-scan base-package="net.tenie.**" />
+	<context:annotation-config/>  
+	<mvc:annotation-driven></mvc:annotation-driven>
   	
 	</beans>
 
