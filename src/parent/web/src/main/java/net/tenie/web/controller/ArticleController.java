@@ -1,32 +1,18 @@
 package net.tenie.web.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
+import java.util.ArrayList; 
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.sql.DataSource;
+import javax.servlet.http.HttpServletResponse; 
 import javax.validation.Valid;
-
-import org.apache.commons.dbcp.BasicDataSource;
-import org.javalite.activejdbc.Base;
-import org.javalite.activejdbc.DB;
-import org.javalite.activejdbc.LazyList;
-import org.javalite.activejdbc.Model;
-import org.javalite.activejdbc.annotations.DbName;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
+ 
+import org.javalite.activejdbc.LazyList; 
+import org.springframework.beans.factory.annotation.Value; 
+import org.springframework.stereotype.Controller; 
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -36,8 +22,7 @@ import net.tenie.pojo.Blog;
 import net.tenie.pojo.BlogComment;
 import net.tenie.pojo.BlogTag;
 import net.tenie.web.entity.Result;
-import net.tenie.web.entity.VisitorDTO;
-import net.tenie.web.service.CecheResult;
+import net.tenie.web.entity.VisitorDTO; 
 import net.tenie.web.session.LoginSession;
 import net.tenie.web.session.SessionUtil;
 import net.tenie.web.tools.ApplicationContextHelper;
@@ -50,11 +35,13 @@ import net.tenie.web.tools.ToolsLib;
 @Controller
 @RequestMapping("/article")
 public class ArticleController {
-		@Autowired  
-		private JdbcTemplate jdbc; 
+//		@Autowired  
+//		private JdbcTemplate jdbc; 
 		
 		@Value("${who.am.i}")
 		private String myname;
+		
+		
 		
 		/**
 		 * 文章阅读页面
@@ -69,33 +56,19 @@ public class ArticleController {
 		public String htmlContent2(HttpServletRequest request, HttpServletResponse response,@PathVariable("id") String id) throws ServletException, IOException{
 		   //判断是否登入
 		   LoginSession session = SessionUtil.getSession();
-		   boolean islog = session.getIsLog();
-		   Blog blog;
-		   if(islog){
-			    blog = new Blog().findById(id);
-		   }else{
-			    blog = new Blog().findFirst("id=? and show_content=1", id);
-		   }
+		   boolean islog = session.getIsLog(); 
+		   // 获取博客
+		   Blog blog = getBlogById(islog, id); 
 	       
 	       if(blog==null){ 
 	    	    return  "/error-page/404";
 	       }else{
-	    	   //标签搜索
-	    	   LazyList<BlogTag> taglist =	BlogTag.where("blog_id=?", id).load(); 
-	    	   Integer index = blog.getInteger("read_quantity");
-	    	   index++;
-	    	   blog.setInteger("read_quantity",index );
-	    	   blog.saveIt(); 
-		       //评论数据
-	    	   
+	    	   //标签
+	    	  LazyList<BlogTag> taglist =	BlogTag.where("blog_id=?", id).load();  
+		       //评论
 		      List<BlogComment>  BlogCommentlist=BlogComment.where("post_id= ?  and parent_id is null ",id).load();
-		      List<Map> rs = new ArrayList();
-		      for(BlogComment bc:BlogCommentlist){ 
-		    	  Map<String,Object> rmap = bc.toMap();
-		    	  rmap.put("subcomment", BlogComment.where("post_id=? and parent_id=?", id,bc.getId()).load()); 
-		    	  rs.add(rmap);
-		      } 
-		      Map<String,String> map = new LinkedHashMap(); 
+		      List<Map<String,Object>> rs = getcommentsById(id,BlogCommentlist); 
+		      
 		      request.setAttribute("data", blog);
 	    	  request.setAttribute("tags", taglist);
 		      request.setAttribute("isLog",islog); 
@@ -115,7 +88,7 @@ public class ArticleController {
 		@RequestMapping(value="/get/{id}",method = RequestMethod.GET) 
 		@ResponseBody
 		public Result getContent(@PathVariable("id") String id) throws ServletException, IOException{ 
-	       Blog blog = new Blog().findById(id); 
+	       Blog blog = Blog.findById(id); 
 	       Result rs = new Result();
 	       Map<String, Object> map = blog.toMap();
 	       LazyList<BlogTag> taglist =	BlogTag.where("blog_id=?", id);
@@ -199,7 +172,7 @@ public class ArticleController {
 		@RequestMapping(value="/likeplus/{id}",method = RequestMethod.GET) 
 		@ResponseBody
 		public Result likePlusPlus(@PathVariable("id") String id) throws ServletException, IOException{ 
-	       Blog blog = new Blog().findById(id); 
+	       Blog blog = Blog.findById(id); 
 	       Integer likecount = (blog.getInteger("post_like")+1);
 	       blog.setInteger("post_like", likecount);
 	       blog.saveIt();
@@ -218,7 +191,7 @@ public class ArticleController {
 		@RequestMapping(value="/commentLikePlus/{id}",method = RequestMethod.GET) 
 		@ResponseBody
 		public Result commentLikePlusPlus(@PathVariable("id") String id) throws ServletException, IOException{ 
-			 BlogComment blogComment = new BlogComment().findById(id); 
+			 BlogComment blogComment =  BlogComment.findById(id); 
 		       Integer likecount = (blogComment.getInteger("comment_like")+1);
 		       blogComment.setInteger("comment_like", likecount);
 		       blogComment.saveIt();
@@ -279,17 +252,14 @@ public class ArticleController {
 		 */
 		@RequestMapping(value="/getEditPage/{id}",method = RequestMethod.GET)  
 		public String getPageContent(HttpServletRequest request,@PathVariable("id") String id) throws ServletException, IOException{ 
-	       Blog blog = new Blog().findById(id); 
-//	       Result rs = new Result();
+	       Blog blog = Blog.findById(id);  
 	       Map<String, Object> map = blog.toMap();
 	       LazyList<BlogTag> taglist =	BlogTag.where("blog_id=?", id);
 	       List<Map<String,Object>> rsl = new ArrayList<>();
 	       for(BlogTag tag:taglist ){
 	    	   rsl.add(tag.toMap());
 	       } 
-	       
-//	       rs.setMapRs(map);
-//	       rs.setData(rsl);
+	        
 	       request.setAttribute("blogContent",map);
 	       request.setAttribute("tags", rsl);
 	       return "/publishPage";
@@ -319,5 +289,45 @@ public class ArticleController {
 			}
 			return rs;
 	    }
+		
+		/**
+		 * 根据id 获取博客, 阅读量加1
+		 * @param islog
+		 * @param id
+		 * @return
+		 */
+		private Blog getBlogById( boolean islog, String id) {
+			Blog blog;
+			if(islog){ 
+				blog = Blog.findById(id);
+		    }else{
+			    blog = Blog.findFirst("id=? and show_content=1", id);
+		    }
+			if(blog != null ){
+			   Integer index = blog.getInteger("read_quantity"); 
+	    	   blog.setInteger("read_quantity",index++ );
+	    	   blog.saveIt(); 
+			}
+			
+		    return blog;
+		}
+		
+		/**
+		 * 获取blog评论的子评论
+		 * @param id
+		 * @param BlogCommentlist
+		 * @return
+		 */
+		private List<Map<String,Object>> getcommentsById(String id , List<BlogComment>  BlogCommentlist){
+			
+		      List<Map<String,Object>> rs = new ArrayList<Map<String,Object>>();
+		      for(BlogComment bc:BlogCommentlist){ 
+		    	  Map<String,Object> rmap = bc.toMap();
+		    	  rmap.put("subcomment", BlogComment.where("post_id=? and parent_id=?", id,bc.getId()).load()); 
+		    	  rs.add(rmap);
+		      }
+			return rs;  
+			
+		}
 		 
 }

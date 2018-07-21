@@ -52,40 +52,26 @@ public class CleanBlogPageController {
 			@PathVariable(value = "offset") Integer offset, @PathVariable(value = "getCount") String getCount,
 			UriComponentsBuilder uriCB) throws ServletException {
 
-		logger.info("index_page data begin ");
-
+		logger.info("index_page data begin "); 
 		Result rs = null;
 		// 判断是否登入
-		boolean bool = SessionUtil.islogin();
+		boolean islogin = SessionUtil.islogin();
 		// 获取缓存
 		if (offset == 0) {
-			if (bool) {
-				Result logincacheRS = CecheResult.getSignIncacheRS();
-				if (logincacheRS != null) {
-					rs = logincacheRS;
-				}
-			} else {
-				Result cacheRS = CecheResult.getCacheRS();
-				if (cacheRS != null) {
-					rs = cacheRS;
-				}
-			}
+			CecheResult.getRs(islogin, rs);
 		}
 		// 结果集赋值
 		if (rs == null) {
 			rs = new Result();
-			rs.setMapRs(search.indexSearch(limit, offset, getCount));
+			rs.setMapRs(search.indexSearch(islogin,limit, offset, getCount));
 			// 缓存
-			if (bool && "1".equals(getCount)) {
-				CecheResult.setLogincacheRS(rs);
-			} else if (!bool && "1".equals(getCount)) {
-				CecheResult.setCacheRS(rs);
-			}
+			if("1".equals(getCount)){
+				CecheResult.setRs(islogin, rs);
+			} 
 		}
 
 		MultiValueMap<String, String> headers = new HttpHeaders();
-		headers.set("Location",
-				uriCB.path("/" + getCount + "/" + limit + "/{offset}").buildAndExpand(offset).toUriString());
+		headers.set("Location", uriCB.path("/" + getCount + "/" + limit + "/{offset}").buildAndExpand(offset).toUriString());
 		return new ResponseEntity<Result>(rs, headers, HttpStatus.OK);
 	}
 

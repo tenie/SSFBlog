@@ -110,6 +110,41 @@ public class CecheResult {
 //		CecheResult.sessionMap = sessionMap;
 //	}
 //	
+	/**
+	 * 设置登入缓存和非登入缓存
+	 * @param islogin
+	 * @param rs
+	 */
+	public static void  setRs(boolean islogin, Result rs) {
+		
+		if (islogin ) {
+			CecheResult.setLogincacheRS(rs);
+		} else if (!islogin) {
+			CecheResult.setCacheRS(rs);
+		} 
+		
+	}
+	/**
+	 * 获取缓存
+	 * @param islogin
+	 * @param rs
+	 * @return
+	 */
+	public static Result getRs(boolean islogin, Result rs){
+		if (islogin) {
+			Result logincacheRS = getSignIncacheRS();
+			if (logincacheRS != null) {
+				rs = logincacheRS;
+			}
+		} else {
+			Result cacheRS = getCacheRS();
+			if (cacheRS != null) {
+				rs = cacheRS;
+			}
+		} 
+		
+		return rs;
+	}
 	
 	
 }

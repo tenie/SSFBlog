@@ -10,6 +10,9 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -174,7 +177,7 @@ public class ToolsLib {
 		  return s;
 		}
 		
-		
+		/// 执行 cmd
 		public static void  ExecCmd(String cmd) throws IOException, InterruptedException {
 			  System.out.println("cmd = " + cmd);
 			  //String cmd = "java -cp /Users/tenie/.m2/repository/com/h2database/h2/1.4.197/h2-1.4.197.jar org.h2.tools.Server -tcp -tcpPort 9092 ";
@@ -185,7 +188,7 @@ public class ToolsLib {
 //		      System.out.println(value);
 		}
 		
-		
+		 // 打印 cmd中的输出信息
 		  private static void printMessage(final InputStream input) {
 		    new Thread(() -> {
 			    Reader reader = new InputStreamReader(input);
@@ -200,6 +203,22 @@ public class ToolsLib {
 				             }
 				         }).start();
 		  }
+		  
+		  // map key 转为大写
+		  public static Map<String, Object> mapKeyUp(Map<String, ?> map) {
+			  Map<String,Object> obdmap = new HashMap<String, Object>(); 
+			  Set<String> se = map.keySet();                                    
+              for(String key :se){ 
+                    //在循环将大写的KEY和VALUE 放到新的Map                    
+            	    obdmap.put(key.toUpperCase(), map.get(key));   
+                  }
+
+			  
+			return obdmap;
+			
+		}
+		  
+		  
 		  
 		  public static void main(String[] args) throws IOException, InterruptedException {
 //			  ToolsLib.ExecTest();
