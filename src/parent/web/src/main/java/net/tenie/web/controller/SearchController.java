@@ -40,11 +40,12 @@ public class SearchController {
 	public Result  publicContact(HttpServletRequest request, HttpServletResponse response,@PathVariable("val") String val) throws ServletException, IOException{
 	
 		  val = val.substring(4);
+		  boolean islogin = SessionUtil.islogin();  //是否登入
 		  //结果集赋值
 	      Result rs = new Result();  
-	      Map<String,Object> rsMap = new HashMap(); 
-	      rsMap.put("signIn", SessionUtil.islogin());  //是否登入
-	      rsMap.put("dataList", search.pageSearch(val)); 
+	      Map<String,Object> rsMap = new HashMap<String, Object>(); 
+	      rsMap.put("signIn", islogin); 
+	      rsMap.put("dataList", search.pageSearch(islogin,val)); 
 	      rs.setMapRs(rsMap); 
 	      return rs;
 		
@@ -63,9 +64,10 @@ public class SearchController {
 	 
       //结果集赋值
       Result rs = new Result();  
+      boolean islogin = SessionUtil.islogin();
       Map<String,Object> rsMap = new HashMap(); 
-      rsMap.put("signIn", SessionUtil.islogin());  //是否登入
-      rsMap.put("dataList", search.tagSearch(tag)); 
+      rsMap.put("signIn", islogin);  //是否登入
+      rsMap.put("dataList", search.tagSearch(islogin, tag));  
       rs.setMapRs(rsMap); 
       return rs;
     }
