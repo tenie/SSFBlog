@@ -18,15 +18,14 @@ public class ConnectionPool {
     private static ConnectionPool cp = null;
     private JdbcConnectionPool jdbcCP = null;
     
-    //构造函数
-   
+    //构造函数 
     private ConnectionPool(String url, String user, String pw) { 
         jdbcCP = JdbcConnectionPool.create(url, user, pw);
         jdbcCP.setMaxConnections(50);
     }
     
     // 单独使用的单例模式
-    public static ConnectionPool getInstance(String pt , String us , String pw) {
+    private static ConnectionPool getInstance(String pt , String us , String pw) {
         if (cp == null) {
             cp = new ConnectionPool(pt, us, pw);
         }
@@ -46,7 +45,13 @@ public class ConnectionPool {
         return cp.getConnection();
     }
     
-    
+    /**
+     * 释放资源
+     * @param conn
+     * @param stmt
+     * @param rs
+     * @throws SQLException
+     */
     public static void releaseConnection(Connection conn, Statement stmt,  ResultSet rs) throws SQLException {
         if (rs != null) {
             rs.close();
@@ -61,7 +66,13 @@ public class ConnectionPool {
     
     
     
-   
+   /**
+    * 测试db服务器是否开启
+    * @param pt
+    * @param us
+    * @param pw
+    * @return
+    */
    public static boolean  testDBserver(String pt , String us , String pw) {
 	   try {
 			 Connection conn =  ConnectionPool.getDirectConn(pt, us, pw); //ConnectionPool.getInstance("jdbc:h2:tcp://localhost:9092/~/config/test", "sa", "123456").getConnection();
@@ -77,7 +88,7 @@ public class ConnectionPool {
    }
    
    /**
-    * 启动数据库服务
+    * 启动数据库服务器
     * @param pt
     * @param us
     * @param pw
