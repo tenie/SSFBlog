@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-	 <property name="LOG_HOME" value="/Users/tenie/ssfblog_log" />  
+	<property name="LOG_HOME" value="/usr/local/tomcat/log/ssfblog_log" />  
 	<appender name="console" class="ch.qos.logback.core.ConsoleAppender">
 		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
 			<pattern>[%-5level] %d{HH:mm:ss.SSS} [%thread] %logger{36} - %msg%n</pattern>
@@ -26,13 +26,13 @@
        </triggeringPolicy>  
     </appender> 
     
-	<!-- <logger name="net.tenie" additivity="false">  
-	    <level value="debug" />  
+	  <logger name="net.tenie" additivity="true">  
+	    <level value="all" />  
 	    <appender-ref ref="file" />  
 	    <appender-ref ref="console" />  
-	</logger> --> 
-	<root level="all">
+	</logger> 
+	<!-- <root level="all">
 		  <appender-ref ref="console" /> 
 		  <appender-ref ref="file" />   
-	</root>
+	</root> -->
 </configuration> 
