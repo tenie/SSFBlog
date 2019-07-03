@@ -51,6 +51,13 @@
         <version>3.14</version>
       </dependency>
      
+     <!-- 压缩算法库:lzo 解压.mdx文件 -->
+     <dependency>
+	    <groupId>org.anarres.lzo</groupId>
+	    <artifactId>lzo-core</artifactId>
+	    <version>1.0.0</version>
+	</dependency>
+     
 		<!--  DB -->
 	    <!-- <dependency>
             <groupId>com.alibaba</groupId>
