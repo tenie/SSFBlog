@@ -67,7 +67,8 @@ ssfblog.navSignChange=function(){
 ssfblog.initPage=function(){ 
 	$(document).ajaxError(function(event,request, settings){
 		ssfblog.alert("error","服务器出错了~");
-		setTimeout(function(){location.reload();},1000)
+		//setTimeout(function(){location.reload();},1000)
+		return;
 	});
 	ssfblog.navPage()
 	ssfblog.footerPage() 
