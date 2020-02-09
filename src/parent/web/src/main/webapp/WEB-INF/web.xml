@@ -46,9 +46,9 @@
 	</servlet-mapping>
 
 	<!-- 定义首页 -->
-	<welcome-file-list>
+	<!-- <welcome-file-list>
 		<welcome-file>index.html</welcome-file>
-	</welcome-file-list>
+	</welcome-file-list> -->
 	
 	<!-- 出错页面定义 -->
     <error-page>

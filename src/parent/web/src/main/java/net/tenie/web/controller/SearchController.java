@@ -36,10 +36,10 @@ public class SearchController {
 	 * @throws IOException
 	 */
 	@RequestMapping(value="/{val}",method = RequestMethod.GET)
-	@ResponseBody 
-	public Result  publicContact(HttpServletRequest request, HttpServletResponse response,@PathVariable("val") String val) throws ServletException, IOException{
+//	@ResponseBody 
+	public String  publicContact(HttpServletRequest request, HttpServletResponse response,@PathVariable("val") String val) throws ServletException, IOException{
 	
-		  val = val.substring(4);
+		 // val = val.substring(4);
 		  boolean islogin = SessionUtil.islogin();  //是否登入
 		  //结果集赋值
 	      Result rs = new Result();  
@@ -47,7 +47,14 @@ public class SearchController {
 	      rsMap.put("signIn", islogin); 
 	      rsMap.put("dataList", search.pageSearch(islogin,val)); 
 	      rs.setMapRs(rsMap); 
-	      return rs;
+	      
+	        // 数据
+		    request.setAttribute("foo", rs);
+		    // 是否登入
+		    request.setAttribute("islogin", islogin?"y":"n");
+		    request.setAttribute("searchVal", val);	
+		    request.setAttribute("searchType", "title");	
+	      return "/search";
 		
 	}
 	
@@ -59,8 +66,8 @@ public class SearchController {
 	 * @throws ServletException
 	 */
 	@RequestMapping(value="/tagSearch/{tag}",method = RequestMethod.GET)
-	@ResponseBody
-	public Result tagSearchhtmlView(  @PathVariable(value="tag") String tag  ) throws ServletException{
+//	@ResponseBody
+	public String tagSearchhtmlView(HttpServletRequest request,  @PathVariable(value="tag") String tag  ) throws ServletException{
 	 
       //结果集赋值
       Result rs = new Result();  
@@ -69,7 +76,13 @@ public class SearchController {
       rsMap.put("signIn", islogin);  //是否登入
       rsMap.put("dataList", search.tagSearch(islogin, tag));  
       rs.setMapRs(rsMap); 
-      return rs;
+      // 数据
+	    request.setAttribute("foo", rs);
+	    // 是否登入
+	    request.setAttribute("islogin", islogin?"y":"n");
+	    request.setAttribute("searchVal", tag);	
+	    request.setAttribute("searchType", "tag");	
+	    return "/search";
     }
 			
 }

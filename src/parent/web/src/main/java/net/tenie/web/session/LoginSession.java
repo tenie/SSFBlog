@@ -10,12 +10,22 @@ public class LoginSession {
 	private Boolean isLog = false;
 	private String url;
 	private String imageCode;
-	private String host;
+	private String host;		//客户端的 ip:端口
 	private String sessionId;
     private String userAgent;
+    private String ip;			//客户端的 ip
+    
     
 	
 	
+
+	public String getIp() {
+		return ip;
+	}
+
+	public void setIp(String ip) {
+		this.ip = ip;
+	}
 
 	public String getUserAgent() {
 		return userAgent;

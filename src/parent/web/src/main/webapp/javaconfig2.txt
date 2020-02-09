@@ -1,0 +1,3 @@
+root=D:\work\ft\trunk\info_DMS
+javaSVNupdate=D:\work\ft\trunk\info_DMS\INFO_DMS_REPAIR
+rarFile=D:\work\ft\trunk\JAVA_DMSUpdate.rar

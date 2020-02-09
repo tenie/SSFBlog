@@ -15,11 +15,38 @@ public class CecheResult {
 	private static Logger logger = LoggerFactory.getLogger(CecheResult.class); 
 	private static Result logincacheRS;
 	private static Result cacheRS;   
+	private static String ip;
 	private static ConcurrentHashMap<String, AccessInfo> sessionMap = new ConcurrentHashMap<String, AccessInfo>();
+	private static String vpnserver;
+	private static int blogcount;
 	
 	
 	
 	
+	public static int getBlogcount() {
+		return blogcount;
+	}
+
+	public static void setBlogcount(int blogcount) {
+		CecheResult.blogcount = blogcount;
+	}
+
+	public static String getVpnserver() {
+		return vpnserver;
+	}
+
+	public static void setVpnserver(String vpnserver) {
+		CecheResult.vpnserver = vpnserver;
+	}
+
+	public static String getIp() {
+		return ip;
+	}
+
+	public static void setIp(String ip) {
+		CecheResult.ip = ip;
+	}
+
 	public static void main(String[] args) {
 		Calendar now = Calendar.getInstance();  
 		now.set(Calendar.HOUR, 0);
@@ -38,7 +65,8 @@ public class CecheResult {
 		for(Entry entry: vals) { 
 			
 			AccessInfo info = (AccessInfo) entry.getValue();
-			rs += "("+ ++index+") sessionID:"+entry.getKey();
+			rs += "("+ ++index+") clinet ip :"+entry.getKey();
+			rs +="; accessCount:"+ info.getAccessCount();
 			rs +="; host:"+ info.getHost();
 			rs +="; userAgent:"+ info.getUserAgent();
 			rs +=": data:"+ new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(info.getDate()) + "<br/>\n";

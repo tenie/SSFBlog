@@ -1,4 +1,4 @@
-package net.tenie.web.interceptor;
+package net.tenie.test;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -15,6 +15,8 @@ import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.node.JsonNodeFactory;
+
+import net.tenie.web.interceptor.User;
 
 public class TestJson {
 	 private static JsonGenerator jsonGenerator = null;

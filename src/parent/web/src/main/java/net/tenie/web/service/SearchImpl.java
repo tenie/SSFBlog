@@ -85,13 +85,24 @@ public class SearchImpl implements Search {
 
 	@Override
 	public Map<String, Object>indexSearch(boolean islogin, Integer limit,Integer offset,String getCount) { 
-		 List<Map<String, Object>> blogData=getBlogData(islogin,limit,offset,getCount); 
+		 List<Map<String, Object>> blogData=getBlogData(islogin,limit,offset); 
 		 List<Map<String, Object>> blogDataAndTag=getBlogTag(blogData);  
 		 String blogcount = getBlogCount(islogin,getCount);
 		  //结果集赋值  
 		 Map<String,Object> rsMap = new HashMap<String, Object>();
 		 rsMap.put("signIn", islogin);
 		 rsMap.put("Count", blogcount);
+		 rsMap.put("dataList", blogDataAndTag); 
+		 return rsMap;
+	}
+	public Map<String, Object>indexSearch(boolean islogin, Integer limit,Integer offset) { 
+		 List<Map<String, Object>> blogData=getBlogData(islogin,limit,offset); 
+		 List<Map<String, Object>> blogDataAndTag=getBlogTag(blogData);  
+//		 String blogcount = getBlogCount(islogin,getCount);
+		  //结果集赋值  
+		 Map<String,Object> rsMap = new HashMap<String, Object>();
+		 rsMap.put("signIn", islogin);
+//		 rsMap.put("Count", blogcount);
 		 rsMap.put("dataList", blogDataAndTag); 
 		 return rsMap;
 	}
@@ -105,7 +116,7 @@ public class SearchImpl implements Search {
 	 * @param getCount
 	 * @return
 	 */
-	private List<Map<String, Object>> getBlogData(boolean islogin, Integer limit,Integer offset,String getCount){ 
+	private List<Map<String, Object>> getBlogData(boolean islogin, Integer limit,Integer offset){ 
 		 List<Map<String, Object>> list=new ArrayList<>();
 		 //登入过的查询
 		 if(islogin ){
@@ -122,7 +133,7 @@ public class SearchImpl implements Search {
 	 * @param getCount
 	 * @return
 	 */
-	private String  getBlogCount(boolean islogin, String getCount){
+	public String  getBlogCount(boolean islogin, String getCount){
 		List<Map<String, Object>> countList =new ArrayList<Map<String, Object>>();
 		 if(islogin ){
 			 //获取总行数,对分页最后页做判断时需要
@@ -138,6 +149,24 @@ public class SearchImpl implements Search {
 		 String rsCount="";
 		 if(countList.size()>0){
 	    	  rsCount = ""+ countList.get(0).get("count");
+	      }
+		return rsCount;
+		
+	}
+	public int  getBlogCount(boolean islogin){
+		List<Map<String, Object>> countList =new ArrayList<Map<String, Object>>();
+		 if(islogin ){
+			 //获取总行数,对分页最后页做判断时需要 
+		    	 countList =  jdbc.queryForList("SELECT COUNT(ID) AS COUNT FROM BLOG");
+		     
+		 }else{
+		      //获取总行数,对分页最后页做判断时需要 
+		    	 countList =  jdbc.queryForList("SELECT count(id) as count from blog where show_content=1");
+	        
+		 }
+		 int rsCount= 0;
+		 if(countList.size()>0){
+			 rsCount = Integer.valueOf(  ""+ countList.get(0).get("count"));
 	      }
 		return rsCount;
 		

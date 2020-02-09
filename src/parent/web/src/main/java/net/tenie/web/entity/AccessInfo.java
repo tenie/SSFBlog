@@ -3,11 +3,25 @@ package net.tenie.web.entity;
 import java.util.Date;
 
 public class AccessInfo {
+	private String ip;
 	private String host;
 	private Date date;
 	private String userAgent;
+	private Long accessCount; //访问次数
 	
 	
+	public Long getAccessCount() {
+		return accessCount;
+	}
+	public void setAccessCount(Long accessCount) {
+		this.accessCount = accessCount;
+	}
+	public String getIp() {
+		return ip;
+	}
+	public void setIp(String ip) {
+		this.ip = ip;
+	}
 	public String getUserAgent() {
 		return userAgent;
 	}

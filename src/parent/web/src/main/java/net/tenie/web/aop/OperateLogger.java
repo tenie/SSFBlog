@@ -2,6 +2,7 @@ package net.tenie.web.aop;
  
 import java.sql.Connection;
 import java.util.Date;
+import java.util.concurrent.ConcurrentHashMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -37,9 +38,29 @@ public class OperateLogger{
 	info.setDate(new Date());
 	info.setHost(loginInfo.getHost()); 
 	info.setUserAgent(loginInfo.getUserAgent());
-	String sessionid = loginInfo.getSessionId();
-	String key = loginInfo.getHost() + (sessionid!=null?sessionid:"");
-	CecheResult.addSession(key, info);
+//	String sessionid = loginInfo.getSessionId();
+//	String key = loginInfo.getHost() ;//+ (sessionid!=null?sessionid:"");
+	String key = loginInfo.getIp() ;
+	info.setIp(key);
+	
+	ConcurrentHashMap<String, AccessInfo> sessionMap = CecheResult.getSessionMap();
+	if(sessionMap.size() > 0) {
+		AccessInfo ai = sessionMap.get(key);
+		if(ai != null ) {
+			ai.setDate(new Date());
+			ai.setHost(loginInfo.getHost());
+			ai.setAccessCount(  ai.getAccessCount() + 1);
+			ai.setUserAgent(loginInfo.getUserAgent());
+			ai.setIp(loginInfo.getIp());
+		}else {
+			info.setAccessCount(0L);
+			CecheResult.addSession(key, info);
+		}
+	}else {
+		info.setAccessCount(0L);
+		CecheResult.addSession(key, info);
+	}
+	
 }
  //环绕  
  @Transactional(timeout=2)
@@ -70,6 +91,12 @@ public class OperateLogger{
 			 CecheResult.setNullLogincacheRS();
 			 CecheResult.setNullCacheRS();
 		 }
+		 // 设置内网ip, ubuntu计划任务方法这个url来设置ip
+		 if( url.indexOf("/queryInfo/setip") >=0) {
+			 CecheResult.setIp( loginInfo.getIp());
+		 }
+			 
+		 
 		 
 		  db.commitTransaction(); 
 	     return obj;
