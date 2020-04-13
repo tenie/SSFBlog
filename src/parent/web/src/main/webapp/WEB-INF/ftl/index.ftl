@@ -117,7 +117,7 @@
 					<#if foo.mapRs.dataList?exists> 
 					<#list foo.mapRs.dataList as bd>
 					<div class="post-preview">
-						<a href="article/${bd.ID}" class="src_page">
+						<a href="/article/${bd.ID}" class="src_page">
 							<p class="post-title" style="display: inline;">
 								<#if bd.TOP==0>
 								   <span class='blogtop_flag top_tag'><i class='fa fa-flag' aria-hidden='true'></i></span>

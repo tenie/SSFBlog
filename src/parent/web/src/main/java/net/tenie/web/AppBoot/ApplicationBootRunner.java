@@ -1,10 +1,13 @@
 package net.tenie.web.AppBoot;
  
-import java.sql.Connection; 
+import java.sql.Connection;
+import java.sql.DriverManager;
 
+import org.apache.commons.dbcp.BasicDataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -26,25 +29,36 @@ public class ApplicationBootRunner implements InitializingBean {
 	private String user ;
 	@Value("${net.tenie.password}")
 	private String pw ;
-	
-	
+	@Value("${net.tenie.driver}")
+	private String driver ;
+	@Autowired
+	private BasicDataSource ds;
 	@Override
 	public  void afterPropertiesSet() throws Exception {
 		Connection conn = null;
 		try {
+			
 			logger.info("初始化工作");
+		/** 不在使用服务器模式*/ 
 			// 启动h2数据库
 			String useCmd  ="java -cp "+ ApplicationBootRunner.class.getResource("/").toString()+"../lib/h2-1.4.197.jar org.h2.tools.Server -tcp -tcpPort "+port;
 			ConnectionPool.startDBServer(url,user,pw,useCmd);  
+			// 创建表(如果需要的话)
+		    conn = ConnectionPool.getDirectConn(url,user,pw);
+		
+		    
+			// 加载H2数据库驱动
+			 //Class.forName(driver);
+			 // 根据连接URL，用户名，密码获取数据库连接
+		    // conn = DriverManager.getConnection(url, user, pw); //ds.getConnection();   //
 			// 获取脚本路径
 			String path =ApplicationBootRunner.class.getResource("/").toString()+"sql.sql";  //"file:/Users/tenie/gitHome/Learning_Notes/java/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/web/WEB-INF/classes/sql.sql";
 			path = path.split(":")[1];
 			logger.info(path);
 			// 获取建表语句
 			String sql = ToolsLib.getText(path);
-			String[] sqls = sql.split(";");  
-			// 创建表(如果需要的话)
-		    conn = ConnectionPool.getDirectConn(url,user,pw);
+			String[] sqls = sql.split(";");   
+		    
 	        boolean isExists = ToolsLib.tableExists("blog",conn); 
 	    	if(!isExists){
 	    		ToolsLib.createTable(sqls,conn);

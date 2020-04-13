@@ -54,13 +54,18 @@
 			<property name="username" value="${net.tenie.username}"></property>
 			<property name="password" value="${net.tenie.password}"></property>
 	        <!--maxActive: 最大连接数量-->    
-	        <property name="maxActive" value="150"/>  
+	    <!--     <property name="maxActive" value="150"/>  --> 
+	         <property name="maxActive" value="3"/>  
 	        <!--minIdle: 最小空闲连接-->    
-	        <property name="minIdle" value="5"/>  
+	       <!--  <property name="minIdle" value="5"/>   -->
+	         <property name="minIdle" value="2"/>  
 	        <!--maxIdle: 最大空闲连接-->    
-	        <property name="maxIdle" value="20"/>  
+	       <!--  <property name="maxIdle" value="20"/>   -->
+	         <property name="maxIdle" value="2"/>  
 	        <!--initialSize: 初始化连接-->    
-	        <property name="initialSize" value="30"/>  
+	    <!--     <property name="initialSize" value="30"/>   -->
+	         <property name="initialSize" value="2"/>  
+	        
 	        <!-- 连接被泄露时是否打印 -->  
 	        <property name="logAbandoned" value="true"/>  
 	        <!--removeAbandoned: 是否自动回收超时连接-->    
