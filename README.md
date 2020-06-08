@@ -19,18 +19,17 @@
     - 公开博文 
   
 
+> 更新说明: 将项目迁移到了Spring-boot, 构建运行更简单了
 ---
 > 构建:
    
-    创建数据库表, sql脚本在SSDBlog/src/建表语句.sql
-    构建前需要对配置文件,进行配置, 键入你的数据(如:数据库密码,邮箱信息,配置登入帐号密码)
-    配置文件: SSDBlog/src/parent/web/src/main/resources/webconfig.properties
-    $ cd SSDBlog/src/parent
-    $ mvn clean package
-    $ cp ./web/target/ROOT.war your_tomcat_home/webapps/
-    $ your_tomcat_home/bin/startup.sh  ||  $ your_tomcat_home/bin/startup.bat
-
- 在浏览器中键入 http://localhost:8080 就ok了~           //这里的端口根据你的应用服务器的情况而定
+     
+    配置文件: application.yml 根据你的情况配置
+    $ cd  Springt-boot
+    $ mvn  package
+    $ cd target
+    $  java -jar myblog-0.0.1-SNAPSHOT.jar  
+ 在浏览器中键入 http://localhost:8088 就ok了~           //这里的端口根据你的应用服务器的情况而定
  
  
 

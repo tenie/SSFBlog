@@ -27,6 +27,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 		
         //获取请求的URL
         String path = request.getRequestURI();
+        System.out.println(path);
         LoginSession loginInfo = SessionUtil.getSession();//ApplicationContextHelper.getBeanByType(LoginSession.class);
         String host = request.getHeader("host"); 
         loginInfo.setHost(host); 

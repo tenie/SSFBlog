@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.tenie.myblog.mapper.BlogCommentMapper">
+ 
+    <insert id="saveBlogComment">
+        INSERT INTO `BLOG_COMMENT` (      
+				<if test=" blogComment.parentId !=null " > 	    PARENT_ID,         </if>
+				<if test=" blogComment.commentLike !=null " >   COMMENT_LIKE,      </if>
+				<if test=" blogComment.myselft !=null " >       MYSELFT,      	   </if>
+				<if test=" blogComment.recordVersion !=null " > RECORD_VERSION ,   </if>
+				<if test=" blogComment.name !=null " >  	    NAME,    	       </if>
+				<if test=" blogComment.comment !=null " >       COMMENT,     	   </if>
+				<if test=" blogComment.url !=null " > 	        URL,               </if>
+				<if test=" blogComment.email !=null " > 	    EMAIL,             </if>
+				<if test=" blogComment.createdAt !=null " > 	CREATED_AT,        </if>
+				<if test=" blogComment.updatedAt !=null " > 	UPDATED_AT,        </if>
+				<if test=" blogComment.postId !=null " > 	    POST_ID            </if>
+								)
+        VALUES ( 
+				
+				<if test=" blogComment.parentId !=null " > 	    #{ blogComment.parentId}, 	   </if>
+				<if test=" blogComment.commentLike !=null " > 	#{ blogComment.commentLike},   </if>
+				<if test=" blogComment.myselft !=null " > 	    #{ blogComment.myselft}, 	   </if>
+				<if test=" blogComment.recordVersion !=null " > #{ blogComment.recordVersion}, </if>
+				<if test=" blogComment.name !=null " > 	        #{ blogComment.name}, 	       </if>
+				<if test=" blogComment.comment !=null " > 	    #{ blogComment.comment}, 	   </if>
+				<if test=" blogComment.url !=null " > 	        #{ blogComment.url}, 	       </if>
+				<if test=" blogComment.email !=null " > 	    #{ blogComment.email}, 	       </if>
+				<if test=" blogComment.createdAt !=null " > 	#{ blogComment.createdAt}, 	   </if>
+				<if test=" blogComment.updatedAt !=null " > 	#{ blogComment.updatedAt}, 	   </if>
+				<if test=" blogComment.postId !=null " > 	    #{ blogComment.postId}, 	   </if>
+				)
+    </insert>
+    <update id="update">
+    	update BLOG_COMMENT set  
+			<if test=" blogComment.parentId !=null " > 	    PARENT_ID	= 	#{ blogComment.parentId},  </if>
+			<if test=" blogComment.commentLike !=null " >   COMMENT_LIKE		= 	#{ blogComment.commentLike},  </if>
+			<if test=" blogComment.myselft !=null " >       MYSELFT		= 	#{ blogComment.myselft},  </if>
+			<if test=" blogComment.recordVersion !=null " > RECORD_VERSION		= 	#{ blogComment.recordVersion},  </if>
+			<if test=" blogComment.name !=null " >  	    NAME	= 	#{ blogComment.name},  </if>
+			<if test=" blogComment.comment !=null " >       COMMENT		= 	#{ blogComment.comment},  </if>
+			<if test=" blogComment.url !=null " > 	        URL	= 	#{ blogComment.url},  </if>
+			<if test=" blogComment.email !=null " > 	    EMAIL	= 	#{ blogComment.email},  </if>
+			<if test=" blogComment.createdAt !=null " > 	CREATED_AT	= 	#{ blogComment.createdAt},  </if>
+			<if test=" blogComment.updatedAt !=null " > 	UPDATED_AT	= 	#{ blogComment.updatedAt},  </if>
+			<if test=" blogComment.postId !=null " > 	    POST_ID	= 	#{ blogComment.postId} </if>
+		where id = #{blogComment.id}
+    	
+    </update>
+
+    <delete id="deleteById">
+        DELETE
+        FROM `BLOG_COMMENT`
+        WHERE `id` = #{id}
+    </delete>
+</mapper>

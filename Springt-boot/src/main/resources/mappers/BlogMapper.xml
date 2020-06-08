@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="net.tenie.myblog.mapper.BlogMapper">
+ 
+    <insert id="saveBlog"  parameterType="net.tenie.myblog.entity.Blog"
+    useGeneratedKeys="true" keyProperty="id" keyColumn="id" >
+        INSERT INTO `BLOG` (    
+		 <if test="blog.postSubtitle != null "> `POST_SUBTITLE`,   </if>
+		 <if test="blog.time != null ">  	    `TIME`,	           </if>
+		 <if test="blog.postContent != null ">  `POST_CONTENT`,	   </if>
+		 <if test="blog.textLength != null ">   `TEXT_LENGTH`,	   </if>
+		 <if test="blog.readQuantity != null "> `READ_QUANTITY`,   </if>
+		 <if test="blog.comment != null ">  	`COMMENT`,	       </if>
+		 <if test="blog.postLike != null ">  	`POST_LIKE`,	   </if>
+		 <if test="blog.top != null ">  	    `TOP`,	           </if>
+		 <if test="blog.showContent != null ">  `SHOW_CONTENT`,	   </if>
+		 <if test="blog.createdAt != null ">  	`CREATED_AT`,	   </if>
+		 <if test="blog.updatedAt != null ">  	`UPDATED_AT`,	   </if>
+		 <if test="blog.recordVersion != null ">`RECORD_VERSION`,  </if> 
+		  `POST_TITLE`   
+		) VALUES (  
+		 <if test="blog.postSubtitle != null ">  #{blog.postSubtitle},	</if>
+		 <if test="blog.time != null ">  	     #{blog.time},	        </if>
+		 <if test="blog.postContent != null ">   #{blog.postContent},	</if>
+		 <if test="blog.textLength != null ">  	 #{blog.textLength},	</if>
+		 <if test="blog.readQuantity != null ">  #{blog.readQuantity},	</if>
+		 <if test="blog.comment != null ">  	 #{blog.comment},	    </if>
+		 <if test="blog.postLike != null ">  	 #{blog.postLike},   	</if>
+		 <if test="blog.top != null ">  	     #{blog.top},	        </if>
+		 <if test="blog.showContent != null ">   #{blog.showContent},	</if>
+		 <if test="blog.createdAt != null ">  	 #{blog.createdAt},	    </if>
+		 <if test="blog.updatedAt != null ">  	 #{blog.updatedAt},	    </if>
+		 <if test="blog.recordVersion != null "> #{blog.recordVersion},	</if> 
+	    #{blog.postTitle}  
+				)
+    </insert>
+    
+    <update id="update">
+    	update BLOG   set   
+    	
+    	 <if test="blog.postTitle != null ">  `POST_TITLE`   =  #{blog.postTitle}, 	</if>
+		 <if test="blog.postSubtitle != null "> `POST_SUBTITLE` =  #{blog.postSubtitle}, 	</if>
+		 <if test="blog.time != null ">  	    `TIME` = 	       #{blog.time}, 	        </if>
+		 <if test="blog.postContent != null ">  `POST_CONTENT` =   #{blog.postContent}, 	</if>
+		 <if test="blog.textLength != null ">   `TEXT_LENGTH` =    #{blog.textLength}, 	    </if>
+		 <if test="blog.readQuantity != null "> `READ_QUANTITY` =  #{blog.readQuantity}, 	</if>
+		 <if test="blog.comment != null ">  	`COMMENT` = 	   #{blog.comment}, 	    </if>
+		 <if test="blog.postLike != null ">  	`POST_LIKE` = 	   #{blog.postLike}, 	    </if>
+		 <if test="blog.top != null ">  	    `TOP` = 	       #{blog.top}, 	        </if>
+		 <if test="blog.showContent != null ">  `SHOW_CONTENT` =   #{blog.showContent}, 	</if>
+		 <if test="blog.createdAt != null ">  	`CREATED_AT` = 	   #{blog.createdAt}, 	    </if>
+		 <if test="blog.updatedAt != null ">  	`UPDATED_AT` = 	   #{blog.updatedAt}, 	    </if>
+		 <if test="blog.recordVersion != null ">`RECORD_VERSION` = #{blog.recordVersion}, 	</if>
+       ID = #{blog.id}
+
+		where  ID  = #{blog.id}
+    	
+    </update>
+
+    <delete id="deleteById">
+        DELETE
+        FROM `BLOG`
+        WHERE `id` = #{id}
+    </delete>
+</mapper>

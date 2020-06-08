@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.tenie.myblog.mapper.ContactDataMapper">
+
+    <insert id="saveContactData">
+        INSERT INTO  CONTACT_DATA  (
+			 <if test="contactData.name !=null"> 	     NAME ,  </if>
+			 <if test="contactData.phone !=null"> 	     PHONE ,  </if>
+			 <if test="contactData.email !=null"> 	     EMAIL ,  </if>
+			 <if test="contactData.message !=null"> 	 MESSAGE ,  </if>
+			 <if test="contactData.updatedAt !=null"> 	 UPDATED_AT ,  </if>
+			 <if test="contactData.recordVersion !=null">RECORD_VERSION ,  </if>
+			 <if test="contactData.createdAt !=null"> 	 CREATED_AT    </if>
+		)
+        VALUES (
+			 <if test="contactData.name !=null">          #{contactData.name}, </if>
+			 <if test="contactData.phone !=null">         #{contactData.phone}, </if>
+			 <if test="contactData.email !=null">         #{contactData.email}, </if>
+			 <if test="contactData.message !=null">       #{contactData.message}, </if>
+			 <if test="contactData.updatedAt !=null">     #{contactData.updatedAt}, </if>
+			 <if test="contactData.recordVersion !=null"> #{contactData.recordVersion}, </if> 
+			 <if test="contactData.createdAt !=null">     #{contactData.createdAt}  </if>
+		)
+    </insert>
+
+    <delete id="deleteById">
+        DELETE
+        FROM  CONTACT_DATA  
+        WHERE  id  = #{id}
+    </delete>
+</mapper>
