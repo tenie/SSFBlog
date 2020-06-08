@@ -68,6 +68,19 @@ public class QueryInfoController {
 		}
 	}
 	
+	@RequestMapping(value="/postTest",method = RequestMethod.POST) 
+	@ResponseBody
+	public String getVpnServerWithPost(@RequestParam Map<String, String> queryParam) { 
+		String str = queryParam.get("foo");
+		System.out.println(str);
+		if( ! queryParam.isEmpty()) {
+			return queryParam.toString();
+		}else {
+			return "null....";
+		}
+//		 
+	}
+	
 	
 	
 }

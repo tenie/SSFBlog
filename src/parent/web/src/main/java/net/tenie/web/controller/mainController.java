@@ -67,7 +67,7 @@ public class mainController {
 		    request.setAttribute("previouspage", -1);	
 		    
 		    
-		    return  "/index";
+		    return  "index";
 		}
 		
 		@RequestMapping(value="/page/{page}",method = RequestMethod.GET) 
