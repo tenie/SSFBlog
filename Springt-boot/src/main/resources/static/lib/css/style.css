@@ -1,0 +1,82 @@
+/* =======  图片轮播激活方法Headline Background & Slideshow ======= */
+.bg-slider-wrapper {
+  content: "";
+  position: absolute;
+  width: 100%;
+  top: 0;
+  left: 0;
+  height: 780px;
+  background: #373737;
+}
+.bg-slider-wrapper .flexslider {
+  margin: 0;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  border: none;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  -ms-border-radius: 0;
+  -o-border-radius: 0;
+  border-radius: 0;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+}
+.bg-slider-wrapper .flexslider .slide {
+  display: block;
+  height: 780px;
+}
+.bg-slider-wrapper .flexslider .slide.slide-1 {
+  background: #253340 url('../img/bg-header-1.jpg') no-repeat 50% top;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+.bg-slider-wrapper .flexslider .slide.slide-2 {
+  background: #253340 url('../img/bg-header-2.jpg') no-repeat 50% top;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+.bg-slider-wrapper .flexslider .slide.slide-3 {
+  background: #253340 url('../img/bg-header-3.jpg') no-repeat 50% top;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+.bg-slider-wrapper .flexslider .flex-control-nav {
+  z-index: 30;
+  bottom: 30px;
+  position: relative;
+}
+.bg-slider-wrapper .flexslider .flex-control-nav li a {
+  background: #999;
+}
+.bg-slider-wrapper .flexslider .flex-control-nav li a.flex-active {
+  background: #bfbfbf;
+}
+.headline-bg {
+  position: absolute;
+  width: 100%;
+  top: 0;
+  left: 0;
+  height: 500px;
+  background: #253340 url('../img/bg-header-small-1.jpg') no-repeat 50% top;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+.headline-bg.pricing-headline-bg {
+  background-image: url('../img/bg-header-small-2.jpg');
+}
+.headline-bg.contact-headline-bg {
+  background-image: url('../img/bg-header-small-3.jpg');
+}
+.headline-bg.about-headline-bg {
+  background-image: url('../img/bg-header-small-4.jpg');
+}

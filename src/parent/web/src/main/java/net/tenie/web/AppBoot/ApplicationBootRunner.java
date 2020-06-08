@@ -14,7 +14,11 @@ import org.springframework.stereotype.Service;
 import net.tenie.web.db.ConnectionPool;
 import net.tenie.web.scheduled.ClearExpireAccessInfo;
 import net.tenie.web.tools.ToolsLib;
-
+/**
+ * 启动应用前运行一些必要的代码
+ * @author Tenie
+ *
+ */
 @Service
 public class ApplicationBootRunner implements InitializingBean {
 	Logger logger = LoggerFactory.getLogger(ClearExpireAccessInfo.class);

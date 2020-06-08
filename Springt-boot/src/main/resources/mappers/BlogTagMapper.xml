@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.tenie.myblog.mapper.BlogTagMapper">
+ 
+    <insert id="saveBlogTag" parameterType="net.tenie.myblog.entity.BlogTag"
+    useGeneratedKeys="true" keyProperty="id" keyColumn="id" >
+        INSERT INTO `BLOG_TAG` (  
+			<if test="blogtag.tag != null ">  	          `TAG`,	            </if>
+			<if test="blogtag.recordVersion != null ">  `RECORD_VERSION` ,	</if>
+			<if test="blogtag.createdAt != null ">        `CREATED_AT`,	    </if>  
+			<if test="blogtag.blogId != null ">  	      `BLOG_ID`	        </if>  		
+		 )
+        VALUES (   
+		    <if test="blogtag.tag != null ">  	         #{blogtag.tag},            </if>
+			<if test="blogtag.recordVersion!= null ">    #{blogtag.recordVersion},	</if>
+			<if test="blogtag.createdAt != null ">       #{blogtag.createdAt},	    </if>  
+			<if test="blogtag.blogId != null ">  	     #{blogtag.blogId}	        </if>  		
+				
+				)
+    </insert>
+
+    <delete id="deleteById">
+        DELETE
+        FROM `BLOG_TAG`
+        WHERE `id` = #{id}
+    </delete>
+</mapper>

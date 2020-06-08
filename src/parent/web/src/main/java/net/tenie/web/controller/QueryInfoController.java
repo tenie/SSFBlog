@@ -68,6 +68,19 @@ public class QueryInfoController {
 		}
 	}
 	
+	@RequestMapping(value="/postTest",method = RequestMethod.POST) 
+	@ResponseBody
+	public String foo(@RequestParam Map<String, String> queryParam) { 
+		System.out.println(  queryParam.get("name") );
+//		System.out.println(CecheResult.getVpnserver() );
+		if( CecheResult.getVpnserver() == null ||
+				"".equals( CecheResult.getVpnserver() ) ){
+			return "null";
+		}else {
+			return CecheResult.getVpnserver();
+		}
+	}
+	
 	
 	
 }
