@@ -1,4 +1,0 @@
-root=D:\infoservice\info_dms
-javaSVNupdate=D:\infoservice\info_dms
-rarFile=D:\work\ft\trunk\InfoDMS_Src\trar\DMSUpdate.rar
-

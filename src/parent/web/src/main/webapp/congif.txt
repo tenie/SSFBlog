@@ -1,2 +1,0 @@
-root=D:\Delphi_Code_0\InfoDMS_Src(2.5.1.0)
-rarFile=F:\share\faban\2.5.1.0\2019-06-12(特殊)\前台增量\DMSUpdate.rar

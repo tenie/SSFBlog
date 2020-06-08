@@ -1,9 +1,0 @@
-<#if student.studentAge lt 12>
-  	${student.studentName}不是一个初中生
-<#elseif student.studentAge lt 15>
-  	${student.studentName}不是一个高中生
-<#elseif student.studentAge lt 18>
-  	${student.studentName}不是一个大学生
-<#else>
-  	${student.studentName}是一个大学生
-</#if> 
