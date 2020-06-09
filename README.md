@@ -9,22 +9,22 @@
 > 快速启动:
    
      
-    git clone git@github.com:tenie/SSFBlog.git
-    //SpringBoot方式
-    配置文件: application.yml 根据你的情况配置
+    $ git clone git@github.com:tenie/SSFBlog.git
+    //SpringBoot, 推荐使用, 不需要依赖应用服务(如tomcat) 
     $ cd  SSFBlog/SpringBoot
     $ mvn  package
     $ cd target 
     $  java -jar myblog-0.0.1-SNAPSHOT.jar
     打开你的浏览器 : http://localhost:8088
-    
-    //SpringFramework方式
     配置文件: application.yml 根据你的情况配置
+    
+    //SpringFramework, 不推荐使用, 依赖应用服务 
     $ cd   SSFBlog/SpringFramework/parent
     $ mvn  package
     $ cp web/target/Root.war tomcat/webapps/
     $ tomcat/bin/startup.sh
     在浏览器中键入 http://localhost:8088 就ok了~           //这里的端口根据你的应用服务器的情况而定
+    配置文件: webconfig.properties 根据你的情况配置
    
 > 博客有2模式, 访客和博主模式.
 
