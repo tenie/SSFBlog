@@ -1,8 +1,32 @@
 # SSFBlog
 
 > 简介:
-    展示博文,发布博文, 修改博文的博客应用.
+    搭建属于自己博客的服务器应用.
     
+> 2020-06-01 更新说明: 将项目迁移到了Spring-boot, 构建运行更简洁.
+---
+ 
+> 快速启动:
+   
+     
+    git clone git@github.com:tenie/SSFBlog.git
+    //SpringBoot方式
+    配置文件: application.yml 根据你的情况配置
+    $ cd  SSFBlog/SpringBoot
+    $ mvn  package
+    $ cd target 
+    $  java -jar myblog-0.0.1-SNAPSHOT.jar
+    打开你的浏览器 : http://localhost:8088
+    
+    //SpringFramework方式
+    配置文件: application.yml 根据你的情况配置
+    $ cd   SSFBlog/SpringFramework/parent
+    $ mvn  package
+    $ cp web/target/Root.war tomcat/webapps/
+    $ tomcat/bin/startup.sh
+    
+ 在浏览器中键入 http://localhost:8088 就ok了~           //这里的端口根据你的应用服务器的情况而定
+   
 博客有2模式, 游客和博主模式.
 
 - 游客 : 简单讲就是Read Only,其功能有:
@@ -19,17 +43,8 @@
     - 公开博文 
   
 
-> 更新说明: 将项目迁移到了Spring-boot, 构建运行更简单了
----
-> 构建:
-   
-     
-    配置文件: application.yml 根据你的情况配置
-    $ cd  Springt-boot
-    $ mvn  package
-    $ cd target
-    $  java -jar myblog-0.0.1-SNAPSHOT.jar  
- 在浏览器中键入 http://localhost:8088 就ok了~           //这里的端口根据你的应用服务器的情况而定
+
+
  
  
 
