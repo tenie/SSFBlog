@@ -24,7 +24,7 @@
         <jackson.json.version>2.4.6</jackson.json.version>
         <quartz.version>2.2.1</quartz.version>
         <!-- Test -->
-        <junit.version>4.11</junit.version>
+        <junit.version>4.13.1</junit.version>
         <okHttp.version>3.8.1</okHttp.version>
 	</properties>
 	 
