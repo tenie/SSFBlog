@@ -1,5 +1,6 @@
 package net.tenie.myblog.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -50,10 +51,11 @@ public class ArticleController {
 	
 		@Autowired  
 		private BlogTagMapper blogTag; 
-		@Value("${who.am.i}")
-		private String myname;
+		@Value("${ssfblog.myName}")
+		private String myName;
 		
-		
+		@Value("${ssfblog.photo}")
+		private String photo;
 		
 		/**
 		 * 文章阅读页面
@@ -87,6 +89,15 @@ public class ArticleController {
 		      request.setAttribute("commentLength",BlogCommentlist.size()); 
 		      request.setAttribute("comments",rs);  
 	       }
+	       request.setAttribute("myName", myName);
+	       File file = new File(photo);   
+			if (file.exists()) {
+				 request.setAttribute("photo", "/photo");  
+			}else {
+				request.setAttribute("photo", "../lib/assets/img/codeMonkey.ico");  
+			}
+			
+	      
 	       return  "/post";
 	    }
 	
@@ -152,7 +163,7 @@ public class ArticleController {
 			boolean isLogin = SessionUtil.islogin();
 			BlogComment comment = new BlogComment();
 			if(isLogin){
-				visitor.setName(myname); 
+				visitor.setName(myName); 
 				comment.setMyselft(1);		 
 			} 
 			 

@@ -47,7 +47,7 @@
 	   <dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
-			<version>1.4.197</version>
+			<version>1.4.200</version>
 		</dependency>
 		<!-- bean 字段验证   -->
 		 <dependency>
@@ -70,6 +70,7 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
+		
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-freemarker</artifactId>
@@ -94,11 +95,6 @@
             <optional>true</optional>
         </dependency>
 
-		<dependency>
-			<groupId>com.h2database</groupId>
-			<artifactId>h2</artifactId>
-			<scope>runtime</scope>
-		</dependency>
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
@@ -128,6 +124,54 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+			
+			 <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-dependencies</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                           <includeGroupIds>com.h2database</includeGroupIds>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            
+			<plugin>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>copy</id>
+						<phase>package</phase>
+						<configuration>
+							<tasks>
+								<copy todir="${project.build.directory}">
+									<fileset dir="${project.build.directory}/classes">
+										<include name="*.yml" />
+										<include name="*.jpg" />
+									</fileset>
+								</copy>  
+								
+								<copy todir="${project.build.directory}/">
+									<fileset dir="${project.build.directory}/dependency">
+										<include name="h2*.jar" /> 										
+									</fileset>
+								</copy>
+								
+							</tasks>
+						</configuration>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			
 		</plugins>
 	</build>
 

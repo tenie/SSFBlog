@@ -4,7 +4,9 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory; 
+import org.slf4j.LoggerFactory;
+
+import net.tenie.myblog.tools.ToolsLib;
 import net.tenie.myblog.tools.YmlUtil;
  
  
@@ -18,27 +20,29 @@ public class MyConnection {
 	 
 	 
 
-	 public static  java.sql.Connection getConnection() throws Exception {
-	         if(sqlConnection != null) return sqlConnection;
-	         String driver =  
-		        	 YmlUtil.getValue("application.yml","spring.datasource.driver-class-name").toString();
-	         String url = 
-	        		  YmlUtil.getValue("application.yml","spring.datasource.url").toString();
-	        String user =
-	        		 YmlUtil.getValue("application.yml","spring.datasource.username").toString();
-	        String pass =
-	        		  YmlUtil.getValue("application.yml","spring.datasource.password").toString();
+		public static java.sql.Connection getConnection() throws Exception {
+			if (sqlConnection != null)
+				return sqlConnection;
+			String driver = YmlUtil.getValue("application.yml", "spring.datasource.driver-class-name").toString();
+			String url = YmlUtil.getValue("application.yml", "spring.datasource.url").toString();
+			if (url.endsWith("/demo")) {
+				String dbFile = ToolsLib.getRootPath() + "ssfblog_db";
+				url = url.substring(0, url.lastIndexOf("/demo")) + "/" + dbFile;
+				System.out.println(url); 
+			}
+			System.out.println("url === " + url); 
+			String user = YmlUtil.getValue("application.yml", "spring.datasource.username").toString();
+			String pass = YmlUtil.getValue("application.yml", "spring.datasource.password").toString();
 
-		     
-	        try {
-	            Class.forName(driver);
-	            sqlConnection =  DriverManager.getConnection(url, user, pass);
-	        } catch (ClassNotFoundException | SQLException e) {
-	            log.error(e.getMessage());
-	        }
+			try {
+				Class.forName(driver);
+				sqlConnection = DriverManager.getConnection(url, user, pass);
+			} catch (ClassNotFoundException | SQLException e) {
+				log.error(e.getMessage());
+			}
 
-	        return sqlConnection;
-	    }
+			return sqlConnection;
+		}
 
 	    public static  void closeConnection(java.sql.Connection sqlConnection) {
 	        try {

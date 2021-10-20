@@ -589,7 +589,7 @@ ssfblog.openSignInWindow=function(close,open){
 
 //加载导航
 ssfblog.navPage=function(){ 
-	$.get("/nav.html",function(htmldata){  //获取展示的html样式 
+	$.get("/nav",function(htmldata){  //获取展示的html样式 
 		$("nav").append(htmldata);
 		ssfblog.nav_Html();
 		ssfblog.login();
@@ -602,7 +602,7 @@ ssfblog.navPage=function(){
 }
 //加载footer
 ssfblog.footerPage=function(){
-	$.get("/footer.html",function(htmldata){  //获取展示的html样式 
+	$.get("/footer",function(htmldata){  //获取展示的html样式 
 		$("footer").append(htmldata) 
 	})
 }

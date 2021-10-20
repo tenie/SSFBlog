@@ -1,5 +1,9 @@
 package net.tenie.myblog.tools;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -55,6 +59,23 @@ public class YmlUtil {
         return getValue(key);
     }
 
- 
+	public void updateYamlFile() throws IOException {
+		String src = YmlUtil.class.getClassLoader().getResource("application.yaml").getPath();
+		Yaml yaml = new Yaml();
+		FileWriter fileWriter;
+		FileInputStream fileInputStream = new FileInputStream(new File(src));
+		Map<String, Object> yamlMap = yaml.load(fileInputStream);
+		Map<String, Object> esMap = (Map<String, Object>) yamlMap.get("elasticsearch");
+		esMap.put("password", "password");
+		// 字符输出
+		fileWriter = new FileWriter(new File(src));
+		// 用yaml方法把map结构格式化为yaml文件结构
+		fileWriter.write(yaml.dumpAsMap(yamlMap));
+		// 刷新
+		fileWriter.flush();
+		// 关闭流
+		fileWriter.close();
+		fileInputStream.close();
+	} 
 }
 

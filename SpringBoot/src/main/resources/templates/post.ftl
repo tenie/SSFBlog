@@ -1,243 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-
-    <title>Tenie Blog</title>
-	
-	<!--  小图标 -->
+    <title></title>
 	<link rel="shortcut icon" href="../lib/assets/img/codeMonkey.ico"> 
-    <!-- Bootstrap Core CSS -->
     <link href="../lib/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet"> 
-	 <link href="../lib/css/ssfblog_css/main.css" rel="stylesheet">
-    <!-- Theme CSS -->
+	<link href="/lib/css/ssfblog_css/myblog-post.css" rel="stylesheet">
+
+	<link href="../lib/css/ssfblog_css/main.css" rel="stylesheet">
     <link href="../lib/css/clean-blog.min.css" rel="stylesheet"> 
-    <!-- Custom Fonts --> 
     <link href="../lib/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-   	<!--  提示alert样式 --> 
 	<link rel="stylesheet" type="text/css" href="../lib/noty-master/lib/noty.css" />  
 	<link rel="stylesheet" type="text/css" href="../lib/bootstrap_switch/css/bootstrap3/bootstrap-switch.css" /> 
 	<link rel="stylesheet" type="text/css" href="../lib/viewer/viewer.min.css " /> 
 	<link href="../lib/vendor/font-awesome/css/font-awesome-animation .css" rel="stylesheet" type="text/css">
-	
-	
-<style>
-    /* loading 组件*/   		 
 
-#loader-wrapper {
-    opacity: 0;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1000;
-    display: flex;
-    flex-flow: row nowrap;
-    justify-content: center;
-    align-items: center;
-    background-color: #fff;
-    -webkit-transition: .2s ease all;
-    -moz-transition: .2s ease all;
-    -o-transition: .2s ease all;
-    transition: .2s ease all
-}
-
-#loader-wrapper.in {
-    opacity: 1;
-    z-index: 1000
-}
-
-@supports(-webkit-backdrop-filter:saturate(180%) blur(20px)) or(backdrop-filter:saturate(180%) blur(20px)) {
-    #loader-wrapper {
-        -webkit-backdrop-filter: saturate(180%) blur(20px);
-        backdrop-filter: saturate(180%) blur(20px);
-        background-color: rgba(255,255,255,0.7)
-    }
-}
-
-.sk-circle {
-    margin: 90px auto;
-    width: 90px;
-    height: 90px;
-    position: relative
-}
-
-.sk-circle .sk-child {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    left: 0;
-    top: 0
-}
-
-.sk-circle .sk-child:before {
-    content: '';
-    display: block;
-    margin: 0 auto;
-    width: 12%;
-    height: 12%;
-    background-color: #333;
-    border-radius: 100%;
-    -webkit-animation: sk-circleBounceDelay 1.2s infinite ease-in-out both;
-    animation: sk-circleBounceDelay 1.2s infinite ease-in-out both
-}
-
-.sk-circle .sk-circle2 {
-    -webkit-transform: rotate(30deg);
-    -ms-transform: rotate(30deg);
-    transform: rotate(30deg)
-}
-
-.sk-circle .sk-circle3 {
-    -webkit-transform: rotate(60deg);
-    -ms-transform: rotate(60deg);
-    transform: rotate(60deg)
-}
-
-.sk-circle .sk-circle4 {
-    -webkit-transform: rotate(90deg);
-    -ms-transform: rotate(90deg);
-    transform: rotate(90deg)
-}
-
-.sk-circle .sk-circle5 {
-    -webkit-transform: rotate(120deg);
-    -ms-transform: rotate(120deg);
-    transform: rotate(120deg)
-}
-
-.sk-circle .sk-circle6 {
-    -webkit-transform: rotate(150deg);
-    -ms-transform: rotate(150deg);
-    transform: rotate(150deg)
-}
-
-.sk-circle .sk-circle7 {
-    -webkit-transform: rotate(180deg);
-    -ms-transform: rotate(180deg);
-    transform: rotate(180deg)
-}
-
-.sk-circle .sk-circle8 {
-    -webkit-transform: rotate(210deg);
-    -ms-transform: rotate(210deg);
-    transform: rotate(210deg)
-}
-
-.sk-circle .sk-circle9 {
-    -webkit-transform: rotate(240deg);
-    -ms-transform: rotate(240deg);
-    transform: rotate(240deg)
-}
-
-.sk-circle .sk-circle10 {
-    -webkit-transform: rotate(270deg);
-    -ms-transform: rotate(270deg);
-    transform: rotate(270deg)
-}
-
-.sk-circle .sk-circle11 {
-    -webkit-transform: rotate(300deg);
-    -ms-transform: rotate(300deg);
-    transform: rotate(300deg)
-}
-
-.sk-circle .sk-circle12 {
-    -webkit-transform: rotate(330deg);
-    -ms-transform: rotate(330deg);
-    transform: rotate(330deg)
-}
-
-.sk-circle .sk-circle2:before {
-    -webkit-animation-delay: -1.1s;
-    animation-delay: -1.1s
-}
-
-.sk-circle .sk-circle3:before {
-    -webkit-animation-delay: -1s;
-    animation-delay: -1s
-}
-
-.sk-circle .sk-circle4:before {
-    -webkit-animation-delay: -0.9s;
-    animation-delay: -0.9s
-}
-
-.sk-circle .sk-circle5:before {
-    -webkit-animation-delay: -0.8s;
-    animation-delay: -0.8s
-}
-
-.sk-circle .sk-circle6:before {
-    -webkit-animation-delay: -0.7s;
-    animation-delay: -0.7s
-}
-
-.sk-circle .sk-circle7:before {
-    -webkit-animation-delay: -0.6s;
-    animation-delay: -0.6s
-}
-
-.sk-circle .sk-circle8:before {
-    -webkit-animation-delay: -0.5s;
-    animation-delay: -0.5s
-}
-
-.sk-circle .sk-circle9:before {
-    -webkit-animation-delay: -0.4s;
-    animation-delay: -0.4s
-}
-
-.sk-circle .sk-circle10:before {
-    -webkit-animation-delay: -0.3s;
-    animation-delay: -0.3s
-}
-
-.sk-circle .sk-circle11:before {
-    -webkit-animation-delay: -0.2s;
-    animation-delay: -0.2s
-}
-
-.sk-circle .sk-circle12:before {
-    -webkit-animation-delay: -0.1s;
-    animation-delay: -0.1s
-}
-
-@-webkit-keyframes sk-circleBounceDelay {
-    0.00%,80%,100% {
-        -webkit-transform: scale(0);
-        transform: scale(0)
-    }
-
-    40% {
-        -webkit-transform: scale(1);
-        transform: scale(1)
-    }
-}
-
-@keyframes sk-circleBounceDelay {
-    0.00%,80%,100% {
-        -webkit-transform: scale(0);
-        transform: scale(0)
-    }
-
-    40% {
-        -webkit-transform: scale(1);
-        transform: scale(1)
-    }
-}
-</style> 
 </head>
 
 <body class="fadeIn postpage ">
-	   <!-- loading 组建-->
    <div id="loader-wrapper" class="in" >
     <div class="sk-circle">
         <div class="sk-circle1 sk-child"></div>
@@ -254,14 +38,9 @@
         <div class="sk-circle12 sk-child"></div>
     </div>
 </div>
-
-    <!-- Navigation -->
     <nav class="navbar navbar-default navbar-custom navbar-fixed-top" > 
     </nav>
 
-    <!-- Page Header -->
-    <!-- Set your background image for this header on the line below. -->
-  <!--   <header class="intro-header" style="background-image: url('img/post-bg.jpg')"> -->
     <header  style="margin-top: 65px">
         <div class="container">
             <div class="row">
@@ -269,9 +48,7 @@
                     <div class="post-heading">
                     	<p>
                     		<#if data.top == 0>
-                    		 
                    			  <span class='blogtop_flag top_tag'><i class='fa fa-flag' aria-hidden='true' style="float: left;margin-top: -5px;margin-right: 5px;"></i></span>
-                     <!--	<span class='blogtop' style="font-size: 16px;">[置顶]</span>-->
                      		<#else>
                      		  <span class='unblogtop_flag top_tag'><i class='fa fa-flag-o' aria-hidden='true' style="float: left;margin-top: -5px;margin-right: 5px;"></i></span>
                     		</#if>
@@ -300,15 +77,11 @@
 			                   
 						<div class="info">
 							<a class=" head-image-parent" href="javascript:">
-				           		 <img class="image head-image"  src="../lib/assets/img/codeMonkey.ico" alt="">
+				           		 <img class="image head-image"  src="${photo}" alt="">
 							</a>
 				            <span class="author" >作者</span>
-				            <span class="name" ><a href="/index.html">Tenie</a></span>
-				            <!-- 关注用户按钮 -->
-				             
-				            <!-- 文章数据信息 -->
+				            <span class="name" ><a href="/index.html">${myName}</a></span>
 				            <div class="master-mate" >
-				              	<!-- 如果文章更新时间大于发布时间，那么使用 tooltip 显示更新时间 -->
 				              	<i class="fa fa-calendar" aria-hidden="true"></i>
 				                <span class="publish-time" id="time" style="  padding-right: 5px;">${data.time?string('yyyy-MM-dd HH:mm:ss')}  </span>
 					            <span class="wordage"  style="  padding-right: 5px;">字数: ${data.textLength} </span>  
@@ -316,18 +89,8 @@
 					            <span class="comments-count"  style="  padding-right: 5px;">评论: ${commentLength}</span>
 					            <span class="likes-count" >喜欢: <span id="postLike">${data.postLike}</span></span>
 					            <span >
-					            	   <!-- 如果是当前作者，加入编辑按钮 
-								        <a href="javascript:" onclick="ssfblog.editPage(${data.id})" style="    margin-top: -20px;float: right;padding: 0 12px;font-size: 14px;border: 1px solid #dcdcdc;color: #9b9b9b;line-height: 30px;border-radius: 50px;" target="_blank" class="edit">
-								      	  编辑文章.
-								        </a>--> 
-								        <!-- Split button -->
 										<div class="btn-group ssfblog-editbtn hidden-xs" > 
 										  <#if isLog>
-										  <!-- 
-										   <button type="button" onclick="ssfblog.editPage(${data.id})" class="btn ssfblog-editbtn-subleft "  > 
-										     <i class="fa fa-pencil-square-o" aria-hidden="true"></i>&nbsp;编 辑 &nbsp; &nbsp; 
-										   </button>
-										   -->
 										  <button type="button" onclick="ssfblog.editPage2(${data.id})" class="btn ssfblog-editbtn-subleft "  >
 										     <i class="fa fa-pencil-square-o" aria-hidden="true"></i>&nbsp;编 辑 &nbsp; &nbsp; 
 										  </button>
@@ -404,8 +167,6 @@
             </div>
         </div>
     </header>
-
-    <!-- Post Content -->
     <article >
         <div class="container"> 
             <div class="row">
@@ -414,12 +175,12 @@
 				</div>
             </div>
             
-            <div class="row"><!-- 分割线-->
+            <div class="row">
        		 	<div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1" >
                    <div style="border-bottom: 1px solid #eee;padding-bottom: 5px;"></div>
 				</div>
        		</div>
-       		 <div class="row"><!-- 喜欢按钮-->
+       		 <div class="row">
        		 	<div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1" style="margin-top: 20px;margin-bottom: 30px;" >
 						<div class="meta-bottom">
 						    <div class="like">
@@ -444,8 +205,6 @@
                    		</div>
                    		<div class="col-xs-12">
 						<#list comments as commentObj> 
-							   
-                   			 <!-- 评论模块, 包含主评论和子评论 -->
 								<div    class="comment" style="padding: 20px 0 30px;border-bottom: 1px solid #f0f0f0;">
 									<div class="masterComment">
 										<div  style=" margin-bottom: 15px;">
@@ -485,7 +244,6 @@
 								  <#assign i =  commentObj.subcomment?size>
 								  
 								   <#list commentObj.subcomment as item>  
-									<!-- 子评论: 初始时没有 subcommentMap-->
 									<div class="sub-comment-list  "  style="margin-top: 20px;  padding: 5px 0 5px 20px; border-left: 2px solid #d9d9d9;">
 										<div   class="sub-comment" style="margin-bottom: 15px;  padding-bottom: 15px;  border-bottom: 1px dashed #f0f0f0;">
 											<p style="margin: 0 0 5px; font-size: 14px; line-height: 1.5;">
@@ -504,12 +262,7 @@
 												<a href="javascript:" onclick="ssfblog.reply(this,${commentObj.id},'${item.name}')" style="margin-left: 10px;  color: #969696;"><i class="fa fa-commenting-o" aria-hidden="true"></i><span>回复</span></a>
 											</div>
 										</div>
-										<!--
-										<div class="sub-comment more-comment"  style="font-size: 14px; margin-bottom: 15px;  padding-bottom: 15px; color: #969696; border: none;">
-											<a style="color: #969696" href="javascript:" class="add-comment-btn"><i class="fa fa-pencil" aria-hidden="true"></i><span>添加新评论</span></a>
-										</div> -->
 										<#if item_index == (i-1)>
-										 <!-- 回复评论-->
                                          <div class="reply_area"   >
                                          </div>	
 										</#if>
@@ -517,9 +270,7 @@
 									</div>
 								 </#list> 
 								 <#else>
-								 <!-- 子评论: 初始时没有 subcommentMap-->
 									<div class="sub-comment-list  hidden "  style="margin-top: 20px;  padding: 5px 0 5px 20px; border-left: 2px solid #d9d9d9;"> 
-                                        <!-- 回复评论-->
                                          <div class="reply_area"   >
                                         </div>	
 									</div>
@@ -532,7 +283,6 @@
                    </div>
 				</div>
        		</div>
-            <!-- 提交评论区-->
              <div class="row" >
        		 	<div id="comment_form_div"class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1" >
                         <div class="comment_block">
@@ -581,21 +331,16 @@
                             </p>
                         </div>                       
        		 	</div>
-             </div><!-- end 提交评论区-->
-
-
+             </div>
         </div>
     </article>
 
     <hr>
-    
-
-    <!-- Footer -->
     <footer id="footer"> 
     </footer>
   
    
-	    <script src="/lib/js/ssfblog_js/app.js"></script> 
-	    <script src="/lib/js/ssfblog_js/main.js"></script> 
+<script src="/lib/js/ssfblog_js/app.js"></script> 
+<script src="/lib/js/ssfblog_js/main.js"></script> 
 </body> 
 </html>
