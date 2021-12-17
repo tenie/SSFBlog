@@ -13,8 +13,10 @@
 
 			<li><a href="/">主页</a></li>
 			<li><a href="/contact">联系</a></li>
-			<li><a href="javascript:" onclick="ssfblog.showSearch(true)">搜索</a>
-			</li>
+			<li><a href="javascript:" onclick="ssfblog.showSearch(true)">搜索</a></li>
+			<!-- 
+			<li><a href="javascript:" >Image</a></li>
+			-->
 			<li><a href="/about">关于</a></li>
 			<li>
 				<div class="btn-group  ">

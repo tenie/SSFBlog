@@ -136,11 +136,11 @@
 					</#list> </#if>
 				</div>
 				<ul class="pager">
-					<#if previouspagegte 0  >
+					<#if previouspage gte 0  >
 					<li class="previous "><a href="/page/${previouspage}"
 						id="previous">&larr; 上一页 </a> <!--  class=" cursor_not_allowed" --></li>
 					</#if>
-					<#if nextpagegte 0  >
+					<#if nextpage gte 0  >
 					<li class="next"><a href="/page/${nextpage}" id="next">
 							下一页 &rarr; </a></li>
 					</#if>
