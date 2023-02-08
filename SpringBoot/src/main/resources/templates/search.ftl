@@ -71,10 +71,10 @@
 								<#else>
 									<span class='unblogtop_flag top_tag'><i class='fa fa-flag-o' aria-hidden='true'></i></span>
 								</#if>
-								${bd.POSTTITLE}  
+								${bd.POST_TITLE}  
 							</p>
 						</a>
-						<#if bd.SHOWCONTENT== 0 >
+						<#if bd.SHOW_CONTENT== 0 >
 							<span class="badge  " style="margin-bottom: 40px;">private</span>
 							<#else>
 							<span class="badge hidden" style="margin-bottom: 40px;">private</span>
@@ -112,7 +112,7 @@
 											    <li role="separator" class="divider"></li>
 											    <li class=" "><a href="javascript:"  class="deletebtn"  rel="${bd.ID}" ><i class="fa fa-trash-o" aria-hidden="true"></i> 删除</a></li> 
 											    <li class=" "><a href="javascript:" class="hiddenbtn"><i class="fa fa-lock"></i> 设为私有</a></li>
-											    <#if  bd.SHOWCONTENT == 0 >
+											    <#if  bd.SHOW_CONTENT == 0 >
 											      <li class=" "><a href="javascript:" class="publicbtn"><i class="fa fa-unlock" aria-hidden="true"></i> 公开</a></li> 
 												<#else>
 												  <li class="disabled"><a href="javascript:" class="publicbtn"><i class="fa fa-unlock" aria-hidden="true"></i> 公开</a></li> 

@@ -60,11 +60,14 @@ public class PublishDataController {
       //标签加到子表中
       if(tags !=null){ 
     	 for(String str : tags){
-    		 BlogTag tag = new 	BlogTag();
-        	 tag.setBlogId(id);
-    		 tag.setTag(str);
-    		 tag.setCreatedAt(new Date()); 
-    		 btm.saveBlogTag(tag);
+    		 if(str != null && str.trim().length() > 0) {
+    			 BlogTag tag = new 	BlogTag();
+            	 tag.setBlogId(id);
+        		 tag.setTag(str.trim());
+        		 tag.setCreatedAt(new Date()); 
+        		 btm.saveBlogTag(tag);
+    		 }
+    		
          }  
       } 
       Result  rs= new Result();
@@ -109,10 +112,12 @@ public class PublishDataController {
       btm.deleteByBlogId(Long.valueOf( id ) );
       if(tags !=null){ 
     	 for(String str : tags){
-    		 BlogTag tag = new 	BlogTag();
-        	 tag.setBlogId(Long.valueOf(id));
-    		 tag.setTag(str); 
-    		 btm.saveBlogTag(tag);
+    		 if(str != null && str.trim().length() > 0) {
+	    		 BlogTag tag = new 	BlogTag();
+	        	 tag.setBlogId(Long.valueOf(id));
+	    		 tag.setTag(str.trim()); 
+	    		 btm.saveBlogTag(tag); 
+    		 }
          }  
       }
        
