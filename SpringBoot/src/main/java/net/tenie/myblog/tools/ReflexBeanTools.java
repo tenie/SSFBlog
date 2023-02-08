@@ -2,11 +2,9 @@ package net.tenie.myblog.tools;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.tenie.myblog.entity.Blog;
 
 public class ReflexBeanTools  {
 	

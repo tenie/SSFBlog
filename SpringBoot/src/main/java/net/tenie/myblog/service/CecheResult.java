@@ -48,16 +48,6 @@ public class CecheResult {
 		CecheResult.ip = ip;
 	}
 
-	public static void main(String[] args) {
-		Calendar now = Calendar.getInstance();  
-		now.set(Calendar.HOUR, 0);
-		now.set(Calendar.MINUTE , 0);
-		now.set(Calendar.SECOND, 0);;
-		logger.info( 
-				new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(now.getTime())
-				);
-		 
-	}
 	
 	public static String sessionMapToString(){
 		String rs ="";

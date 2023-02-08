@@ -1,6 +1,5 @@
 package net.tenie.myblog.config;
 
-//import jakarta.servlet.MultipartConfigElement;
 
 import org.springframework.boot.web.servlet.MultipartConfigFactory;
 import org.springframework.context.annotation.Bean;
@@ -27,10 +26,7 @@ public class MyBlogMvcConfig implements WebMvcConfigurer {
                 //SpringBoot已经做好了静态资源映射
                 registry.addInterceptor(new LoginInterceptor())
                   .addPathPatterns("/**")   
-                  .excludePathPatterns("/lib/**", "/**/*.html" );  // "/static/**","/webjars/**"  "/**/*.html","/**/*.js","/**/*.css","/**/*.png",
-                // /**  表示拦截所有路径下的所有请求
-//                registry.addInterceptor(new LoginInterceptor())
-//                        .addPathPatterns("/**");
+                  .excludePathPatterns("/lib/**", "/**/*.html" );
             }
         };
     }

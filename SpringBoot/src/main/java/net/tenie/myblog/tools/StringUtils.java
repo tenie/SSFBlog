@@ -54,20 +54,7 @@ public class StringUtils {
         return expectValue.toUpperCase().equals(obj.toString().toUpperCase());
     }
 
-    /**
-     * escape html str
-     */
-//    public static String escapeHtml(String str) {
-////        return StringEscapeUtils.escapeHtml4(str);
-//    }
-
-    /**
-     * unescape html str
-     */
-//    public static String unEscapeHtml(String str) {
-////        return StringEscapeUtils.unescapeHtml4(str);
-//    }
-
+ 
     /**
      * substring with utf-8 bytes length
      * 

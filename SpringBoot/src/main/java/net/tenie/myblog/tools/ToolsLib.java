@@ -124,15 +124,6 @@ public class ToolsLib {
 			m_html = p_html.matcher(htmlStr);
 			htmlStr = m_html.replaceAll("");
 
-//		            // 过滤空格回车标签
-//		            p_space = Pattern.compile(regEx_space, Pattern.CASE_INSENSITIVE);
-//		            m_space = p_space.matcher(htmlStr);
-//		            htmlStr = m_space.replaceAll("");
-//
-//		            // 过滤转义字符
-//		            p_escape = Pattern.compile(regEx_escape, Pattern.CASE_INSENSITIVE);
-//		            m_escape = p_escape.matcher(htmlStr);
-//		            htmlStr = m_escape.replaceAll("");
 
 			textStr = htmlStr;
 
@@ -247,14 +238,5 @@ public class ToolsLib {
 		return path;
 	}
 
-	public static void main(String[] args) {
-		String path = "file:/D:/myGit/SSFBlog/SpringBoot/target/myblog-0.0.1-SNAPSHOT.jar!/BOOT-INF/classes!/";
-		// 是一个jar包的情况
-		if (path.contains(".jar")) {
-			path = path.substring(0, path.lastIndexOf(".jar"));
-			path = path.substring(0, path.lastIndexOf("/") + 1);
-		}
-		System.out.println(path);
-	}
 	
 }

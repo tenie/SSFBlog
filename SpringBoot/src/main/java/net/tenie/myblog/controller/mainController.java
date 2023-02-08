@@ -8,7 +8,6 @@ import java.util.Map;
 
 import javax.imageio.ImageIO;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,12 +23,9 @@ import org.springframework.web.util.UriComponentsBuilder;
 import net.tenie.myblog.entity.Result;
 import net.tenie.myblog.service.CecheResult;
 import net.tenie.myblog.service.Search;
-import net.tenie.myblog.service.VerificationCode;
 import net.tenie.myblog.session.SessionUtil;
 
 /**
- * main
- * 
  * @author tenie
  */
 @Controller
