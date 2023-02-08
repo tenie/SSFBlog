@@ -2,7 +2,7 @@ package net.tenie.myblog.controller;
 
 import java.io.IOException;
 import java.util.Date; 
-import javax.servlet.ServletException; 
+import jakarta.servlet.ServletException; 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;

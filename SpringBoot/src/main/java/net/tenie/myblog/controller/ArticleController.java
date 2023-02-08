@@ -7,14 +7,14 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value; 
-import org.springframework.stereotype.Controller; 
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -67,7 +67,7 @@ public class ArticleController {
 		 * @throws IOException
 		 */
 		@RequestMapping(value="/{id}",method = RequestMethod.GET) 
-		public String htmlContent2(HttpServletRequest request, HttpServletResponse response,@PathVariable("id") Long id) throws  Exception{
+		public String htmlContent2(Model model, HttpServletResponse response,@PathVariable("id") Long id) throws  Exception{
 		   //判断是否登入
 		   LoginSession session = SessionUtil.getSession();
 		   boolean islog = session.getIsLog(); 
@@ -83,18 +83,18 @@ public class ArticleController {
 	    	   List<BlogComment>  BlogCommentlist= blogCommentMap.findByPostId(Long.valueOf(id));
                List<Map<String,Object>> rs = getcommentsById(id,BlogCommentlist);  
  
-		      request.setAttribute("data", bg); 
-	    	  request.setAttribute("tags", taglist);
-		      request.setAttribute("isLog",islog); 
-		      request.setAttribute("commentLength",BlogCommentlist.size()); 
-		      request.setAttribute("comments",rs);  
+		      model.addAttribute("data", bg); 
+	    	  model.addAttribute("tags", taglist);
+		      model.addAttribute("isLog",islog); 
+		      model.addAttribute("commentLength",BlogCommentlist.size()); 
+		      model.addAttribute("comments",rs);  
 	       }
-	       request.setAttribute("myName", myName);
+	       model.addAttribute("myName", myName);
 	       File file = new File(photo);   
 			if (file.exists()) {
-				 request.setAttribute("photo", "/photo");  
+				 model.addAttribute("photo", "/photo");  
 			}else {
-				request.setAttribute("photo", "../lib/assets/img/codeMonkey.ico");  
+				model.addAttribute("photo", "../lib/assets/img/codeMonkey.ico");  
 			}
 			
 	      
@@ -135,7 +135,7 @@ public class ArticleController {
 		 */
 		@RequestMapping(value="/delete/{id}",method = RequestMethod.POST) 
 		@ResponseBody
-		public Result deleteContent(HttpServletRequest request,@PathVariable("id") String id) throws ServletException, IOException{ 
+		public Result deleteContent(Model model,@PathVariable("id") String id) throws ServletException, IOException{ 
 		  	LoginSession loginInfo = ApplicationContextHelper.getBeanByType(LoginSession.class); 
 			Result rs = new Result();
 			if(loginInfo.getIsLog()!=null && loginInfo.getIsLog()){ 
@@ -158,7 +158,7 @@ public class ArticleController {
 		 */
 		@RequestMapping(value="/comment/{parentId}",method = RequestMethod.POST) 
 		@ResponseBody 
-		public Result saveComment(HttpServletRequest request,@PathVariable("parentId") String parentId,@Valid VisitorDTO visitor) throws ServletException, IOException, InterruptedException{ 
+		public Result saveComment(Model model,@PathVariable("parentId") String parentId,@Valid VisitorDTO visitor) throws ServletException, IOException, InterruptedException{ 
 		 
 			boolean isLogin = SessionUtil.islogin();
 			BlogComment comment = new BlogComment();
@@ -235,7 +235,7 @@ public class ArticleController {
 		 */
 		@RequestMapping(value="/hiddenContent/{id}",method = RequestMethod.GET)
 		@ResponseBody 
-		public Result  hiddenContact(HttpServletRequest request, HttpServletResponse response,@PathVariable("id") Long id) throws ServletException, IOException{
+		public Result  hiddenContact(Model model, HttpServletResponse response,@PathVariable("id") Long id) throws ServletException, IOException{
 		 
 			int i = blog.updateShowContent(id, 0);
 			Result rs = new Result();
@@ -256,7 +256,7 @@ public class ArticleController {
 		 */
 		@RequestMapping(value="/publicContent/{id}",method = RequestMethod.GET)
 		@ResponseBody 
-		public Result  publicContact(HttpServletRequest request, HttpServletResponse response,@PathVariable("id") Long id) throws ServletException, IOException{
+		public Result  publicContact(Model model, HttpServletResponse response,@PathVariable("id") Long id) throws ServletException, IOException{
  
 			int i = blog.updateShowContent(id, 1);
 			Result rs = new Result();
@@ -274,7 +274,7 @@ public class ArticleController {
 		 * @throws IOException
 		 */
 		@RequestMapping(value="/getEditPage/{id}",method = RequestMethod.GET)  
-		public String getPageContent(HttpServletRequest request,@PathVariable("id") Long id) throws Exception{ 
+		public String getPageContent(Model model,@PathVariable("id") Long id) throws Exception{ 
  
 		   Blog bg = blog.findById(id); 
 		   Map<String, Object> map = ReflexBeanTools.beanToMap(bg.getClass(), bg); 
@@ -284,8 +284,8 @@ public class ArticleController {
 	    	   rsl.add(ReflexBeanTools.beanToMap(tag.getClass(), tag));
 	       } 
 	        
-	       request.setAttribute("blogContent",map);
-	       request.setAttribute("tags", rsl);
+	       model.addAttribute("blogContent",map);
+	       model.addAttribute("tags", rsl);
 	       return "/publishPage";
 	    }
 		/**
@@ -299,7 +299,7 @@ public class ArticleController {
 		 */
 		@RequestMapping(value="/setTop/{id}/{top}",method = RequestMethod.GET)
 		@ResponseBody 
-		public Result  setTop(HttpServletRequest request, HttpServletResponse response,@PathVariable("id") Long id,@PathVariable("top") String top) throws ServletException, IOException{
+		public Result  setTop(Model model, HttpServletResponse response,@PathVariable("id") Long id,@PathVariable("top") String top) throws ServletException, IOException{
 			int i = 0;
 			if("1".equals(top)) {
 				 blog.updateTop(id, 0); 

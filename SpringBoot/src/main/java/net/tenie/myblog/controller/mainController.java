@@ -7,14 +7,15 @@ import java.io.OutputStream;
 import java.util.Map;
 
 import javax.imageio.ImageIO;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -63,7 +64,7 @@ public class mainController {
 	
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String main(HttpServletRequest request, HttpServletResponse response, UriComponentsBuilder uriCB)
+	public String main(Model model, HttpServletResponse response, UriComponentsBuilder uriCB)
 			throws ServletException {
 		Integer offset = 0;
 		logger.info("index_page data begin ");
@@ -85,32 +86,32 @@ public class mainController {
 		}
 		blogcount = CecheResult.getBlogcount();
 		// 数据
-		request.setAttribute("foo", rs);
+		model.addAttribute("foo", rs);
 		// 是否登入
-		request.setAttribute("islogin", islogin ? "y" : "n");
+		model.addAttribute("islogin", islogin ? "y" : "n");
 		// 分页
 		if (blogcount < limit)
-			request.setAttribute("nextpage", -1);
+			model.addAttribute("nextpage", -1);
 		else
-			request.setAttribute("nextpage", 1);
-		request.setAttribute("previouspage", -1);
+			model.addAttribute("nextpage", 1);
+		model.addAttribute("previouspage", -1);
 
-		request.setAttribute("blogTitle", blogTitle);
-		request.setAttribute("slogan", slogan);
+		model.addAttribute("blogTitle", blogTitle);
+		model.addAttribute("slogan", slogan);
 
 //		    ${nextpage}
 		return "/index";
 	}
 
 	@RequestMapping(value = "/page/{page}", method = RequestMethod.GET)
-	public String nextpage(HttpServletRequest request, HttpServletResponse response, @PathVariable("page") Integer page,
+	public String nextpage(Model model, HttpServletResponse response, @PathVariable("page") Integer page,
 			UriComponentsBuilder uriCB) throws ServletException {
 
 		Integer offset = limit * page;
 		// 是否登入
 		// 判断是否登入
 		boolean islogin = SessionUtil.islogin();
-		request.setAttribute("islogin", islogin ? "y" : "n");
+		model.addAttribute("islogin", islogin ? "y" : "n");
 		int blogcount = CecheResult.getBlogcount();
 		if (blogcount == 0) {
 			blogcount = search.getBlogCount(islogin);
@@ -125,38 +126,38 @@ public class mainController {
 		System.out.println(m);
 		rs.setMapRs(m);
 		// 数据
-		request.setAttribute("foo", rs);
+		model.addAttribute("foo", rs);
 		if ((offset + limit) < blogcount) {
-			request.setAttribute("nextpage", page + 1);
+			model.addAttribute("nextpage", page + 1);
 		} else {
-			request.setAttribute("nextpage", -1);
+			model.addAttribute("nextpage", -1);
 		}
-		request.setAttribute("previouspage", page - 1);
+		model.addAttribute("previouspage", page - 1);
 		
-		request.setAttribute("blogTitle", blogTitle);
-		request.setAttribute("slogan", slogan);
+		model.addAttribute("blogTitle", blogTitle);
+		model.addAttribute("slogan", slogan);
 
 		return "/index";
 	}
 
 	
 	@RequestMapping(value = "/footer", method = RequestMethod.GET)
-	public String footer(HttpServletRequest request, HttpServletResponse response, UriComponentsBuilder uriCB)
+	public String footer(Model model, HttpServletResponse response, UriComponentsBuilder uriCB)
 			throws ServletException {
-		request.setAttribute("twitter", twitter);
-		request.setAttribute("facebook", facebook);
-		request.setAttribute("github", github);
-		request.setAttribute("weixin", weixin);
-		request.setAttribute("beianNo", beianNo);
-		request.setAttribute("Copyright", Copyright);
+		model.addAttribute("twitter", twitter);
+		model.addAttribute("facebook", facebook);
+		model.addAttribute("github", github);
+		model.addAttribute("weixin", weixin);
+		model.addAttribute("beianNo", beianNo);
+		model.addAttribute("Copyright", Copyright);
 		return "/footer";
 	}
 	
 
 	@RequestMapping(value = "/nav", method = RequestMethod.GET)
-	public String nav(HttpServletRequest request, HttpServletResponse response, UriComponentsBuilder uriCB)
+	public String nav(Model model, HttpServletResponse response, UriComponentsBuilder uriCB)
 			throws ServletException {
-		request.setAttribute("blogTitle", blogTitle);
+		model.addAttribute("blogTitle", blogTitle);
 	 
 		return "/nav";
 	}
@@ -175,16 +176,16 @@ public class mainController {
 	
 	
 	@RequestMapping(value = "/about", method = RequestMethod.GET)
-	public String aboutme(HttpServletRequest request, HttpServletResponse response, UriComponentsBuilder uriCB)
+	public String aboutme(Model model, HttpServletResponse response, UriComponentsBuilder uriCB)
 			throws ServletException {
-		request.setAttribute("blogTitle", blogTitle);
+		model.addAttribute("blogTitle", blogTitle);
 		
-		request.setAttribute("aboutMeTitle", aboutMeTitle);
+		model.addAttribute("aboutMeTitle", aboutMeTitle);
 		
-		request.setAttribute("aboutMeHead1", aboutMeHead1);
-		request.setAttribute("aboutMeText1", aboutMeText1);
-		request.setAttribute("aboutMeHead2", aboutMeHead2);
-		request.setAttribute("aboutMeText2", aboutMeText2);
+		model.addAttribute("aboutMeHead1", aboutMeHead1);
+		model.addAttribute("aboutMeText1", aboutMeText1);
+		model.addAttribute("aboutMeHead2", aboutMeHead2);
+		model.addAttribute("aboutMeText2", aboutMeText2);
 	 
 		return "/about";
 	}
@@ -192,9 +193,9 @@ public class mainController {
 	@Value("${ssfblog.myEmail}")
 	private String myEmail;
 	@RequestMapping(value = "/contact", method = RequestMethod.GET)
-	public String contact(HttpServletRequest request, HttpServletResponse response, UriComponentsBuilder uriCB)
+	public String contact(Model model, HttpServletResponse response, UriComponentsBuilder uriCB)
 			throws ServletException {
-		request.setAttribute("myEmail", myEmail); 
+		model.addAttribute("myEmail", myEmail); 
 	 
 		return "/contact";
 	}
@@ -202,7 +203,7 @@ public class mainController {
 	@Value("${ssfblog.photo}")
 	private String photo;
 	@RequestMapping(value = "/photo", method = RequestMethod.GET)
-	public void photo(HttpServletRequest request, HttpServletResponse response)
+	public void photo(Model model, HttpServletResponse response)
 			throws ServletException {
 		   File file = new File(photo);
 		   File file2 = new File("./");

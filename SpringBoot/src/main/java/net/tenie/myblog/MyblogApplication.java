@@ -30,7 +30,9 @@ public class MyblogApplication {
 		try { 
 			System.out.println("初始化工作");   
 			// 启动h2数据库//  
-			h2Server = Server.createTcpServer("-tcp", "-ifNotExists", "-tcpAllowOthers", "-tcpPort", "9092").start();
+//			h2Server = Server.createTcpServer("-tcp", "-ifNotExists", "-tcpAllowOthers", "-tcpPort", "9092").start();
+			h2Server = org.h2.tools.Server.createTcpServer("-tcp", "-tcpAllowOthers", "-tcpPort", "9092").start();
+
 			conn =   MyConnection.getConnection();
  
 	        boolean isExists = ToolsLib.tableExists("blog",conn); 

@@ -1,7 +1,7 @@
 package net.tenie.myblog.controller;
 
 import java.io.IOException; 
-import javax.servlet.ServletException; 
+import jakarta.servlet.ServletException; 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

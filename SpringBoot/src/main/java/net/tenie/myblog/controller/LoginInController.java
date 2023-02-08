@@ -2,9 +2,9 @@ package net.tenie.myblog.controller;
 
 import java.io.IOException; 
 import java.util.Map; 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
  
 import org.springframework.beans.factory.annotation.Value; 
 import org.springframework.stereotype.Controller;
@@ -34,7 +34,7 @@ public class LoginInController {
 	
 	@RequestMapping(value="/login",method = RequestMethod.POST)
 	@ResponseBody
-	public Result signIn(HttpServletRequest request, HttpServletResponse response,@RequestParam Map<String, String> queryParam) throws ServletException, IOException{
+	public Result signIn(HttpServletResponse response,@RequestParam Map<String, String> queryParam) throws ServletException, IOException{
      
       String name = queryParam.get("name");
       String password = queryParam.get("password");
@@ -71,7 +71,7 @@ public class LoginInController {
 	 */
 	@RequestMapping(value="/logout",method = RequestMethod.POST)
 	@ResponseBody
-	public Result signOut(HttpServletRequest request, HttpServletResponse response,@RequestParam Map<String, String> queryParam) throws ServletException, IOException{
+	public Result signOut( HttpServletResponse response,@RequestParam Map<String, String> queryParam) throws ServletException, IOException{
 		 LoginSession loginInfo = ApplicationContextHelper.getBeanByType(LoginSession.class);  
  		 loginInfo.setIsLog(false);
 		 return new Result("退出成功!");  
@@ -102,7 +102,7 @@ public class LoginInController {
 	 */
 	@RequestMapping(value="/islogin",method = RequestMethod.GET) 
 	@ResponseBody
-	public Result islogin(HttpServletRequest request, HttpServletResponse response,@RequestParam Map<String, String> queryParam) throws ServletException, IOException{
+	public Result islogin(HttpServletResponse response,@RequestParam Map<String, String> queryParam) throws ServletException, IOException{
 		LoginSession session=SessionUtil.getSession();
 		 Result rs = new Result(); 
 		 rs.setMsg(""+session.getIsLog());

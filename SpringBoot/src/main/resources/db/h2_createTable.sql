@@ -26,6 +26,7 @@ CREATE TABLE `blog_comment` (
   `url` varchar(80) DEFAULT NULL,
   `email` varchar(80) DEFAULT NULL,
   `comment_like` int(10) DEFAULT '0' COMMENT '评论里的赞',
+  `MYSELFT`     int(1) default '0',
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   `RECORD_VERSION` int(11) DEFAULT '0',

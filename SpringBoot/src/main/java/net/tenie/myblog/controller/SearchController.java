@@ -2,11 +2,12 @@ package net.tenie.myblog.controller;
  
 import java.util.HashMap;
 import java.util.Map; 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse; 
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse; 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod; 
@@ -32,7 +33,7 @@ public class SearchController {
 	 */
 	@RequestMapping(value="/{val}",method = RequestMethod.GET)
 //	@ResponseBody 
-	public String  publicContact(HttpServletRequest request, HttpServletResponse response,@PathVariable("val") String val) throws Exception{
+	public String  publicContact(Model model, HttpServletResponse response,@PathVariable("val") String val) throws Exception{
 	 
 		  boolean islogin = SessionUtil.islogin();  //是否登入
 		  //结果集赋值
@@ -44,11 +45,11 @@ public class SearchController {
 	      
 	      System.out.println(rs);
 	        // 数据
-		    request.setAttribute("foo", rs);
+		    model.addAttribute("foo", rs);
 		    // 是否登入
-		    request.setAttribute("islogin", islogin?"y":"n");
-		    request.setAttribute("searchVal", val);	
-		    request.setAttribute("searchType", "title");	
+		    model.addAttribute("islogin", islogin?"y":"n");
+		    model.addAttribute("searchVal", val);	
+		    model.addAttribute("searchType", "title");	
 	      return "/search";
 		
 	}
@@ -62,7 +63,7 @@ public class SearchController {
 	 */
 	@RequestMapping(value="/tagSearch/{tag}",method = RequestMethod.GET)
 //	@ResponseBody
-	public String tagSearchhtmlView(HttpServletRequest request,  @PathVariable(value="tag") String tag  ) throws ServletException{
+	public String tagSearchhtmlView(Model model,  @PathVariable(value="tag") String tag  ) throws ServletException{
 	 
       //结果集赋值
       Result rs = new Result();  
@@ -72,11 +73,11 @@ public class SearchController {
       rsMap.put("dataList", search.tagSearch(islogin, tag));  
       rs.setMapRs(rsMap); 
       // 数据
-	    request.setAttribute("foo", rs);
+	    model.addAttribute("foo", rs);
 	    // 是否登入
-	    request.setAttribute("islogin", islogin?"y":"n");
-	    request.setAttribute("searchVal", tag);	
-	    request.setAttribute("searchType", "tag");	
+	    model.addAttribute("islogin", islogin?"y":"n");
+	    model.addAttribute("searchVal", tag);	
+	    model.addAttribute("searchType", "tag");	
 	    return "/search";
     }
 			

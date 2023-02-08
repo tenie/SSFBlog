@@ -8,16 +8,16 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Random; 
 import javax.imageio.ImageIO;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import net.tenie.myblog.session.LoginSession;
 import net.tenie.myblog.session.SessionUtil;  
  
   
 public class VerificationCode {
 
-	public static String getImage(HttpServletRequest request, HttpServletResponse response) throws IOException{
+	public static String getImage( HttpServletResponse response) throws IOException{
 		//绘制一张图片的过程
 				//1.准备一张空白的有尺寸的图片
 				BufferedImage image =  

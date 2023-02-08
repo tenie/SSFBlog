@@ -1,11 +1,16 @@
 package net.tenie.myblog.config;
 
+//import jakarta.servlet.MultipartConfigElement;
+
+import org.springframework.boot.web.servlet.MultipartConfigFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.util.unit.DataSize;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import net.tenie.myblog.interceptor.LoginInterceptor;
+import jakarta.servlet.MultipartConfigElement;
+import net.tenie.myblog.interceptor.LoginInterceptor; 
 
 @Configuration
 public class MyBlogMvcConfig implements WebMvcConfigurer {
@@ -29,5 +34,16 @@ public class MyBlogMvcConfig implements WebMvcConfigurer {
             }
         };
     }
+    
+    // 文件上传大小限制
+    @Bean
+    public MultipartConfigElement multipartConfigElement() {
+        MultipartConfigFactory factory = new MultipartConfigFactory();
+        //允许上传的文件最大值 
+        factory.setMaxFileSize( DataSize.ofMegabytes(50)); //KB,MB
+        /// 设置总上传数据总大小
+        factory.setMaxRequestSize( DataSize.ofMegabytes(50));
+        return factory.createMultipartConfig();
+    } 
 
 }

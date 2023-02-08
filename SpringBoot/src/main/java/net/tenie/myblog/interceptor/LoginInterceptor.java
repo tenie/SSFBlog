@@ -1,22 +1,22 @@
 package net.tenie.myblog.interceptor;
- 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import com.fasterxml.jackson.core.JsonEncoding;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import net.tenie.myblog.entity.Result;
 import net.tenie.myblog.session.LoginSession;
 import net.tenie.myblog.session.SessionUtil;
+
+import org.springframework.web.servlet.HandlerInterceptor;
  
 @Component
-public class LoginInterceptor extends HandlerInterceptorAdapter {
+public class LoginInterceptor implements HandlerInterceptor {
 	@Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response,
                              Object handler) throws Exception {  
@@ -63,7 +63,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 	 */
 	@Override	
 	public void postHandle(    
-            HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView)    
+			HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView)    
             throws Exception {    
     } 
 	/**
@@ -71,7 +71,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 	 */
 	@Override
     public void afterCompletion(    
-            HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)    
+    		HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)    
             throws Exception {
 		 
 		 

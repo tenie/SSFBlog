@@ -80,7 +80,7 @@
 				           		 <img class="image head-image"  src="${photo}" alt="">
 							</a>
 				            <span class="author" >作者</span>
-				            <span class="name" ><a href="/index.html">${myName}</a></span>
+				            <span class="name" ><a href="/">${myName}</a></span>
 				            <div class="master-mate" >
 				              	<i class="fa fa-calendar" aria-hidden="true"></i>
 				                <span class="publish-time" id="time" style="  padding-right: 5px;">${data.time?string('yyyy-MM-dd HH:mm:ss')}  </span>

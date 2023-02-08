@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.6.1</version>
+		<version>3.0.2</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>net.tenie</groupId>
@@ -13,10 +13,10 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>myblog</name>
-	<description>Demo project for Spring Boot</description>
+	<description>blog application</description>
 
 	<properties>
-		<java.version>1.8</java.version>
+		<java.version>17</java.version>
 		<log4j2.version>2.17.0</log4j2.version>
 	</properties>
 
@@ -45,10 +45,16 @@
 	      <version>3.4</version>
 	      <scope>compile</scope>
 	    </dependency>
-	   <dependency>
+	<!--    <dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
 			<version>1.4.200</version>
+		</dependency> -->
+		
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			 <version>1.4.197</version>
 		</dependency>
 		
        <dependency>
@@ -101,7 +107,7 @@
 		<dependency>
 			<groupId>org.mybatis.spring.boot</groupId>
 			<artifactId>mybatis-spring-boot-starter</artifactId>
-			<version>2.1.2</version>
+			 <version>3.0.0</version>
 		</dependency>
 		
 		 <dependency>
@@ -133,60 +139,16 @@
 		</dependency>
 	</dependencies>
 
-	<build>
+		<build>
 		<plugins>
+			<plugin>
+				<groupId>org.graalvm.buildtools</groupId>
+				<artifactId>native-maven-plugin</artifactId>
+			</plugin>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
-			
-			 <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>copy-dependencies</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>copy-dependencies</goal>
-                        </goals>
-                        <configuration>
-                           <includeGroupIds>com.h2database</includeGroupIds>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            
-			<plugin>
-				<artifactId>maven-antrun-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>copy</id>
-						<phase>package</phase>
-						<configuration>
-							<tasks>
-								<copy todir="${project.build.directory}">
-									<fileset dir="${project.build.directory}/classes">
-										<include name="*.yml" />
-										<include name="*.jpg" />
-									</fileset>
-								</copy>  
-								
-								<copy todir="${project.build.directory}/">
-									<fileset dir="${project.build.directory}/dependency">
-										<include name="h2*.jar" /> 										
-									</fileset>
-								</copy>
-								
-							</tasks>
-						</configuration>
-						<goals>
-							<goal>run</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			
 		</plugins>
 	</build>
 
