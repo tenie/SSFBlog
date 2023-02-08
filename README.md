@@ -3,8 +3,8 @@
 > 简介:
     搭建自己的博客
 
-> 2023-02-08 更新说明:  迁移到java 17 , SpringBoot3
-> 2020-06-01 更新说明:  项目迁移至Spring-boot, 使构建运行更简便
+> 2023-02-08 更新:  迁移到java 17 , SpringBoot3
+
 
 ---
  
@@ -12,13 +12,12 @@
    
      
     $ git clone git@github.com:tenie/SSFBlog.git
-    //SpringBoot, 推荐使用, 不需要依赖应用服务(如tomcat) 
     $ cd  SSFBlog/SpringBoot
-    $ mvn  package
+    $ mvn  package -Dmaven.test.skip=true
     $ cd target 
-    $  java -jar myblog-0.0.1-SNAPSHOT.jar
-    打开你的浏览器 : http://localhost:8088
-    配置文件: application.yml 根据你的情况配置 
+    $ java -jar myblog-0.0.1-SNAPSHOT.jar
+    浏览器打开 : http://localhost:8088
+    配置文件: application.yml 配置信息
     
 ---
 > 技术栈:
