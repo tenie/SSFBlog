@@ -19,11 +19,11 @@ public class MyblogApplication {
 		SpringApplication.run(MyblogApplication.class, args);
 	}
 
-	@Bean(initMethod = "getStatus", destroyMethod = "stop")
-    public Server h2Server() throws SQLException {
-		 System.out.println("h2Server ??? " + h2Server.getStatus());
-		 return h2Server;
-	}
+//	@Bean(initMethod = "getStatus", destroyMethod = "stop")
+//    public Server h2Server() throws SQLException {
+//		 System.out.println("h2Server ??? " + h2Server.getStatus());
+//		 return h2Server;
+//	}
 	 
 	public static  void BDCheck() throws Exception { 
 		Connection  conn = null;
